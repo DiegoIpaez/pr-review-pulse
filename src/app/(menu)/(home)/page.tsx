@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { PAGINATION } from '@/constants';
-import type { User } from '@/generated/prisma/client';
 import { stringToColor } from '@/utils/stringToColor.util';
 import { formatDate } from '@/utils/formatters/time.formatter';
 import { fetchAllPullRequests } from '@/services/pullRequests.service';

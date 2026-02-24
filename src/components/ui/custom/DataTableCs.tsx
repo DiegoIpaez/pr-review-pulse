@@ -1,6 +1,6 @@
 'use client';
 
-import { Inbox, Minus, Plus } from 'lucide-react';
+import { Inbox, Plus } from 'lucide-react';
 import { useState, Fragment, type ReactNode } from 'react';
 import {
   type ColumnDef,
@@ -87,7 +87,7 @@ export default function DataTableCs<T>({
               <TableRow key={headerGroup.id}>
                 {hasExpandable && <TableHead className="w-10" />}
                 {headerGroup.headers.map((header) => (
-                  <TableHead className='font-bold text-sm' key={header.id}>
+                  <TableHead className="font-bold text-sm" key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -136,14 +136,15 @@ export default function DataTableCs<T>({
                           {canExpandRow && (
                             <button
                               type="button"
-                              className="flex h-8 w-8 items-center justify-center rounded border bg-background"
+                              className="flex h-8 w-8 items-center justify-center rounded-md border bg-background hover:bg-muted transition-all duration-200"
                               onClick={() => handleToggleRow(row.id)}
                             >
-                              {isExpanded ? (
-                                <Minus className="h-4 w-4" />
-                              ) : (
-                                <Plus className="h-4 w-4" />
-                              )}
+                              <Plus
+                                className={`
+                                  h-4 w-4 transition-transform duration-300
+                                  ${isExpanded ? 'rotate-45' : ''}
+                                `}
+                              />
                             </button>
                           )}
                         </TableCell>
