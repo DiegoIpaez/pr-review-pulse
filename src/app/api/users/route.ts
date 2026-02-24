@@ -33,7 +33,7 @@ import { getAllUsers } from './user.service';
  *         name: search
  *         schema:
  *           type: string
- *         description: Search term for user name or email
+ *         description: Search term for username
  *     responses:
  *       200:
  *         description: Successful response with paginated users

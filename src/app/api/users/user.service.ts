@@ -3,6 +3,13 @@ import type { PaginationFilters } from '@/contracts/types';
 import { Prisma } from '@/generated/prisma/client';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 
+const COUNT_SELECT = {
+  select: {
+    pull_requests: true,
+    reviews: true,
+  },
+};
+
 export async function getAllUsers(filters: PaginationFilters) {
   const { page, limit, search: contains, showAll } = filters;
 
@@ -14,6 +21,7 @@ export async function getAllUsers(filters: PaginationFilters) {
 
   const query: Prisma.UserFindManyArgs = {
     where,
+    include: { _count: COUNT_SELECT },
     orderBy: { created_at: Prisma.SortOrder.desc },
   };
 
@@ -31,6 +39,16 @@ export async function getAllUsers(filters: PaginationFilters) {
 export async function getUserById(id: number) {
   const user = await prismaClient.user.findUnique({
     where: { id },
+    include: {
+      _count: COUNT_SELECT,
+      reviews: {
+        include: {
+          reviewer: true,
+          pull_request: { include: { repository: true, creator: true } },
+        },
+      },
+      pull_requests: { include: { repository: true, creator: true } },
+    },
   });
   return user;
 }
