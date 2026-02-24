@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
+import type { User } from '@/generated/prisma/client';
 import { cn } from '@/lib/cn';
 import { PAGINATION } from '@/constants';
-import type { User } from '@/generated/prisma/client';
 import { formatDate } from '@/utils/formatters/time.formatter';
 import { fetchAllUsers } from '@/services/users.service';
 import { Badge } from '@/components/ui/badge';
@@ -63,7 +63,7 @@ export default function Home() {
   ];
 
   return (
-    <DataTableCs
+    <DataTableCs<User>
       data={data}
       isLoading={isLoading}
       onPageChange={handlePageChange}
