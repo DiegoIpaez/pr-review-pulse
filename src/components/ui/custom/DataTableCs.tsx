@@ -87,7 +87,7 @@ export default function DataTableCs<T>({
               <TableRow key={headerGroup.id}>
                 {hasExpandable && <TableHead className="w-10" />}
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead className='font-bold text-sm' key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(

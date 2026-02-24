@@ -7,6 +7,8 @@ import type { User } from '@/generated/prisma/client';
 import { formatDate } from '@/utils/formatters/time.formatter';
 import DataTableCs from '@/components/ui/custom/DataTableCs';
 import { fetchAllPullRequests } from '@/services/pullRequests.service';
+import { Badge } from '@/components/ui/badge';
+import { stringToColor } from '@/utils/stringToColor.util';
 
 export default function Home() {
   const [filters, setFilters] = useState({
@@ -31,10 +33,27 @@ export default function Home() {
     {
       accessorKey: 'repository.name',
       header: 'Repositorio',
+      cell: (info) => {
+        const repo = info.getValue() as string;
+        const color = stringToColor(repo);
+
+        return (
+          <Badge
+            className="border-transparent text-[var(--color)] bg-[var(--color)]/10"
+            style={{ '--color': color } as React.CSSProperties}
+          >
+            {repo}
+          </Badge>
+        );
+      },
     },
     {
       accessorKey: 'branch',
       header: 'Rama',
+      cell: (info) => {
+        const branch = info.getValue() as string;
+        return <Badge>{branch}</Badge>;
+      },
     },
     {
       accessorKey: 'creator.username',
