@@ -1,0 +1,19 @@
+import {
+  PullRequest,
+  User,
+  Repository,
+  PullRequestReview,
+} from '@/generated/prisma/client';
+
+export type PrReviewSchema = PullRequestReview & {
+  reviewer: User;
+};
+
+export type PullRequestSchema = PullRequest & {
+  _count: {
+    reviews: number;
+  };
+  creator?: User;
+  repository?: Repository;
+  reviews: PrReviewSchema[];
+};

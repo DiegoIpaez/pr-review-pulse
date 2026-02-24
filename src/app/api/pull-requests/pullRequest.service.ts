@@ -42,11 +42,7 @@ export async function getPullRequest(filters: PaginationFilters) {
         select: { id: true, username: true },
       },
       reviews: {
-        select: {
-          id: true,
-          note: true,
-          reviewer: { select: { id: true, username: true } },
-        },
+        include: { reviewer: { select: { id: true, username: true } } },
       },
     },
     orderBy: { created_at: Prisma.SortOrder.desc },

@@ -4,11 +4,13 @@ import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { PAGINATION } from '@/constants';
 import type { User } from '@/generated/prisma/client';
+import { stringToColor } from '@/utils/stringToColor.util';
 import { formatDate } from '@/utils/formatters/time.formatter';
-import DataTableCs from '@/components/ui/custom/DataTableCs';
 import { fetchAllPullRequests } from '@/services/pullRequests.service';
 import { Badge } from '@/components/ui/badge';
-import { stringToColor } from '@/utils/stringToColor.util';
+import DataTableCs from '@/components/ui/custom/DataTableCs';
+import ExpandedPrRowContent from './_components/ExpandedPrRowContent';
+import { PullRequestSchema } from '@/contracts/types/schema.type';
 
 export default function Home() {
   const [filters, setFilters] = useState({
@@ -25,7 +27,7 @@ export default function Home() {
     setFilters((prev) => ({ ...prev, page }));
   };
 
-  const columns: ColumnDef<User>[] = [
+  const columns: ColumnDef<PullRequestSchema>[] = [
     {
       accessorKey: 'number',
       header: '#',
@@ -71,12 +73,16 @@ export default function Home() {
   ];
 
   return (
-    <DataTableCs
+    <DataTableCs<PullRequestSchema>
       data={data}
       isLoading={isLoading}
       onPageChange={handlePageChange}
       emptyMessage="Not found any pull requests."
       columns={columns}
+      isRowExpandable={(pr) => pr?.reviews?.length > 0}
+      renderExpandedRow={(pr) => (
+        <ExpandedPrRowContent reviews={pr?.reviews || []} />
+      )}
     />
   );
 }
