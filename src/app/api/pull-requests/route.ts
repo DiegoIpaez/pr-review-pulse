@@ -1,16 +1,16 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { paginationUrlParser } from '@/contracts/parsers/paginationUrl.parser';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/apiError.handler';
-import { getAllUsers } from './user.service';
+import { getPullRequest } from './pullRequest.service';
 
 /**
  * @swagger
- * /api/users:
+ * /api/pull-requests:
  *   get:
  *     tags:
- *       - Users
- *     summary: Get paginated list of users
- *     description: Retrieves a paginated list of users with optional search functionality
+ *       - Pull Requests
+ *     summary: Get paginated list of pull requests
+ *     description: Retrieves a paginated list of pull requests with optional search functionality
  *     parameters:
  *       - in: query
  *         name: page
@@ -28,15 +28,15 @@ import { getAllUsers } from './user.service';
  *         name: showAll
  *         schema:
  *           type: boolean
- *         description: Show all users without pagination
+ *         description: Show all pull requests without pagination
  *       - in: query
  *         name: search
  *         schema:
  *           type: string
- *         description: Search term for username
+ *         description: Search term for filtering pull requests
  *     responses:
  *       200:
- *         description: Successful response with paginated users
+ *         description: Successful response with paginated pull requests
  *         content:
  *           application/json:
  *             schema:
@@ -44,8 +44,6 @@ import { getAllUsers } from './user.service';
  *               properties:
  *                 data:
  *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/User'
  *                 currentPage:
  *                   type: integer
  *                 recordsPerPage:
@@ -62,7 +60,7 @@ import { getAllUsers } from './user.service';
 export async function GET(request: NextRequest) {
   try {
     const queryParams = paginationUrlParser(request.nextUrl.searchParams);
-    const data = await getAllUsers(queryParams);
+    const data = await getPullRequest(queryParams);
     return NextResponse.json(data);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });
