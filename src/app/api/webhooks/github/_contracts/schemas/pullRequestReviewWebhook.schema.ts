@@ -26,3 +26,7 @@ export const pullRequestReviewWebhookSchema = zod.object({
     name: zod.string().min(1),
   }),
 });
+
+export type PullRequestReviewWebhookPayload = zod.infer<
+  typeof pullRequestReviewWebhookSchema
+>;
