@@ -7,12 +7,14 @@ datasource db {
   provider = "postgresql"
 }
 
-enum TaskType {
-  feature
-  fix
-  hotfix
-  bugfix
-  release
+enum PullRequestType {
+  FEATURE
+  FIX
+  HOTFIX
+  BUGFIX
+  RELEASE
+  CHORE
+  NO_TICKET
 }
 
 model Repository {
@@ -40,30 +42,32 @@ model User {
 }
 
 model PullRequest {
-  id            Int      @id @default(autoincrement())
+  id            Int             @id @default(autoincrement())
   number        Int
   repository_id Int
-  branch        String   @db.VarChar(255)
+  type          PullRequestType @default(NO_TICKET)
+  branch        String          @db.VarChar(255)
   creator_id    Int
+  approved_at   DateTime?
   created_at    DateTime
-  inserted_at   DateTime @default(now())
+  inserted_at   DateTime        @default(now())
 
   creator    User       @relation(fields: [creator_id], references: [id])
   repository Repository @relation(fields: [repository_id], references: [id])
 
   reviews PullRequestReview[]
 
-  @@unique([number, repository_id], map: "uq_pr_repo")
-  @@index([repository_id], map: "idx_pr_repository_id")
-  @@index([creator_id], map: "idx_pr_creator_id")
-  @@index([created_at(sort: Desc)], map: "idx_pr_created_at")
+  @@unique([number, repository_id])
+  @@index([type])
+  @@index([repository_id])
+  @@index([creator_id])
+  @@index([created_at(sort: Desc)])
   @@map("pull_requests")
 }
 
 model PullRequestReview {
   id              Int       @id @default(autoincrement())
   pull_request_id Int
-  task_type       TaskType?
   reviewer_id     Int?
   note            String?
   approved_at     DateTime?
@@ -73,8 +77,7 @@ model PullRequestReview {
   reviewer     User?       @relation(fields: [reviewer_id], references: [id], onDelete: SetNull)
   pull_request PullRequest @relation(fields: [pull_request_id], references: [id], onDelete: Cascade)
 
-  @@index([pull_request_id], map: "idx_prr_pull_request_id")
-  @@index([reviewer_id], map: "idx_prr_reviewer_id")
-  @@index([task_type], map: "idx_prr_task_type")
+  @@index([pull_request_id])
+  @@index([reviewer_id])
   @@map("pull_request_reviews")
 }
