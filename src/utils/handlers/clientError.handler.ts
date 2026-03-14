@@ -48,7 +48,7 @@ export default function clientErrorHandler(
   callback = () => {},
   {
     showToast = true,
-    messagePrefix = 'Error: ',
+    messagePrefix = 'Error:',
     defaultMessage = 'Ha ocurrido un error desconocido.',
     toastOptions = { duration: 4000 },
   }: ErrorHandlerOptions = {}
@@ -59,7 +59,10 @@ export default function clientErrorHandler(
   if (CONFIG.NODE_ENV === NodeEnv.Development) console.error(normalizedError);
   if (showToast) {
     const displayMessage = normalizedError.message || defaultMessage;
-    toast.error(`${messagePrefix}${displayMessage}`, toastOptions);
+    toast.error(messagePrefix, {
+      description: displayMessage,
+      ...toastOptions,
+    });
   }
 
   callback();
