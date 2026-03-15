@@ -17,6 +17,12 @@ enum PullRequestType {
   NO_TICKET
 }
 
+enum PullRequestState {
+  open
+  closed
+  merged
+}
+
 model Repository {
   id         Int      @id @default(autoincrement())
   url        String?  @db.VarChar(255)
@@ -45,16 +51,19 @@ model User {
 }
 
 model PullRequest {
-  id            Int             @id @default(autoincrement())
+  id            Int              @id @default(autoincrement())
   number        Int
+  body          String?          @db.VarChar(255)
   repository_id Int
-  type          PullRequestType @default(NO_TICKET)
-  branch        String          @db.VarChar(255)
+  type          PullRequestType  @default(NO_TICKET)
+  branch        String           @db.VarChar(255)
   creator_id    Int
-  url           String?         @db.VarChar(255)
-  approved_at   DateTime?
+  url           String?          @db.VarChar(255)
+  state         PullRequestState @default(open)
   created_at    DateTime
-  inserted_at   DateTime        @default(now())
+  updated_at    DateTime         @updatedAt
+  merged_at     DateTime?
+  closed_at     DateTime?
 
   creator    User       @relation(fields: [creator_id], references: [id])
   repository Repository @relation(fields: [repository_id], references: [id])
