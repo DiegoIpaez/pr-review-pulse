@@ -28,19 +28,27 @@ export async function processPullRequestReview(
         tx.repository.upsert({
           where: { name: repository?.name },
           update: {},
-          create: { name: repository?.name },
+          create: { name: repository?.name, url: repository?.html_url },
           select: { id: true },
         }),
         tx.user.upsert({
           where: { username: pr?.user?.login },
           update: {},
-          create: { username: pr?.user?.login },
+          create: {
+            username: pr?.user?.login,
+            url: pr?.user?.html_url,
+            avatar_url: pr?.user?.avatar_url,
+          },
           select: { id: true },
         }),
         tx.user.upsert({
           where: { username: review?.user?.login },
           update: {},
-          create: { username: review?.user?.login },
+          create: {
+            username: review?.user?.login,
+            url: review?.user?.html_url,
+            avatar_url: review?.user?.avatar_url,
+          },
           select: { id: true },
         }),
       ]);
@@ -62,6 +70,7 @@ export async function processPullRequestReview(
           branch,
           creator_id: creator?.id,
           created_at: new Date(pr?.created_at),
+          url: pr?.html_url,
         },
         select: { id: true },
       });
@@ -71,6 +80,7 @@ export async function processPullRequestReview(
           pull_request_id: pullRequest?.id,
           reviewer_id: reviewer?.id,
           note: (review?.body ?? '')?.trim() || null,
+          url: review?.html_url,
           approved_at: isApproved ? new Date(review?.submitted_at) : null,
           reviewed_at: new Date(review?.submitted_at),
         },
