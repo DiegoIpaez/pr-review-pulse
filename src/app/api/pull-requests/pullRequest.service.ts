@@ -36,13 +36,15 @@ export async function getPullRequest(filters: PaginationFilters) {
     include: {
       _count: { select: { reviews: true } },
       repository: {
-        select: { id: true, name: true },
+        select: { id: true, name: true, url: true },
       },
       creator: {
-        select: { id: true, username: true },
+        select: { id: true, username: true, url: true },
       },
       reviews: {
-        include: { reviewer: { select: { id: true, username: true } } },
+        include: {
+          reviewer: { select: { id: true, username: true, url: true } },
+        },
       },
     },
     orderBy: { created_at: Prisma.SortOrder.desc },

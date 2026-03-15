@@ -1,6 +1,7 @@
 'use client';
 import type { PrReviewSchema } from '@/contracts/types/schema.type';
 import { formatDate } from '@/utils/formatters/time.formatter';
+import ExternalLink from '@/components/ui/custom/linksCs/ExternalLink';
 
 function ReviewCard({ review }: { review: PrReviewSchema }) {
   const isApproved = !!review.approved_at;
@@ -25,7 +26,9 @@ function ReviewCard({ review }: { review: PrReviewSchema }) {
     >
       <div className="flex items-start justify-between mb-3">
         <div className="space-y-1">
-          <div className="text-sm font-medium">Review #{review?.id}</div>
+          <div className="text-sm font-medium">
+            <ExternalLink href={review?.url}>Review #{review?.id}</ExternalLink>
+          </div>
           <div className="text-xs text-muted-foreground">
             {review?.reviewed_at
               ? formatDate(review?.reviewed_at)
@@ -42,7 +45,9 @@ function ReviewCard({ review }: { review: PrReviewSchema }) {
         <div className="text-xs text-muted-foreground mb-2">
           Reviewer:{' '}
           <span className="font-medium text-foreground">
-            {review.reviewer?.username}
+            <ExternalLink href={review.reviewer?.url}>
+              {review.reviewer?.username}
+            </ExternalLink>
           </span>
         </div>
       )}
