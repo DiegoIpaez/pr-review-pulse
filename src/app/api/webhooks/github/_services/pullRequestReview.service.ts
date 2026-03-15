@@ -62,12 +62,14 @@ export async function processPullRequestReview(
         },
         update: {
           branch,
+          state: pr?.state,
         },
         create: {
           type: getTaskType(branch),
           number: pr?.number,
           repository_id: repositoryRecord.id,
           branch,
+          state: pr?.state,
           creator_id: creator?.id,
           created_at: new Date(pr?.created_at),
           url: pr?.html_url,

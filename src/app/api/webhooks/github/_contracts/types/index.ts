@@ -92,6 +92,16 @@ export enum GitHubPullRequestState {
   Merged = 'merged',
 }
 
+type Label = {
+  id: number;
+  node_id: string;
+  url: string;
+  name: string;
+  color: string;
+  default: boolean;
+  description: string | null;
+};
+
 export type GitHubPullRequest = {
   id: number;
   node_id: string;
@@ -113,7 +123,7 @@ export type GitHubPullRequest = {
   assignee: GitHubUser | null;
   assignees: GitHubUser[];
   requested_reviewers: GitHubUser[];
-  //   labels: any[];
+  labels: Label[];
   //   milestone: any | null;
   draft: boolean;
   commits_url: string;
