@@ -86,11 +86,17 @@ export type GitHubPullRequestRef = {
   repo: GitHubRepository;
 };
 
+export enum GitHubPullRequestState {
+  Open = 'open',
+  Closed = 'closed',
+  Merged = 'merged',
+}
+
 export type GitHubPullRequest = {
   id: number;
   node_id: string;
   number: number;
-  state: 'open' | 'closed' | string;
+  state: GitHubPullRequestState;
   locked: boolean;
   title: string;
   body: string | null;
