@@ -124,7 +124,6 @@ export type GitHubPullRequest = {
   assignees: GitHubUser[];
   requested_reviewers: GitHubUser[];
   labels: Label[];
-  //   milestone: any | null;
   draft: boolean;
   commits_url: string;
   review_comments_url: string;
@@ -133,8 +132,13 @@ export type GitHubPullRequest = {
   head: GitHubPullRequestRef;
   base: GitHubPullRequestRef;
   author_association: string;
-  //   auto_merge: any | null;
   active_lock_reason: string | null;
+  merged?: boolean;
+  merged_by?: GitHubUser | null;
+  commits?: number;
+  additions?: number;
+  deletions?: number;
+  changed_files?: number;
 };
 
 export enum GitHubReviewState {
@@ -164,4 +168,16 @@ export type PullRequestReviewWebhookPayload = {
   pull_request: GitHubPullRequest;
   repository: GitHubRepository;
   sender: GitHubUser;
+};
+
+export enum GitHubPullRequestAction {
+  Opened = 'opened',
+  Closed = 'closed',
+  Reopened = 'reopened',
+}
+
+export type PullRequestWebhookPayload = {
+  action: GitHubPullRequestAction;
+  pull_request: GitHubPullRequest;
+  repository: GitHubRepository;
 };
