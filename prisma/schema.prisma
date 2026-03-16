@@ -60,6 +60,10 @@ model PullRequest {
   creator_id    Int
   url           String?          @db.VarChar(255)
   state         PullRequestState @default(open)
+  commits       Int              @default(0)
+  additions     Int              @default(0)
+  deletions     Int              @default(0)
+  changed_files Int              @default(0)
   created_at    DateTime
   updated_at    DateTime         @updatedAt
   merged_at     DateTime?
