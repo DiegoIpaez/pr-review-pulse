@@ -1,18 +1,7 @@
 import prismaClient from '@/lib/prismaClient';
-import { PullRequestType } from '@/generated/prisma/enums';
-import type { PullRequestReviewWebhookPayload } from '../_contracts/schemas/pullRequestReviewWebhook.schema';
 import { GitHubReviewState } from '../_contracts/types';
-
-function getTaskType(branch: string): PullRequestType {
-  if (branch.startsWith('fix/')) return PullRequestType.FIX;
-  if (branch.startsWith('bugfix/')) return PullRequestType.BUGFIX;
-  if (branch.startsWith('hotfix/')) return PullRequestType.HOTFIX;
-  if (branch.startsWith('release/')) return PullRequestType.RELEASE;
-  if (branch.startsWith('chore/')) return PullRequestType.CHORE;
-  if (branch.startsWith('feature/') || branch.startsWith('feat/'))
-    return PullRequestType.FEATURE;
-  return PullRequestType.NO_TICKET;
-}
+import { getPullRequestType } from '../_utils/getPullRequestType';
+import type { PullRequestReviewWebhookPayload } from '../_contracts/schemas/pullRequestReviewWebhook.schema';
 
 export async function processPullRequestReview(
   payload: PullRequestReviewWebhookPayload
@@ -65,7 +54,7 @@ export async function processPullRequestReview(
           state: pr?.state,
         },
         create: {
-          type: getTaskType(branch),
+          type: getPullRequestType(branch),
           number: pr?.number,
           repository_id: repositoryRecord.id,
           branch,
