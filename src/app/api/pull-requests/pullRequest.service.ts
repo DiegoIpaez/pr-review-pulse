@@ -39,11 +39,13 @@ export async function getPullRequest(filters: PaginationFilters) {
         select: { id: true, name: true, url: true },
       },
       creator: {
-        select: { id: true, username: true, url: true },
+        select: { id: true, username: true, url: true, avatar_url: true },
       },
       reviews: {
         include: {
-          reviewer: { select: { id: true, username: true, url: true } },
+          reviewer: {
+            select: { id: true, username: true, url: true, avatar_url: true },
+          },
         },
       },
     },

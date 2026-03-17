@@ -20,7 +20,7 @@ export const pullRequestReviewWebhookSchema = zod.object({
     created_at: zod.string().datetime(),
     user: userSchema,
     html_url: zod.string().url().nullable(),
-    state: zod.enum(GitHubPullRequestState).nullable(),
+    state: zod.enum(GitHubPullRequestState),
     head: zod.object({
       ref: zod.string().min(1),
     }),

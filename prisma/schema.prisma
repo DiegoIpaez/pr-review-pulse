@@ -11,10 +11,18 @@ enum PullRequestType {
   FEATURE
   FIX
   HOTFIX
-  BUGFIX
+  REFACTOR
+  DOCS
+  TEST
   RELEASE
   CHORE
   NO_TICKET
+}
+
+enum PullRequestState {
+  open
+  closed
+  merged
 }
 
 model Repository {
@@ -45,16 +53,23 @@ model User {
 }
 
 model PullRequest {
-  id            Int             @id @default(autoincrement())
+  id            Int              @id @default(autoincrement())
   number        Int
+  body          String?          @db.VarChar(255)
   repository_id Int
-  type          PullRequestType @default(NO_TICKET)
-  branch        String          @db.VarChar(255)
+  type          PullRequestType  @default(NO_TICKET)
+  branch        String           @db.VarChar(255)
   creator_id    Int
-  url           String?         @db.VarChar(255)
-  approved_at   DateTime?
+  url           String?          @db.VarChar(255)
+  state         PullRequestState @default(open)
+  commits       Int              @default(0)
+  additions     Int              @default(0)
+  deletions     Int              @default(0)
+  changed_files Int              @default(0)
   created_at    DateTime
-  inserted_at   DateTime        @default(now())
+  updated_at    DateTime         @updatedAt
+  merged_at     DateTime?
+  closed_at     DateTime?
 
   creator    User       @relation(fields: [creator_id], references: [id])
   repository Repository @relation(fields: [repository_id], references: [id])
