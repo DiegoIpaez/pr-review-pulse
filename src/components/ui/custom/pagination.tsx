@@ -4,9 +4,9 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from 'lucide-react';
-import ButtonCs from './button';
+import Button from './button';
 
-type PaginationCsProps = {
+type PaginationProps = {
   data: {
     currentPage: number;
     totalPages: number;
@@ -16,10 +16,7 @@ type PaginationCsProps = {
   onPageChange: (page: number) => void;
 };
 
-export default function PaginationCs({
-  data,
-  onPageChange,
-}: PaginationCsProps) {
+export default function Pagination({ data, onPageChange }: PaginationProps) {
   if (!data || !data.totalPages) return null;
   return (
     <div className="flex items-center justify-between">
@@ -29,38 +26,38 @@ export default function PaginationCs({
       </p>
       {data?.totalPages > 1 && (
         <div className="flex items-center gap-2">
-          <ButtonCs
+          <Button
             variant="outline"
             size="icon"
             onClick={() => onPageChange(1)}
             disabled={data?.currentPage === 1}
           >
             <ChevronsLeft className="h-4 w-4" />
-          </ButtonCs>
-          <ButtonCs
+          </Button>
+          <Button
             variant="outline"
             size="icon"
             onClick={() => onPageChange(data?.currentPage - 1)}
             disabled={data?.currentPage === 1}
           >
             <ChevronLeft className="h-4 w-4" />
-          </ButtonCs>
-          <ButtonCs
+          </Button>
+          <Button
             variant="outline"
             size="icon"
             onClick={() => onPageChange(data?.currentPage + 1)}
             disabled={!data?.hasNextPage}
           >
             <ChevronRight className="h-4 w-4" />
-          </ButtonCs>
-          <ButtonCs
+          </Button>
+          <Button
             variant="outline"
             size="icon"
             onClick={() => onPageChange(data?.totalPages)}
             disabled={!data?.hasNextPage}
           >
             <ChevronsRight className="h-4 w-4" />
-          </ButtonCs>
+          </Button>
         </div>
       )}
     </div>

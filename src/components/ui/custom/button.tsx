@@ -1,9 +1,12 @@
 import clsx from 'clsx';
 import { VariantProps } from 'class-variance-authority';
-import { Button, buttonVariants } from '@/components/ui/button';
-import SpinnerCs from './spinner';
+import {
+  Button as ButtonPrimitive,
+  buttonVariants,
+} from '@/components/ui/button';
+import Spinner from './spinner';
 
-type ButtonCsProps = React.ComponentProps<'button'> &
+type ButtonProps = React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
     isLoading?: React.ReactNode;
@@ -11,17 +14,17 @@ type ButtonCsProps = React.ComponentProps<'button'> &
     isLoading?: boolean;
   };
 
-export default function ButtonCs({ isLoading, ...props }: ButtonCsProps) {
+export default function Button({ isLoading, ...props }: ButtonProps) {
   return (
-    <Button
+    <ButtonPrimitive
       className={clsx(props.className, {
         'opacity-70 cursor-not-allowed': isLoading,
         'opacity-100 cursor-pointer': !isLoading,
       })}
       {...props}
     >
-      {isLoading && <SpinnerCs size={20} />}
+      {isLoading && <Spinner size={20} />}
       {props.children}
-    </Button>
+    </ButtonPrimitive>
   );
 }

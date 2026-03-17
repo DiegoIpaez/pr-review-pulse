@@ -1,7 +1,7 @@
 'use client';
 import type { SidebarMenuItemProps } from '@/contracts/types';
 import {
-  Sidebar,
+  Sidebar as SidebarPrimitive,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
@@ -9,9 +9,9 @@ import {
   SidebarMenu,
   SidebarFooter,
 } from '@/components/ui/sidebar';
-import SidebarItemCs from './sidebar-Item';
+import SidebarItem from './sidebar-Item';
 
-export default function SidebarCs({
+export default function Sidebar({
   title = '',
   items,
   Footer,
@@ -21,20 +21,20 @@ export default function SidebarCs({
   Footer?: React.ReactNode;
 }) {
   return (
-    <Sidebar>
+    <SidebarPrimitive>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>{title}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items?.map((item) => (
-                <SidebarItemCs key={item?.title} item={item} />
+                <SidebarItem key={item?.title} item={item} />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>{Footer}</SidebarFooter>
-    </Sidebar>
+    </SidebarPrimitive>
   );
 }

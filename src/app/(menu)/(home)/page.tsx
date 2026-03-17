@@ -8,7 +8,7 @@ import { formatDate } from '@/utils/formatters/time.formatter';
 import { PullRequestSchema } from '@/contracts/types/schema.type';
 import { fetchAllPullRequests } from '@/services/pull-requests.service';
 import { Input } from '@/components/ui/input';
-import DataTableCs from '@/components/ui/custom/data-table';
+import DataTable from '@/components/ui/custom/data-table';
 import ExternalLink from '@/components/common/links/external-link';
 import UserColumn from '@/components/common/columns/user-column';
 import BranchColumn from './_components/columns/branch-column';
@@ -137,7 +137,7 @@ export default function Home() {
         onChange={handleSearchChange}
         className="max-w-sm"
       />
-      <DataTableCs<PullRequestSchema>
+      <DataTable<PullRequestSchema>
         data={data}
         isLoading={isLoading}
         onPageChange={handlePageChange}

@@ -47,11 +47,7 @@ function SimpleMenuItem({ item }: { item: SidebarMenuItemProps }) {
   );
 }
 
-export default function SidebarItemCs({
-  item,
-}: {
-  item: SidebarMenuItemProps;
-}) {
+export default function SidebarItem({ item }: { item: SidebarMenuItemProps }) {
   const { isChildActive, isActive } = useSidebarActive(item);
 
   if (!item?.children) return <SimpleMenuItem item={item} />;

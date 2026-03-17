@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-table';
 import { PAGINATION } from '@/constants';
 import { type PaginatedResponse } from '@/contracts/types';
-import PaginationCs from '@/components/ui/custom/pagination';
+import Pagination from '@/components/ui/custom/pagination';
 import {
   Table,
   TableBody,
@@ -20,7 +20,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-type TableCsProps<T> = {
+type TableProps<T> = {
   isLoading: boolean;
   columns: ColumnDef<T>[];
   data: PaginatedResponse<T>;
@@ -48,7 +48,7 @@ const SkeletonRow = ({ columnsCount }: { columnsCount: number }) => {
   );
 };
 
-export default function DataTableCs<T>({
+export default function DataTable<T>({
   isLoading,
   data,
   columns,
@@ -56,7 +56,7 @@ export default function DataTableCs<T>({
   emptyMessage = 'No hay datos disponibles',
   renderExpandedRow,
   isRowExpandable,
-}: TableCsProps<T>) {
+}: TableProps<T>) {
   const [expandedRowIds, setExpandedRowIds] = useState<Set<string>>(
     () => new Set()
   );
@@ -175,7 +175,7 @@ export default function DataTableCs<T>({
           </TableBody>
         </Table>
       </div>
-      <PaginationCs data={data} onPageChange={onPageChange} />
+      <Pagination data={data} onPageChange={onPageChange} />
     </div>
   );
 }
