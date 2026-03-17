@@ -1,47 +1,21 @@
 'use client';
+import { Eye } from 'lucide-react';
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
-import {
-  GitBranch,
-  GitMerge,
-  GitPullRequest,
-  XCircle,
-  Eye,
-} from 'lucide-react';
 import { PAGINATION } from '@/constants';
-import { stringToColor } from '@/utils/stringToColor.util';
 import { formatDate } from '@/utils/formatters/time.formatter';
 import { PullRequestSchema } from '@/contracts/types/schema.type';
 import { fetchAllPullRequests } from '@/services/pullRequests.service';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import DataTableCs from '@/components/ui/custom/DataTableCs';
 import ExternalLink from '@/components/ui/custom/linksCs/ExternalLink';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import UserColumn from '@/components/common/columns/UserColumn';
+import BranchColumn from './_components/columns/BranchColumn';
+import PrStateColumn from './_components/columns/PrStateColumn';
+import RepositoryColumn from './_components/columns/RepositoryColumn';
 import ExpandedPrRowContent from './_components/ExpandedPrRowContent';
-import PullRequestTypeBadge from './_components/PullRequestTypeBadge';
-
-const STATE_CONFIG: Record<
-  string,
-  { label: string; icon: React.ElementType; className: string }
-> = {
-  open: {
-    label: 'Open',
-    icon: GitPullRequest,
-    className: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20',
-  },
-  closed: {
-    label: 'Closed',
-    icon: XCircle,
-    className: 'bg-rose-500/10 text-rose-600 border-rose-500/20',
-  },
-  merged: {
-    label: 'Merged',
-    icon: GitMerge,
-    className: 'bg-violet-500/10 text-violet-600 border-violet-500/20',
-  },
-};
+import PullRequestTypeColumn from './_components/columns/PullRequestTypeColumn';
 
 export default function Home() {
   const [filters, setFilters] = useState({
@@ -89,23 +63,7 @@ export default function Home() {
       header: 'Repository',
       cell: (info) => {
         const repo = info.getValue() as string;
-        const color = stringToColor(repo);
-
-        return (
-          <Badge
-            className="border font-medium text-xs text-[var(--color)] bg-[var(--color)]/10"
-            style={
-              {
-                '--color': color,
-                borderColor: `${color}33`,
-                color: color,
-                backgroundColor: `${color}12`,
-              } as React.CSSProperties
-            }
-          >
-            {repo}
-          </Badge>
-        );
+        return <RepositoryColumn repository={repo} />;
       },
     },
     {
@@ -113,12 +71,7 @@ export default function Home() {
       header: 'Branch',
       cell: (info) => {
         const branch = info.getValue() as string;
-        return (
-          <span className="inline-flex items-center gap-1.5 rounded-md bg-muted px-2 py-0.5 font-mono text-xs text-muted-foreground border border-border/60 max-w-[180px]">
-            <GitBranch className="w-3 h-3 shrink-0 text-muted-foreground/70" />
-            <span className="truncate">{branch}</span>
-          </span>
-        );
+        return <BranchColumn branch={branch} />;
       },
     },
     {
@@ -126,7 +79,7 @@ export default function Home() {
       header: 'Type',
       cell: (info) => {
         const type = info.getValue() as PullRequestSchema['type'];
-        return <PullRequestTypeBadge type={type} />;
+        return <PullRequestTypeColumn type={type} />;
       },
     },
     {
@@ -134,21 +87,7 @@ export default function Home() {
       header: 'State',
       cell: (info) => {
         const state = info.getValue() as string;
-        const config = STATE_CONFIG[state] ?? {
-          label: state,
-          icon: GitPullRequest,
-          className: 'bg-muted text-muted-foreground border-border',
-        };
-        const Icon = config.icon;
-
-        return (
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium ${config.className}`}
-          >
-            <Icon className="w-3 h-3" />
-            {config.label}
-          </span>
-        );
+        return <PrStateColumn state={state} />;
       },
     },
     {
@@ -156,22 +95,12 @@ export default function Home() {
       header: 'Creator',
       cell: (info) => {
         const username = info.getValue() as string;
-        const url = info.row.original.url as string | null;
-        const avatarUrl = info.row.original.creator?.avatar_url as
-          | string
-          | null;
-        const initials = username?.slice(0, 2).toUpperCase() ?? '??';
+        const url = info.row.original.url as string;
+        const avatarUrl =
+          (info.row.original.creator?.avatar_url as string | null) ?? '';
 
         return (
-          <span className="inline-flex items-center gap-2">
-            <Avatar className="w-5 h-5">
-              <AvatarImage src={avatarUrl ?? ''} alt="Avatar" />
-              <AvatarFallback className="text-[9px]">{initials}</AvatarFallback>
-            </Avatar>
-            <ExternalLink href={url}>
-              <span className="text-sm">{username}</span>
-            </ExternalLink>
-          </span>
+          <UserColumn username={username} url={url} avatarUrl={avatarUrl} />
         );
       },
     },
@@ -181,9 +110,9 @@ export default function Home() {
       cell: (info) => {
         const count = info.getValue() as number;
         return (
-          <span className="inline-flex items-center gap-1.5 text-sm text-muted-foreground">
+          <span className="count-column">
             <Eye className="w-3.5 h-3.5" />
-            <span className="tabular-nums font-medium">{count}</span>
+            <span>{count}</span>
           </span>
         );
       },
@@ -192,7 +121,7 @@ export default function Home() {
       accessorKey: 'created_at',
       header: 'Created',
       cell: (info) => (
-        <span className="text-xs text-muted-foreground tabular-nums whitespace-nowrap">
+        <span className="date-column">
           {formatDate(info.getValue() as string)}
         </span>
       ),

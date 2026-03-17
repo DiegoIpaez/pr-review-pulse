@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -121,5 +121,17 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .date-column {
+    @apply text-xs text-muted-foreground tabular-nums whitespace-nowrap;
+  }
+  .count-column {
+    @apply inline-flex items-center gap-1.5 text-sm text-muted-foreground;
+  }
+  .count-column span {
+    @apply tabular-nums font-medium;
   }
 }

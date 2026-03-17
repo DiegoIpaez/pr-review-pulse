@@ -17,7 +17,7 @@ type Props = {
   type: PullRequestType;
 };
 
-export default function PullRequestTypeBadge({ type }: Props) {
+export default function PullRequestTypeColumn({ type }: Props) {
   const color = typeColors[type];
 
   return (
