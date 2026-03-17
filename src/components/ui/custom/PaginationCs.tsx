@@ -24,8 +24,8 @@ export default function PaginationCs({
   return (
     <div className="flex items-center justify-between">
       <p className="text-sm text-muted-foreground">
-        Página {data?.currentPage} de {data?.totalPages} ({data?.totalRecords}{' '}
-        registros totales)
+        Page {data?.currentPage} of {data?.totalPages} ({data?.totalRecords}{' '}
+        total records)
       </p>
       {data?.totalPages > 1 && (
         <div className="flex items-center gap-2">
