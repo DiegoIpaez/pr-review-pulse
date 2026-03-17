@@ -9,7 +9,7 @@ import { PullRequestSchema } from '@/contracts/types/schema.type';
 import { fetchAllPullRequests } from '@/services/pullRequests.service';
 import { Input } from '@/components/ui/input';
 import DataTableCs from '@/components/ui/custom/DataTableCs';
-import ExternalLink from '@/components/ui/custom/linksCs/ExternalLink';
+import ExternalLink from '@/components/common/links/ExternalLink';
 import UserColumn from '@/components/common/columns/UserColumn';
 import BranchColumn from './_components/columns/BranchColumn';
 import PrStateColumn from './_components/columns/PrStateColumn';
