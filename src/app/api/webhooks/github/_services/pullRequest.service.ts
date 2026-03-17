@@ -21,7 +21,7 @@ function resolvePRState(
   return PullRequestState.open;
 }
 
-async function upsertRepository({
+export async function upsertRepository({
   name,
   url,
   prismaTx = prismaClient,
@@ -37,7 +37,7 @@ async function upsertRepository({
   });
 }
 
-async function upsertUser({
+export async function upsertUser({
   login,
   avatarUrl,
   htmlUrl,

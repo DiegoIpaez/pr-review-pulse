@@ -2,6 +2,7 @@ import prismaClient from '@/lib/prismaClient';
 import { GitHubReviewState } from '../_contracts/types';
 import { getPullRequestType } from '../_utils/getPullRequestType';
 import type { PullRequestReviewWebhookPayload } from '../_contracts/schemas/pullRequestReviewWebhook.schema';
+import { upsertRepository, upsertUser } from './pullRequest.service';
 
 export async function processPullRequestReview(
   payload: PullRequestReviewWebhookPayload
@@ -12,47 +13,35 @@ export async function processPullRequestReview(
   const isApproved = review.state === GitHubReviewState.Approved;
 
   return prismaClient.$transaction(
-    async (tx) => {
+    async (prismaTx) => {
       const [repositoryRecord, creator, reviewer] = await Promise.all([
-        tx.repository.upsert({
-          where: { name: repository?.name },
-          update: {},
-          create: { name: repository?.name, url: repository?.html_url },
-          select: { id: true },
+        upsertRepository({
+          name: repository?.name ?? '',
+          url: repository?.html_url ?? '',
+          prismaTx,
         }),
-        tx.user.upsert({
-          where: { username: pr?.user?.login },
-          update: {},
-          create: {
-            username: pr?.user?.login,
-            url: pr?.user?.html_url,
-            avatar_url: pr?.user?.avatar_url,
-          },
-          select: { id: true },
+        upsertUser({
+          login: pr?.user?.login ?? '',
+          avatarUrl: pr?.user?.avatar_url ?? '',
+          htmlUrl: pr?.user?.html_url ?? '',
+          prismaTx,
         }),
-        tx.user.upsert({
-          where: { username: review?.user?.login },
-          update: {},
-          create: {
-            username: review?.user?.login,
-            url: review?.user?.html_url,
-            avatar_url: review?.user?.avatar_url,
-          },
-          select: { id: true },
+        upsertUser({
+          login: review?.user?.login ?? '',
+          avatarUrl: review?.user?.avatar_url ?? '',
+          htmlUrl: review?.user?.html_url ?? '',
+          prismaTx,
         }),
       ]);
 
-      const pullRequest = await tx.pullRequest.upsert({
+      const pullRequest = await prismaTx.pullRequest.upsert({
         where: {
           number_repository_id: {
             number: pr?.number,
             repository_id: repositoryRecord?.id,
           },
         },
-        update: {
-          branch,
-          state: pr?.state,
-        },
+        update: {},
         create: {
           type: getPullRequestType(branch),
           number: pr?.number,
@@ -66,7 +55,7 @@ export async function processPullRequestReview(
         select: { id: true },
       });
 
-      return tx.pullRequestReview.create({
+      return prismaTx.pullRequestReview.create({
         data: {
           pull_request_id: pullRequest?.id,
           reviewer_id: reviewer?.id,
