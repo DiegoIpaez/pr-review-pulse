@@ -1,21 +1,13 @@
 'use client';
-import { Eye } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState, type ChangeEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ColumnDef } from '@tanstack/react-table';
 import { PAGINATION } from '@/constants';
-import { formatDate } from '@/utils/formatters/time.formatter';
 import { PullRequestSchema } from '@/contracts/types/schema.type';
 import { fetchAllPullRequests } from '@/services/pull-requests.service';
 import { Input } from '@/components/ui/input';
 import DataTable from '@/components/ui/custom/data-table';
-import ExternalLink from '@/components/common/links/external-link';
-import UserColumn from '@/components/common/columns/user-column';
-import BranchColumn from './_components/columns/branch-column';
-import PrStateColumn from './_components/columns/pr-state-column';
-import RepositoryColumn from './_components/columns/repository-column';
+import { prColumns } from './_components/pr-columns';
 import ExpandedPrRowContent from './_components/expanded-pr-row-content';
-import PullRequestTypeColumn from './_components/columns/pr-type-column';
 
 export default function Home() {
   const [filters, setFilters] = useState({
@@ -25,7 +17,7 @@ export default function Home() {
   });
 
   const { data, isLoading } = useQuery({
-    queryKey: ['pullRequests', filters],
+    queryKey: ['pullRequests', filters.page, filters.limit, filters.search],
     queryFn: () => fetchAllPullRequests(filters),
   });
 
@@ -33,100 +25,13 @@ export default function Home() {
     setFilters((prev) => ({ ...prev, page }));
   };
 
-  const handleSearchChange = ({
-    target,
-  }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     setFilters((prev) => ({
       ...prev,
       search: target?.value,
       page: PAGINATION.DEFAULT_PAGE_NUMBER,
     }));
   };
-
-  const columns: ColumnDef<PullRequestSchema>[] = [
-    {
-      accessorKey: 'number',
-      header: 'ID',
-      cell: (info) => {
-        const prNumber = info.getValue() as string;
-        const url = info.row.original.url as string | null;
-
-        return (
-          <span className="font-mono text-xs font-semibold text-muted-foreground">
-            <ExternalLink href={url}>#{prNumber}</ExternalLink>
-          </span>
-        );
-      },
-    },
-    {
-      accessorKey: 'repository.name',
-      header: 'Repository',
-      cell: (info) => {
-        const repo = info.getValue() as string;
-        return <RepositoryColumn repository={repo} />;
-      },
-    },
-    {
-      accessorKey: 'branch',
-      header: 'Branch',
-      cell: (info) => {
-        const branch = info.getValue() as string;
-        return <BranchColumn branch={branch} />;
-      },
-    },
-    {
-      accessorKey: 'type',
-      header: 'Type',
-      cell: (info) => {
-        const type = info.getValue() as PullRequestSchema['type'];
-        return <PullRequestTypeColumn type={type} />;
-      },
-    },
-    {
-      accessorKey: 'state',
-      header: 'State',
-      cell: (info) => {
-        const state = info.getValue() as string;
-        return <PrStateColumn state={state} />;
-      },
-    },
-    {
-      accessorKey: 'creator.username',
-      header: 'Creator',
-      cell: (info) => {
-        const username = info.getValue() as string;
-        const url = info.row.original.url as string;
-        const avatarUrl =
-          (info.row.original.creator?.avatar_url as string | null) ?? '';
-
-        return (
-          <UserColumn username={username} url={url} avatarUrl={avatarUrl} />
-        );
-      },
-    },
-    {
-      accessorKey: '_count.reviews',
-      header: 'Reviews',
-      cell: (info) => {
-        const count = info.getValue() as number;
-        return (
-          <span className="count-column">
-            <Eye className="w-3.5 h-3.5" />
-            <span>{count}</span>
-          </span>
-        );
-      },
-    },
-    {
-      accessorKey: 'created_at',
-      header: 'Created',
-      cell: (info) => (
-        <span className="date-column">
-          {formatDate(info.getValue() as string)}
-        </span>
-      ),
-    },
-  ];
 
   return (
     <div className="flex flex-col gap-4">
@@ -142,7 +47,7 @@ export default function Home() {
         isLoading={isLoading}
         onPageChange={handlePageChange}
         emptyMessage="Not found any pull requests."
-        columns={columns}
+        columns={prColumns}
         isRowExpandable={(pr) => pr?.reviews?.length > 0}
         renderExpandedRow={(pr) => (
           <ExpandedPrRowContent reviews={pr?.reviews || []} />
