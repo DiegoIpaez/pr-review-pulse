@@ -11,7 +11,9 @@ enum PullRequestType {
   FEATURE
   FIX
   HOTFIX
-  BUGFIX
+  REFACTOR
+  DOCS
+  TEST
   RELEASE
   CHORE
   NO_TICKET

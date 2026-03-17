@@ -7,10 +7,12 @@ const typeColors: Record<PullRequestType, string> = {
   FEATURE: '#22c55e',
   FIX: '#ef4444',
   HOTFIX: '#f97316',
-  BUGFIX: '#dc2626',
   RELEASE: '#8b5cf6',
   CHORE: '#6b7280',
   NO_TICKET: '#0ea5e9',
+  REFACTOR: '#f59e0b',
+  DOCS: '#3b82f6',
+  TEST: '#10b981',
 };
 
 type Props = {
