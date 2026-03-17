@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import type { SidebarMenuItemProps } from '@/contracts/types';
-import { useSidebarActive } from '@/hooks/useSidebarActive';
+import { useSidebarActive } from '@/hooks/use-sidebar-active';
 import { cn } from '@/lib/cn';
 import {
   SidebarMenuButton,
@@ -47,11 +47,7 @@ function SimpleMenuItem({ item }: { item: SidebarMenuItemProps }) {
   );
 }
 
-export default function SidebarItemCs({
-  item,
-}: {
-  item: SidebarMenuItemProps;
-}) {
+export default function SidebarItem({ item }: { item: SidebarMenuItemProps }) {
   const { isChildActive, isActive } = useSidebarActive(item);
 
   if (!item?.children) return <SimpleMenuItem item={item} />;

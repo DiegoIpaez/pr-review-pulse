@@ -1,5 +1,5 @@
 import { API_ROUTES } from '@/constants';
-import axiosClient from '@/lib/axiosClient';
+import axiosClient from '@/lib/clients/axios-client';
 import { PaginationFilters } from '@/contracts/types';
 
 export async function fetchAllPullRequests(params: PaginationFilters) {

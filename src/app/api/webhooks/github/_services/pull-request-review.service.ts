@@ -1,8 +1,8 @@
-import prismaClient from '@/lib/prismaClient';
+import prismaClient from '@/lib/clients/prisma-client';
 import { GitHubReviewState } from '../_contracts/types';
-import { getPullRequestType } from '../_utils/getPullRequestType';
-import type { PullRequestReviewWebhookPayload } from '../_contracts/schemas/pullRequestReviewWebhook.schema';
-import { upsertRepository, upsertUser } from './pullRequest.service';
+import { getPullRequestType } from '../_utils/get-pull-request-type.util';
+import type { PullRequestReviewWebhookPayload } from '../_contracts/schemas/pull-request-review-webhook.schema';
+import { upsertRepository, upsertUser } from './pull-request.service';
 
 export async function processPullRequestReview(
   payload: PullRequestReviewWebhookPayload

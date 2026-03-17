@@ -2,13 +2,13 @@
 
 import clsx from 'clsx';
 import {
-  Dialog,
+  Dialog as DialogPrimitive,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import ButtonCs from '@/components/ui/custom/ButtonCs';
+import Button from '@/components/ui/custom/button';
 import { ActionBtnProps } from '@/contracts/types';
 
 type CheckOutModalProps = {
@@ -24,14 +24,14 @@ type CheckOutModalProps = {
   footer?: boolean;
 };
 
-export function DialogFooterCs({
+export function DialogFooter({
   onOpenChange,
   okBtnProps,
   cancelBtnProps,
 }: Pick<CheckOutModalProps, 'onOpenChange' | 'okBtnProps' | 'cancelBtnProps'>) {
   return (
     <div className="flex justify-end gap-2 mt-4">
-      <ButtonCs
+      <Button
         className={clsx('cursor-pointer', cancelBtnProps?.className)}
         type={cancelBtnProps?.type || 'button'}
         variant="outline"
@@ -44,8 +44,8 @@ export function DialogFooterCs({
         isLoading={cancelBtnProps?.isLoading}
       >
         {cancelBtnProps?.children ?? 'Cerrar'}
-      </ButtonCs>
-      <ButtonCs
+      </Button>
+      <Button
         className={clsx('cursor-pointer', okBtnProps?.className)}
         type={okBtnProps?.type || 'button'}
         onClick={okBtnProps?.onClick ? () => okBtnProps?.onClick?.() : () => {}}
@@ -53,12 +53,12 @@ export function DialogFooterCs({
         isLoading={okBtnProps?.isLoading}
       >
         {okBtnProps?.children ?? 'Aceptar'}
-      </ButtonCs>
+      </Button>
     </div>
   );
 }
 
-export function DialogCs({
+export function Dialog({
   open,
   onOpenChange,
   headerProps,
@@ -68,7 +68,7 @@ export function DialogCs({
   footer = true,
 }: CheckOutModalProps) {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <DialogPrimitive open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-background-soft shadow">
         <DialogHeader>
           <DialogTitle>{headerProps.title}</DialogTitle>
@@ -76,13 +76,13 @@ export function DialogCs({
         </DialogHeader>
         {children}
         {footer && (
-          <DialogFooterCs
+          <DialogFooter
             onOpenChange={onOpenChange}
             okBtnProps={okBtnProps}
             cancelBtnProps={cancelBtnProps}
           />
         )}
       </DialogContent>
-    </Dialog>
+    </DialogPrimitive>
   );
 }

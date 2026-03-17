@@ -6,16 +6,16 @@ import { ColumnDef } from '@tanstack/react-table';
 import { PAGINATION } from '@/constants';
 import { formatDate } from '@/utils/formatters/time.formatter';
 import { PullRequestSchema } from '@/contracts/types/schema.type';
-import { fetchAllPullRequests } from '@/services/pullRequests.service';
+import { fetchAllPullRequests } from '@/services/pull-requests.service';
 import { Input } from '@/components/ui/input';
-import DataTableCs from '@/components/ui/custom/DataTableCs';
-import ExternalLink from '@/components/common/links/ExternalLink';
-import UserColumn from '@/components/common/columns/UserColumn';
-import BranchColumn from './_components/columns/BranchColumn';
-import PrStateColumn from './_components/columns/PrStateColumn';
-import RepositoryColumn from './_components/columns/RepositoryColumn';
-import ExpandedPrRowContent from './_components/ExpandedPrRowContent';
-import PullRequestTypeColumn from './_components/columns/PullRequestTypeColumn';
+import DataTable from '@/components/ui/custom/data-table';
+import ExternalLink from '@/components/common/links/external-link';
+import UserColumn from '@/components/common/columns/user-column';
+import BranchColumn from './_components/columns/branch-column';
+import PrStateColumn from './_components/columns/pr-state-column';
+import RepositoryColumn from './_components/columns/repository-column';
+import ExpandedPrRowContent from './_components/expanded-pr-row-content';
+import PullRequestTypeColumn from './_components/columns/pr-type-column';
 
 export default function Home() {
   const [filters, setFilters] = useState({
@@ -137,7 +137,7 @@ export default function Home() {
         onChange={handleSearchChange}
         className="max-w-sm"
       />
-      <DataTableCs<PullRequestSchema>
+      <DataTable<PullRequestSchema>
         data={data}
         isLoading={isLoading}
         onPageChange={handlePageChange}

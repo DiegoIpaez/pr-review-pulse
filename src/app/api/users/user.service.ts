@@ -1,4 +1,4 @@
-import prismaClient from '@/lib/prismaClient';
+import prismaClient from '@/lib/clients/prisma-client';
 import type { PaginationFilters } from '@/contracts/types';
 import { Prisma } from '@/generated/prisma/client';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';

@@ -1,9 +1,9 @@
 'use client';
 import { ChartSpline, GitPullRequest, Users2 } from 'lucide-react';
 import { SidebarMenuItemProps } from '@/contracts/types';
-import SidebarCs from '@/components/ui/custom/sidebarCs/SidebarCs';
+import Sidebar from '@/components/ui/custom/sidebar/sidebar';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import SidebarHeaderCs from '@/components/ui/custom/sidebarCs/SidebarHeaderCs';
+import SidebarHeader from '@/components/ui/custom/sidebar/sidebar-header';
 
 const items: SidebarMenuItemProps[] = [
   {
@@ -40,10 +40,10 @@ export default function MenuLayout({
         } as React.CSSProperties
       }
     >
-      <SidebarCs items={items} title="PR Review Pulse" />
+      <Sidebar items={items} title="PR Review Pulse" />
       <SidebarInset>
         <div className="flex flex-1 flex-col min-h-screen bg-background">
-          <SidebarHeaderCs />
+          <SidebarHeader />
           <main className="flex-1 p-4">{children}</main>
         </div>
       </SidebarInset>

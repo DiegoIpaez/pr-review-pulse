@@ -9,8 +9,8 @@ import { PAGINATION } from '@/constants';
 import { formatDate } from '@/utils/formatters/time.formatter';
 import { fetchAllUsers } from '@/services/users.service';
 import { Badge } from '@/components/ui/badge';
-import DataTableCs from '@/components/ui/custom/DataTableCs';
-import UserColumn from '@/components/common/columns/UserColumn';
+import DataTable from '@/components/ui/custom/data-table';
+import UserColumn from '@/components/common/columns/user-column';
 
 export default function Home() {
   const [filters, setFilters] = useState({
@@ -95,7 +95,7 @@ export default function Home() {
   ];
 
   return (
-    <DataTableCs<User>
+    <DataTable<User>
       data={data}
       isLoading={isLoading}
       onPageChange={handlePageChange}
