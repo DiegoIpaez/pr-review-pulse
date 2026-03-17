@@ -2,8 +2,8 @@ import './globals.css';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
-import ThemeProvider from '@/components/providers/ThemeProvider';
-import TanstackQueryProvider from '@/components/providers/TanstackQueryProvider';
+import ThemeProvider from '@/components/providers/theme-provider';
+import TanstackQueryProvider from '@/components/providers/tanstack-query-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 

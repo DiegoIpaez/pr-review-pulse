@@ -1,10 +1,10 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { apiErrorHandler, ApiError } from '@/utils/handlers/apiError.handler';
+import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { GitHubEvent } from './_contracts/types';
-import { pullRequestWebhookSchema } from './_contracts/schemas/pullRequestWebhook.schema';
-import { pullRequestReviewWebhookSchema } from './_contracts/schemas/pullRequestReviewWebhook.schema';
-import { processPullRequest } from './_services/pullRequest.service';
-import { processPullRequestReview } from './_services/pullRequestReview.service';
+import { pullRequestWebhookSchema } from './_contracts/schemas/pull-request-webhook.schema';
+import { pullRequestReviewWebhookSchema } from './_contracts/schemas/pull-request-review-webhook.schema';
+import { processPullRequest } from './_services/pull-request.service';
+import { processPullRequestReview } from './_services/pull-request-review.service';
 
 export async function POST(request: NextRequest) {
   try {

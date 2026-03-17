@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { VariantProps } from 'class-variance-authority';
 import { Button, buttonVariants } from '@/components/ui/button';
-import SpinnerCs from './SpinnerCs';
+import SpinnerCs from './spinner';
 
 type ButtonCsProps = React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {

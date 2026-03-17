@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { paginationUrlParser } from '@/contracts/parsers/paginationUrl.parser';
-import { apiErrorHandler, ApiError } from '@/utils/handlers/apiError.handler';
-import { getPullRequest } from './pullRequest.service';
+import { paginationUrlParser } from '@/contracts/parsers/pagination-url.parser';
+import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
+import { getPullRequest } from './pull-request.service';
 
 /**
  * @swagger

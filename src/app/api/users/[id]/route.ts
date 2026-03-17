@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { RouteParams } from '@/contracts/types';
-import { apiErrorHandler, ApiError } from '@/utils/handlers/apiError.handler';
+import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getUserById } from '../user.service';
 
 /**

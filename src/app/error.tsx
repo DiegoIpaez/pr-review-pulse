@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import ButtonCs from '@/components/ui/custom/ButtonCs';
+import ButtonCs from '@/components/ui/custom/button';
 
 interface ErrorBoundaryProps {
   error: Error & { digest?: string };

@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-table';
 import { PAGINATION } from '@/constants';
 import { type PaginatedResponse } from '@/contracts/types';
-import PaginationCs from '@/components/ui/custom/PaginationCs';
+import PaginationCs from '@/components/ui/custom/pagination';
 import {
   Table,
   TableBody,

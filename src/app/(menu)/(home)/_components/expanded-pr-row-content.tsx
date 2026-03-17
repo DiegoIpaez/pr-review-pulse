@@ -1,7 +1,7 @@
 'use client';
 import type { PrReviewSchema } from '@/contracts/types/schema.type';
 import { formatDate } from '@/utils/formatters/time.formatter';
-import ExternalLink from '@/components/common/links/ExternalLink';
+import ExternalLink from '@/components/common/links/external-link';
 
 function ReviewCard({ review }: { review: PrReviewSchema }) {
   const isApproved = !!review.approved_at;

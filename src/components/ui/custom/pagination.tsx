@@ -4,7 +4,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from 'lucide-react';
-import ButtonCs from './ButtonCs';
+import ButtonCs from './button';
 
 type PaginationCsProps = {
   data: {

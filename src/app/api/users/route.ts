@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { paginationUrlParser } from '@/contracts/parsers/paginationUrl.parser';
-import { apiErrorHandler, ApiError } from '@/utils/handlers/apiError.handler';
+import { paginationUrlParser } from '@/contracts/parsers/pagination-url.parser';
+import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getAllUsers } from './user.service';
 
 /**

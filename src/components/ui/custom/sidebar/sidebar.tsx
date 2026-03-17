@@ -9,7 +9,7 @@ import {
   SidebarMenu,
   SidebarFooter,
 } from '@/components/ui/sidebar';
-import SidebarItemCs from './SidebarItemCs';
+import SidebarItemCs from './sidebar-Item';
 
 export default function SidebarCs({
   title = '',

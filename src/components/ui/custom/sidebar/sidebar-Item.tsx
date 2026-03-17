@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import type { SidebarMenuItemProps } from '@/contracts/types';
-import { useSidebarActive } from '@/hooks/useSidebarActive';
+import { useSidebarActive } from '@/hooks/use-sidebar-active';
 import { cn } from '@/lib/cn';
 import {
   SidebarMenuButton,

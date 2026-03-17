@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import ButtonCs from '@/components/ui/custom/ButtonCs';
+import ButtonCs from '@/components/ui/custom/button';
 import { ActionBtnProps } from '@/contracts/types';
 
 type CheckOutModalProps = {

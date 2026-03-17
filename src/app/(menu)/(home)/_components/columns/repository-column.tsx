@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { stringToColor } from '@/utils/stringToColor.util';
+import { stringToColor } from '@/utils/string-to-color.util';
 
 export default function RepositoryColumn({
   repository,
