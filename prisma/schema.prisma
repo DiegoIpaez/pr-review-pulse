@@ -8,21 +8,28 @@ datasource db {
 }
 
 enum PullRequestType {
-  FEATURE
-  FIX
-  HOTFIX
-  REFACTOR
-  DOCS
-  TEST
-  RELEASE
-  CHORE
-  NO_TICKET
+  feature
+  fix
+  hotfix
+  refactor
+  docs
+  test
+  release
+  chore
+  no_ticket
 }
 
 enum PullRequestState {
   open
   closed
   merged
+}
+
+enum GitHubReviewState {
+  approved
+  changes_requested
+  commented
+  dismissed
 }
 
 model Repository {
@@ -57,7 +64,7 @@ model PullRequest {
   number        Int
   body          String?          @db.VarChar(255)
   repository_id Int
-  type          PullRequestType  @default(NO_TICKET)
+  type          PullRequestType  @default(no_ticket)
   branch        String           @db.VarChar(255)
   creator_id    Int
   url           String?          @db.VarChar(255)
@@ -85,14 +92,14 @@ model PullRequest {
 }
 
 model PullRequestReview {
-  id              Int       @id @default(autoincrement())
+  id              Int               @id @default(autoincrement())
   pull_request_id Int
   reviewer_id     Int?
-  note            String?
-  url             String?   @db.VarChar(255)
+  body            String?
+  url             String?           @db.VarChar(255)
   approved_at     DateTime?
-  reviewed_at     DateTime?
-  inserted_at     DateTime  @default(now())
+  submitted_at    DateTime?
+  state           GitHubReviewState
 
   reviewer     User?       @relation(fields: [reviewer_id], references: [id], onDelete: SetNull)
   pull_request PullRequest @relation(fields: [pull_request_id], references: [id], onDelete: Cascade)

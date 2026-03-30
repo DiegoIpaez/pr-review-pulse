@@ -1,7 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { paginationUrlParser } from '@/contracts/parsers/pagination-url.parser';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getPullRequest } from './pull-request.service';
+import { prUrlParser } from './pull-request.parser';
+import { prFilterSchema } from './pull-request.schema';
 
 /**
  * @swagger
@@ -34,6 +35,30 @@ import { getPullRequest } from './pull-request.service';
  *         schema:
  *           type: string
  *         description: Search term for filtering pull requests
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - feature
+ *             - fix
+ *             - hotfix
+ *             - refactor
+ *             - docs
+ *             - test
+ *             - release
+ *             - chore
+ *             - no_ticket
+ *         description: Filter by pull request type
+ *       - in: query
+ *         name: state
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - open
+ *             - closed
+ *             - merged
+ *         description: Filter by pull request state
  *     responses:
  *       200:
  *         description: Successful response with paginated pull requests
@@ -59,8 +84,9 @@ import { getPullRequest } from './pull-request.service';
  */
 export async function GET(request: NextRequest) {
   try {
-    const queryParams = paginationUrlParser(request.nextUrl.searchParams);
-    const data = await getPullRequest(queryParams);
+    const queryParams = prUrlParser(request.nextUrl.searchParams);
+    const filters = prFilterSchema.parse(queryParams);
+    const data = await getPullRequest(filters);
     return NextResponse.json(data);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });
