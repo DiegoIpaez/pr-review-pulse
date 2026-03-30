@@ -1,13 +1,15 @@
 import prismaClient from '@/lib/clients/prisma-client';
-import type { PaginationFilters } from '@/contracts/types';
 import { Prisma } from '@/generated/prisma/client';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
+import { PullRequestTypeFilter } from './pull-request.schema';
 
-export async function getPullRequest(filters: PaginationFilters) {
-  const { page, limit, search: contains, showAll } = filters;
+export async function getPullRequest(filters: PullRequestTypeFilter) {
+  const { page, limit, search: contains, showAll, type, state } = filters;
 
   const queryMode = { contains, mode: Prisma.QueryMode.insensitive };
   const where: Prisma.PullRequestWhereInput = {
+    ...(type ? { type } : {}),
+    ...(state ? { state } : {}),
     OR: [
       {
         repository: {
