@@ -6,14 +6,14 @@ export function getPullRequestType(branch: string): PullRequestType {
     branch.startsWith('bug/') ||
     branch.startsWith('bugfix/')
   )
-    return PullRequestType.FIX;
-  if (branch.startsWith('hotfix/')) return PullRequestType.HOTFIX;
-  if (branch.startsWith('release/')) return PullRequestType.RELEASE;
-  if (branch.startsWith('refactor/')) return PullRequestType.REFACTOR;
-  if (branch.startsWith('chore/')) return PullRequestType.CHORE;
-  if (branch.startsWith('docs/')) return PullRequestType.DOCS;
-  if (branch.startsWith('test/')) return PullRequestType.TEST;
+    return PullRequestType.fix;
+  if (branch.startsWith('hotfix/')) return PullRequestType.hotfix;
+  if (branch.startsWith('release/')) return PullRequestType.release;
+  if (branch.startsWith('refactor/')) return PullRequestType.refactor;
+  if (branch.startsWith('chore/')) return PullRequestType.chore;
+  if (branch.startsWith('docs/')) return PullRequestType.docs;
+  if (branch.startsWith('test/')) return PullRequestType.test;
   if (branch.startsWith('feature/') || branch.startsWith('feat/'))
-    return PullRequestType.FEATURE;
-  return PullRequestType.NO_TICKET;
+    return PullRequestType.feature;
+  return PullRequestType.no_ticket;
 }

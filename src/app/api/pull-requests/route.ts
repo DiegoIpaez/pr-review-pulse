@@ -40,15 +40,15 @@ import { prFilterSchema } from './pull-request.schema';
  *         schema:
  *           type: string
  *           enum:
- *             - FEATURE
- *             - FIX
- *             - HOTFIX
- *             - REFACTOR
- *             - DOCS
- *             - TEST
- *             - RELEASE
- *             - CHORE
- *             - NO_TICKET
+ *             - feature
+ *             - fix
+ *             - hotfix
+ *             - refactor
+ *             - docs
+ *             - test
+ *             - release
+ *             - chore
+ *             - no_ticket
  *         description: Filter by pull request type
  *       - in: query
  *         name: state

@@ -59,10 +59,11 @@ export async function processPullRequestReview(
         data: {
           pull_request_id: pullRequest?.id,
           reviewer_id: reviewer?.id,
-          note: (review?.body ?? '')?.trim() || null,
+          body: (review?.body ?? '')?.trim() || null,
           url: review?.html_url,
           approved_at: isApproved ? new Date(review?.submitted_at) : null,
-          reviewed_at: new Date(review?.submitted_at),
+          submitted_at: new Date(review?.submitted_at),
+          state: review?.state,
         },
       });
     },

@@ -5,17 +5,17 @@ import ExternalLink from '@/components/common/links/external-link';
 
 function ReviewCard({ review }: { review: PrReviewSchema }) {
   const isApproved = !!review.approved_at;
-  const isReviewed = !!review.reviewed_at;
+  const isSubmitted = !!review.submitted_at;
 
   const statusLabel = isApproved
     ? 'Aprobado'
-    : isReviewed
+    : isSubmitted
       ? 'Revisado'
       : 'Pendiente';
 
   const statusStyle = isApproved
     ? 'bg-emerald-500/10 text-emerald-600'
-    : isReviewed
+    : isSubmitted
       ? 'bg-blue-500/10 text-blue-600'
       : 'bg-muted text-muted-foreground';
 
@@ -30,8 +30,8 @@ function ReviewCard({ review }: { review: PrReviewSchema }) {
             <ExternalLink href={review?.url}>Review #{review?.id}</ExternalLink>
           </div>
           <div className="text-xs text-muted-foreground">
-            {review?.reviewed_at
-              ? formatDate(review?.reviewed_at)
+            {review?.submitted_at
+              ? formatDate(review?.submitted_at)
               : 'Sin fecha de revisión'}
           </div>
         </div>
@@ -52,8 +52,8 @@ function ReviewCard({ review }: { review: PrReviewSchema }) {
         </div>
       )}
       <div className="text-sm text-muted-foreground leading-relaxed mt-2">
-        {review.note?.trim() ? (
-          review.note
+        {review.body?.trim() ? (
+          review.body
         ) : (
           <span className="italic text-xs">Sin comentarios</span>
         )}
