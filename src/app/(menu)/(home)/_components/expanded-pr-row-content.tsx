@@ -1,24 +1,54 @@
 'use client';
+import { CheckCircle2, Eye, CircleMinus, FileDiff } from 'lucide-react';
+import { cn } from '@/lib/cn';
 import type { PrReviewSchema } from '@/contracts/types/schema.type';
 import { formatDate } from '@/utils/formatters/time.formatter';
 import ExternalLink from '@/components/common/links/external-link';
 
-function ReviewCard({ review }: { review: PrReviewSchema }) {
-  const isApproved = !!review.approved_at;
-  const isSubmitted = !!review.submitted_at;
+function StatusReviewCard({ state }: { state: PrReviewSchema['state'] }) {
+  const statusStyle =
+    state === 'approved'
+      ? 'bg-emerald-500/10'
+      : state === 'changes_requested'
+        ? 'bg-red-500/10'
+        : state === 'commented'
+          ? 'bg-blue-500/10'
+          : 'bg-muted';
 
-  const statusLabel = isApproved
-    ? 'Aprobado'
-    : isSubmitted
-      ? 'Revisado'
-      : 'Pendiente';
+  const getStatusIcon = () => {
+    switch (state) {
+      case 'approved':
+        return <CheckCircle2 className="h-4 w-4 text-emerald-600" />;
+      case 'changes_requested':
+        return <FileDiff className="h-4 w-4 text-red-600" />;
+      case 'commented':
+        return <Eye className="h-4 w-4 text-blue-600" />;
+      case 'dismissed':
+        return <CircleMinus className="h-4 w-4 text-gray-500" />;
+      default:
+        return <Eye className="h-4 w-4 text-gray-500" />;
+    }
+  };
 
-  const statusStyle = isApproved
-    ? 'bg-emerald-500/10 text-emerald-600'
-    : isSubmitted
-      ? 'bg-blue-500/10 text-blue-600'
-      : 'bg-muted text-muted-foreground';
+  return (
+    <span
+      className={cn(
+        'flex items-center justify-center p-2 rounded-full',
+        statusStyle
+      )}
+    >
+      {getStatusIcon()}
+    </span>
+  );
+}
 
+function ReviewCard({
+  review,
+  index,
+}: {
+  review: PrReviewSchema;
+  index: number;
+}) {
   return (
     <div
       key={review?.id}
@@ -27,7 +57,7 @@ function ReviewCard({ review }: { review: PrReviewSchema }) {
       <div className="flex items-start justify-between mb-3">
         <div className="space-y-1">
           <div className="text-sm font-medium">
-            <ExternalLink href={review?.url}>Review #{review?.id}</ExternalLink>
+            <ExternalLink href={review?.url}>Review #{index + 1}</ExternalLink>
           </div>
           <div className="text-xs text-muted-foreground">
             {review?.submitted_at
@@ -35,11 +65,7 @@ function ReviewCard({ review }: { review: PrReviewSchema }) {
               : 'Sin fecha de revisión'}
           </div>
         </div>
-        <span
-          className={`text-xs px-2 py-1 rounded-full font-medium ${statusStyle}`}
-        >
-          {statusLabel}
-        </span>
+        <StatusReviewCard state={review?.state} />
       </div>
       {review.reviewer && (
         <div className="text-xs text-muted-foreground mb-2">
@@ -51,7 +77,7 @@ function ReviewCard({ review }: { review: PrReviewSchema }) {
           </span>
         </div>
       )}
-      <div className="text-sm text-muted-foreground leading-relaxed mt-2">
+      <div className="text-sm text-muted-foreground leading-relaxed mt-2 line-clamp-3">
         {review.body?.trim() ? (
           review.body
         ) : (
@@ -72,9 +98,9 @@ export default function ExpandedPrRowContent({
       No hay reviews para esta pull request.
     </div>
   ) : (
-    <div className="p-2 space-y-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
-      {reviews.map((review) => (
-        <ReviewCard key={review.id} review={review} />
+    <div className="p-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
+      {reviews.map((review, index) => (
+        <ReviewCard key={review.id} review={review} index={index} />
       ))}
     </div>
   );
