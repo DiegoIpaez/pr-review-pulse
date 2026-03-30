@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import ThemeProvider from '@/components/providers/theme-provider';
 import TanstackQueryProvider from '@/components/providers/tanstack-query-provider';
+import { SessionProvider } from '@/components/providers/session-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,10 +29,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TanstackQueryProvider>
-            {children}
-            <Toaster richColors />
-          </TanstackQueryProvider>
+          <SessionProvider>
+            <TanstackQueryProvider>
+              {children}
+              <Toaster richColors />
+            </TanstackQueryProvider>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>
