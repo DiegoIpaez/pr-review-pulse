@@ -16,7 +16,6 @@ export async function getAllUsers(filters: PaginationFilters) {
   const queryMode = { contains, mode: Prisma.QueryMode.insensitive };
   const where: Prisma.UserWhereInput = {
     OR: [{ username: queryMode }],
-    disabled: false,
   };
 
   const query: Prisma.UserFindManyArgs = {
@@ -50,5 +49,27 @@ export async function getUserById(id: number) {
       pull_requests: { include: { repository: true, creator: true } },
     },
   });
+  return user;
+}
+
+export async function upsertGitHubUser(profile: {
+  login: string;
+  avatar_url?: string;
+  html_url?: string;
+}) {
+  const user = await prismaClient.user.upsert({
+    where: { username: profile?.login },
+    update: {
+      avatar_url: profile?.avatar_url,
+      url: profile?.html_url,
+    },
+    create: {
+      username: profile?.login,
+      avatar_url: profile?.avatar_url,
+      url: profile?.html_url,
+      access_status: 'pending',
+    },
+  });
+
   return user;
 }

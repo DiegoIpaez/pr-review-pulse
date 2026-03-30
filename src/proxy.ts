@@ -1,4 +1,6 @@
+import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
+import { CONFIG } from './constants';
 
 const corsOptions = {
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -15,9 +17,35 @@ export async function proxy(req: NextRequest) {
     });
   }
 
+  const { pathname } = req.nextUrl;
+  const session = await getToken({ req, secret: CONFIG.NEXT_AUTH.SECRET });
+  const isLoggedIn = !!session;
+
+  const isPublicRoute =
+    pathname === '/login' ||
+    pathname === '/access-status' ||
+    pathname.startsWith('/api/auth');
+  if (isPublicRoute)
+    return NextResponse.next({ request: { headers: requestHeaders } });
+
+  if (!isLoggedIn) {
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+    const loginUrl = new URL('/login', req.url);
+    return NextResponse.redirect(loginUrl);
+  }
+  if (session?.access_status !== 'active') {
+    const accessStatusUrl = new URL('/access-status', req.url);
+    return NextResponse.redirect(accessStatusUrl);
+  }
+  if (session?.uid) {
+    requestHeaders.set('uid', session?.uid.toString());
+  }
+
   return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
 export const config = {
-  matcher: ['/', '/docs'],
+  matcher: ['/', '/login', '/access-status', '/users/:path*', '/api/:path*'],
 };
