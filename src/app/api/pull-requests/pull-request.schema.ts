@@ -14,3 +14,4 @@ export const prFilterSchema = paginationSchema.merge(
     state: z.preprocess(preprocess, z.enum(PR_STATES).optional()),
   })
 );
+export type PullRequestTypeFilter = z.infer<typeof prFilterSchema>;
