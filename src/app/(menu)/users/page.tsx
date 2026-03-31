@@ -6,7 +6,8 @@ import { PAGINATION } from '@/constants';
 import { fetchAllUsers } from '@/services/users.service';
 import { Input } from '@/components/ui/input';
 import DataTable from '@/components/ui/custom/data-table';
-import { userColumns } from './_components/users-columns';
+import { getUserColumns } from './_components/users-columns';
+import EditUserDialog from './_components/edit-user-dialog';
 
 export default function Home() {
   const [filters, setFilters] = useState({
@@ -14,11 +15,18 @@ export default function Home() {
     limit: PAGINATION.DEFAULT_PAGE_SIZE,
     search: '',
   });
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ['users', filters.page, filters.limit, filters.search],
     queryFn: () => fetchAllUsers(filters),
   });
+
+  const handleEditUser = (user: User) => {
+    setSelectedUser(user);
+    setIsEditDialogOpen(true);
+  };
 
   const handlePageChange = (page: number) => {
     setFilters((prev) => ({ ...prev, page }));
@@ -31,6 +39,8 @@ export default function Home() {
       page: PAGINATION.DEFAULT_PAGE_NUMBER,
     }));
   };
+
+  const userColumns = getUserColumns(handleEditUser);
 
   return (
     <div className="flex flex-col gap-4">
@@ -48,6 +58,13 @@ export default function Home() {
         emptyMessage="Not found users."
         columns={userColumns}
       />
+      {selectedUser && (
+        <EditUserDialog
+          user={selectedUser}
+          open={isEditDialogOpen}
+          onOpenChange={setIsEditDialogOpen}
+        />
+      )}
     </div>
   );
 }

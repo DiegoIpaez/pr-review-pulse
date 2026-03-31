@@ -1,6 +1,6 @@
 import prismaClient from '@/lib/clients/prisma-client';
 import type { PaginationFilters } from '@/contracts/types';
-import { Prisma } from '@/generated/prisma/client';
+import { Prisma, User } from '@/generated/prisma/client';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 
 const COUNT_SELECT = {
@@ -69,6 +69,22 @@ export async function upsertGitHubUser(profile: {
       url: profile?.html_url,
       access_status: 'pending',
     },
+  });
+
+  return user;
+}
+
+export async function updateUser(
+  id: number,
+  data: {
+    role?: User['role'];
+    access_status?: User['access_status'];
+  }
+) {
+  const user = await prismaClient.user.update({
+    where: { id },
+    data,
+    include: { _count: COUNT_SELECT },
   });
 
   return user;
