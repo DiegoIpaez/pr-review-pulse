@@ -3,6 +3,7 @@ import type { RouteParams } from '@/contracts/types';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getUserById, updateUser } from '../user.service';
 import { updateUserSchema } from '@/contracts/schemas/user.schema';
+import { requiresAdmin } from '@/middlewares/session.middleware';
 
 /**
  * @swagger
@@ -31,6 +32,8 @@ import { updateUserSchema } from '@/contracts/schemas/user.schema';
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
+    requiresAdmin(request.headers);
+
     const { id } = await params;
     const user = await getUserById(parseInt(id));
     return NextResponse.json(user);
@@ -81,6 +84,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
+    requiresAdmin(request.headers);
+
     const { id } = await params;
     const body = await request.json();
     const validated = updateUserSchema.parse(body);

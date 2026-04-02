@@ -26,6 +26,7 @@ const { handlers } = NextAuth({
 
       authUser.uid = user.id;
       authUser.access_status = user.access_status;
+      authUser.role = user.role;
       return true;
     },
     async jwt({ token, user }) {

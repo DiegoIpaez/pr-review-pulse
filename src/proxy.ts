@@ -39,8 +39,10 @@ export async function proxy(req: NextRequest) {
     const accessStatusUrl = new URL('/access-status', req.url);
     return NextResponse.redirect(accessStatusUrl);
   }
-  if (session?.uid) {
+  if (session?.uid && session?.role && session?.access_status) {
     requestHeaders.set('uid', session?.uid.toString());
+    requestHeaders.set('role', session?.role || '');
+    requestHeaders.set('access_status', session?.access_status || '');
   }
 
   return NextResponse.next({ request: { headers: requestHeaders } });
