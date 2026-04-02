@@ -8,9 +8,9 @@ import SidebarHeader from '@/components/ui/custom/sidebar/sidebar-header';
 const items: SidebarMenuItemProps[] = [
   {
     title: 'Dashboard',
-    url: '/admin',
+    url: '/dashboard',
     icon: ChartSpline,
-    disabled: true,
+    disabled: false,
   },
   {
     title: 'PRs',
