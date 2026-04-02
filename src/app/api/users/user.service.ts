@@ -1,6 +1,6 @@
 import prismaClient from '@/lib/clients/prisma-client';
 import type { PaginationFilters } from '@/contracts/types';
-import { Prisma } from '@/generated/prisma/client';
+import { Prisma, User } from '@/generated/prisma/client';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 
 const COUNT_SELECT = {
@@ -16,7 +16,6 @@ export async function getAllUsers(filters: PaginationFilters) {
   const queryMode = { contains, mode: Prisma.QueryMode.insensitive };
   const where: Prisma.UserWhereInput = {
     OR: [{ username: queryMode }],
-    disabled: false,
   };
 
   const query: Prisma.UserFindManyArgs = {
@@ -50,5 +49,43 @@ export async function getUserById(id: number) {
       pull_requests: { include: { repository: true, creator: true } },
     },
   });
+  return user;
+}
+
+export async function upsertGitHubUser(profile: {
+  login: string;
+  avatar_url?: string;
+  html_url?: string;
+}) {
+  const user = await prismaClient.user.upsert({
+    where: { username: profile?.login },
+    update: {
+      avatar_url: profile?.avatar_url,
+      url: profile?.html_url,
+    },
+    create: {
+      username: profile?.login,
+      avatar_url: profile?.avatar_url,
+      url: profile?.html_url,
+      access_status: 'pending',
+    },
+  });
+
+  return user;
+}
+
+export async function updateUser(
+  id: number,
+  data: {
+    role?: User['role'];
+    access_status?: User['access_status'];
+  }
+) {
+  const user = await prismaClient.user.update({
+    where: { id },
+    data,
+    include: { _count: COUNT_SELECT },
+  });
+
   return user;
 }

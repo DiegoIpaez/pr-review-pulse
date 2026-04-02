@@ -7,19 +7,16 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarFooter,
 } from '@/components/ui/sidebar';
 import SidebarItem from './sidebar-Item';
+import SidebarFooter from './sidebar-footer/sidebar-footer';
 
-export default function Sidebar({
-  title = '',
-  items,
-  Footer,
-}: {
+type SidebarProps = {
   title?: string;
   items: SidebarMenuItemProps[];
-  Footer?: React.ReactNode;
-}) {
+};
+
+export default function Sidebar({ title = '', items }: SidebarProps) {
   return (
     <SidebarPrimitive>
       <SidebarContent>
@@ -34,7 +31,7 @@ export default function Sidebar({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>{Footer}</SidebarFooter>
+      <SidebarFooter />
     </SidebarPrimitive>
   );
 }

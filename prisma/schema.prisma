@@ -44,14 +44,26 @@ model Repository {
   @@map("repositories")
 }
 
+enum UserAccessStatus {
+  pending
+  active
+  blocked
+}
+
+enum UserRole {
+  admin
+  user
+}
+
 model User {
-  id         Int      @id @default(autoincrement())
-  username   String   @unique @db.VarChar(100)
-  disabled   Boolean  @default(false)
-  url        String?  @db.VarChar(255)
-  avatar_url String?  @db.VarChar(255)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id            Int              @id @default(autoincrement())
+  username      String           @unique @db.VarChar(100)
+  url           String?          @db.VarChar(255)
+  avatar_url    String?          @db.VarChar(255)
+  access_status UserAccessStatus @default(pending)
+  role          UserRole         @default(user)
+  created_at    DateTime         @default(now())
+  updated_at    DateTime         @updatedAt
 
   pull_requests PullRequest[]
   reviews       PullRequestReview[]

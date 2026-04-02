@@ -5,9 +5,9 @@ export enum NodeEnv {
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-const NEXTAUTH = {
-  URL: process.env.NEXTAUTH_URL || BASE_URL,
-  SECRET: process.env.NEXTAUTH_SECRET || 'secret',
+const NEXT_AUTH = {
+  URL: process.env.NEXT_AUTH_URL || BASE_URL,
+  SECRET: process.env.NEXT_AUTH_SECRET || 'secret',
 };
 
 export const CONFIG = {
@@ -15,5 +15,7 @@ export const CONFIG = {
   API_URL: BASE_URL + '/api',
   DATABASE_URL: process.env.DATABASE_URL || '',
   NODE_ENV: (process.env.NODE_ENV as NodeEnv) || NodeEnv.Development,
-  NEXTAUTH,
+  NEXT_AUTH,
+  GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID || '',
+  GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET || '',
 };
