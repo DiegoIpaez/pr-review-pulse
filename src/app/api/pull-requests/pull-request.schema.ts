@@ -12,6 +12,7 @@ export const prFilterSchema = paginationSchema.merge(
   z.object({
     type: z.preprocess(preprocess, z.enum(PR_TYPES).optional()),
     state: z.preprocess(preprocess, z.enum(PR_STATES).optional()),
+    uid: z.number().int().optional(),
   })
 );
 export type PullRequestTypeFilter = z.infer<typeof prFilterSchema>;
