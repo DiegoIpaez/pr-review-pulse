@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { getKpis } from '@/app/api/pull-requests/kpis/pull-request-kpi.service';
+import { getKpis } from '@/app/api/pull-requests/kpis/kpi.service';
 import { getSessionFromHeaders } from '@/middlewares/session.middleware';
 
 /**

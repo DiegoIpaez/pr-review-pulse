@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { getStats } from './pull-requests-stat.service';
+import { getStats } from './stat.service';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 
 /**
