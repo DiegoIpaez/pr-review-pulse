@@ -1,7 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { getStats } from '@/app/api/pull-requests/pull-request.service';
+import { getStats } from '@/app/api/pull-requests/stats/pull-requests-stat.service';
 import { getSessionFromHeaders } from '@/middlewares/session.middleware';
+import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 
 /**
  * @swagger
@@ -48,13 +49,14 @@ import { getSessionFromHeaders } from '@/middlewares/session.middleware';
  */
 export async function GET(request: NextRequest) {
   try {
-    const { uid } = getSessionFromHeaders(request.headers);
     const { searchParams } = request.nextUrl;
+    const { uid } = getSessionFromHeaders(request.headers);
     const start_date = searchParams.get('start_date') || undefined;
     const end_date = searchParams.get('end_date') || undefined;
 
     const data = await getStats({ uid, start_date, end_date });
-    return NextResponse.json(data);
+    const response = paginationFormatter({ data });
+    return NextResponse.json(response);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });
   }

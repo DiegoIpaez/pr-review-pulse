@@ -11,10 +11,6 @@ export type TimeSeriesData = {
   merged: number;
 };
 
-export type StatsData = {
-  timeSeries: TimeSeriesData[];
-};
-
 export type DistributionItem = {
   type: string;
   count: number;

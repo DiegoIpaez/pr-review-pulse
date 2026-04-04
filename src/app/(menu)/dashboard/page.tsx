@@ -19,11 +19,13 @@ export default function UserDashboardPage() {
   const { data: stats, isLoading: statsLoading } = useQuery({
     queryKey: ['prs-stats'],
     queryFn: () => fetchGlobalStats(),
+    select: (data) => data?.data,
   });
 
   const { data: distribution, isLoading: isLoadingDistribution } = useQuery({
     queryKey: ['prDistribution'],
     queryFn: () => fetchDistribution(),
+    select: (data) => data?.data,
   });
 
   return (

@@ -12,10 +12,10 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import type { StatsData } from '@/contracts/types/metrics';
+import type { TimeSeriesData } from '@/contracts/types/metrics';
 
 type TimeSeriesChartProps = {
-  stats: StatsData | undefined;
+  stats: TimeSeriesData[];
   isLoading: boolean;
 };
 
@@ -35,7 +35,7 @@ export function TimeSeriesChart({ stats, isLoading }: TimeSeriesChartProps) {
     );
   }
 
-  const chartData = stats?.timeSeries.map((item) => ({
+  const chartData = stats?.map((item) => ({
     ...item,
     date: new Date(item.date).toLocaleDateString('en-US', {
       month: 'short',

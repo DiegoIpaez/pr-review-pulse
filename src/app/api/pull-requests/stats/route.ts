@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { getStats } from '../pull-request.service';
+import { getStats } from './pull-requests-stat.service';
+import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 
 /**
  * @swagger
@@ -52,7 +53,8 @@ export async function GET(request: NextRequest) {
     const end_date = searchParams.get('end_date') || undefined;
 
     const data = await getStats({ start_date, end_date });
-    return NextResponse.json(data);
+    const response = paginationFormatter({ data });
+    return NextResponse.json(response);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });
   }

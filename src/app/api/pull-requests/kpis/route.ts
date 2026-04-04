@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { getKpis } from '../pull-request.service';
+import { getKpis } from './pull-request-kpi.service';
 
 /**
  * @swagger

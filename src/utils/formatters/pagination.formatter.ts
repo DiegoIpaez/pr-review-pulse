@@ -1,8 +1,8 @@
 type PaginationParams<T> = {
   data: T[];
-  page: number;
-  limit: number;
-  totalRecords: number;
+  page?: number;
+  limit?: number;
+  totalRecords?: number;
   showAll?: boolean;
 };
 
@@ -27,7 +27,8 @@ export function paginationFormatter<T>({
   totalRecords,
   showAll,
 }: PaginationParams<T>): PaginationResponse<T> | AllDataResponse<T> {
-  if (showAll) return { data, totalRecords: totalRecords || data?.length };
+  if (showAll || !totalRecords || !limit || !page)
+    return { data, totalRecords: totalRecords || data?.length };
 
   const totalPages = Math.ceil(totalRecords / limit);
   const hasNextPage = page < totalPages;

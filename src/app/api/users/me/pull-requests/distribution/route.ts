@@ -1,17 +1,17 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { getDistribution } from './distribution.service';
-import { distributionFilterSchema } from './distribution.schema';
+import { getDistribution } from '@/app/api/pull-requests/distribution/distribution.service';
+import { distributionFilterSchema } from '@/app/api/pull-requests/distribution/distribution.schema';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 
 /**
  * @swagger
- * /api/pull-requests/distribution:
+ * /api/users/me/pull-requests/distribution:
  *   get:
  *     tags:
- *       - Pull Requests
- *     summary: Get pull request type distribution
- *     description: Returns the distribution of pull requests grouped by type with optional filtering
+ *       - User
+ *     summary: Get pull request type distribution for authenticated user
+ *     description: Returns the distribution of pull requests grouped by type for the authenticated user with optional filtering
  *     parameters:
  *       - in: query
  *         name: uid
