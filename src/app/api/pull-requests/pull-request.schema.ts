@@ -16,3 +16,11 @@ export const prFilterSchema = paginationSchema.merge(
   })
 );
 export type PullRequestTypeFilter = z.infer<typeof prFilterSchema>;
+
+export const prMetricSchema = z.object({
+  uid: z.number().int().optional(),
+  start_date: z.string().datetime().optional(),
+  end_date: z.string().datetime().optional(),
+});
+
+export type PullRequestMetricFilter = z.infer<typeof prMetricSchema>;

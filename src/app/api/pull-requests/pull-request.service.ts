@@ -1,12 +1,16 @@
 import prismaClient from '@/lib/clients/prisma-client';
 import { Prisma } from '@/generated/prisma/client';
+import { PullRequestState } from '@/generated/prisma/enums';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
-import { PullRequestTypeFilter } from './pull-request.schema';
+import {
+  PullRequestMetricFilter,
+  PullRequestTypeFilter,
+} from './pull-request.schema';
 
 type KpisResponse = {
   open: number;
-  noReviews: number;
-  approvedPendingMerge: number;
+  no_reviews: number;
+  approved_pending_merge: number;
 };
 
 type StatsFilters = {
@@ -18,6 +22,7 @@ type StatsFilters = {
 type TimeSeriesData = {
   date: string;
   created: number;
+  closed: number;
   merged: number;
 };
 
@@ -90,95 +95,91 @@ export async function getPullRequest(filters: PullRequestTypeFilter) {
   return paginationFormatter({ data, page, limit, totalRecords, showAll });
 }
 
-export async function getKpis(uid?: number): Promise<KpisResponse> {
-  const baseWhere: Prisma.PullRequestWhereInput = uid
-    ? { creator_id: uid }
-    : {};
+export async function getKpis({
+  uid,
+  end_date,
+  start_date,
+}: PullRequestMetricFilter = {}): Promise<KpisResponse> {
+  const result = await prismaClient.$queryRaw<KpisResponse[]>`
+  SELECT
+    COUNT(*) FILTER (WHERE pr.state = ${PullRequestState.open})::int AS open,
+    COUNT(*) FILTER (
+      WHERE pr.state = ${PullRequestState.open}
+      AND NOT EXISTS (
+        SELECT 1 FROM "pull_request_reviews" r WHERE r.pull_request_id = pr.id
+      )
+    )::int AS no_reviews,
+    COUNT(*) FILTER (
+      WHERE pr.state = ${PullRequestState.open}
+      AND EXISTS (
+        SELECT 1 FROM "pull_request_reviews" r 
+        WHERE r.pull_request_id = pr.id 
+        AND r.state = 'approved'
+      )
+    )::int AS approved_pending_merge
+  FROM "pull_requests" pr
+  ${uid ? Prisma.sql`WHERE pr.creator_id = ${uid}` : Prisma.empty}
+  ${start_date ? Prisma.sql`AND pr.created_at >= ${start_date}` : Prisma.empty}
+  ${end_date ? Prisma.sql`AND pr.created_at <= ${end_date}` : Prisma.empty};
+`;
 
-  const open = await prismaClient.pullRequest.count({
-    where: { ...baseWhere, state: 'open' },
-  });
-
-  const noReviews = await prismaClient.pullRequest.count({
-    where: {
-      ...baseWhere,
-      state: 'open',
-      reviews: { none: {} },
-    },
-  });
-
-  const approvedPendingMerge = await prismaClient.pullRequest.count({
-    where: {
-      ...baseWhere,
-      state: 'open',
-      reviews: {
-        some: { state: 'approved' },
-      },
-    },
-  });
-
-  return { open, noReviews, approvedPendingMerge };
+  return result?.[0];
 }
 
 export async function getStats(filters: StatsFilters): Promise<StatsResponse> {
-  const { uid, start_date, end_date } = filters;
+  const end_date = filters?.end_date ? new Date(filters.end_date) : new Date();
+  const start_date = filters?.start_date
+    ? new Date(filters.start_date)
+    : new Date(end_date.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-  const startDate = start_date ? new Date(start_date) : new Date();
-  const endDate = end_date ? new Date(end_date) : new Date();
+  const uid = filters?.uid;
+  const creatorCondition = uid
+    ? Prisma.sql`AND pr.creator_id = ${uid}`
+    : Prisma.empty;
 
-  if (!start_date) {
-    startDate.setDate(startDate.getDate() - 30);
-  }
+  const result = await prismaClient.$queryRaw<TimeSeriesData[]>`
+    WITH dates AS (
+      SELECT generate_series(
+        ${start_date}::date,
+        ${end_date}::date,
+        interval '1 day'
+      )::date AS date
+    ),
+    open_by_day AS (
+      SELECT pr.created_at::date AS date, COUNT(*)::int AS count
+      FROM pull_requests pr
+      WHERE pr.state = 'open'
+        AND pr.created_at::date BETWEEN ${start_date}::date AND ${end_date}::date
+        ${creatorCondition}
+      GROUP BY pr.created_at::date
+    ),
+    closed_by_day AS (
+      SELECT pr.closed_at::date AS date, COUNT(*)::int AS count
+      FROM pull_requests pr
+      WHERE pr.closed_at IS NOT NULL
+        AND pr.closed_at::date BETWEEN ${start_date}::date AND ${end_date}::date
+        ${creatorCondition}
+      GROUP BY pr.closed_at::date
+    ),
+    merged_by_day AS (
+      SELECT pr.merged_at::date AS date, COUNT(*)::int AS count
+      FROM pull_requests pr
+      WHERE pr.merged_at IS NOT NULL
+        AND pr.merged_at::date BETWEEN ${start_date}::date AND ${end_date}::date
+        ${creatorCondition}
+      GROUP BY pr.merged_at::date
+    )
+    SELECT
+      d.date::text AS date,
+      COALESCE(o.count, 0) AS open,
+      COALESCE(c.count, 0) AS closed,
+      COALESCE(m.count, 0) AS merged
+    FROM dates d
+    LEFT JOIN open_by_day o ON o.date = d.date
+    LEFT JOIN closed_by_day c ON c.date = d.date
+    LEFT JOIN merged_by_day m ON m.date = d.date
+    ORDER BY d.date;
+  `;
 
-  const baseWhere: Prisma.PullRequestWhereInput = uid
-    ? { creator_id: uid }
-    : {};
-
-  const createdPRs = await prismaClient.pullRequest.findMany({
-    where: {
-      ...baseWhere,
-      created_at: { gte: startDate, lte: endDate },
-    },
-    select: { created_at: true },
-  });
-
-  const mergedPRs = await prismaClient.pullRequest.findMany({
-    where: {
-      ...baseWhere,
-      merged_at: { gte: startDate, lte: endDate },
-    },
-    select: { merged_at: true },
-  });
-
-  const dateMap = new Map<string, { created: number; merged: number }>();
-
-  createdPRs.forEach((pr) => {
-    const date = pr.created_at.toISOString().split('T')[0];
-    const current = dateMap.get(date) || { created: 0, merged: 0 };
-    dateMap.set(date, { ...current, created: current.created + 1 });
-  });
-
-  mergedPRs.forEach((pr) => {
-    if (pr.merged_at) {
-      const date = pr.merged_at.toISOString().split('T')[0];
-      const current = dateMap.get(date) || { created: 0, merged: 0 };
-      dateMap.set(date, { ...current, merged: current.merged + 1 });
-    }
-  });
-
-  const timeSeries: TimeSeriesData[] = [];
-  const currentDate = new Date(startDate);
-
-  while (currentDate <= endDate) {
-    const dateStr = currentDate.toISOString().split('T')[0];
-    const data = dateMap.get(dateStr) || { created: 0, merged: 0 };
-    timeSeries.push({
-      date: dateStr,
-      created: data.created,
-      merged: data.merged,
-    });
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-
-  return { timeSeries };
+  return { timeSeries: result };
 }

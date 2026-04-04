@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import type { StatsData } from '@/services/pr-metrics.service';
+import type { StatsData } from '@/contracts/types/metrics';
 
 type TimeSeriesChartProps = {
   stats: StatsData | undefined;
@@ -47,7 +47,7 @@ export function TimeSeriesChart({ stats, isLoading }: TimeSeriesChartProps) {
     <Card>
       <CardHeader>
         <CardTitle className="text-base font-medium">
-          PRs Creados vs Mergeados (Últimos 30 días)
+          Prs Activity Over Time
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -71,9 +71,17 @@ export function TimeSeriesChart({ stats, isLoading }: TimeSeriesChartProps) {
             <Legend wrapperStyle={{ fontSize: '12px' }} />
             <Line
               type="monotone"
-              dataKey="created"
+              dataKey="closed"
+              stroke="#f50b0b"
+              name="Closed"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="open"
               stroke="#3b82f6"
-              name="Creados"
+              name="Open"
               strokeWidth={2}
               dot={false}
             />
@@ -81,7 +89,7 @@ export function TimeSeriesChart({ stats, isLoading }: TimeSeriesChartProps) {
               type="monotone"
               dataKey="merged"
               stroke="#8B5CF6"
-              name="Mergeados"
+              name="Merged"
               strokeWidth={2}
               dot={false}
             />

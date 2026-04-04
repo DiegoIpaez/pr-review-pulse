@@ -21,10 +21,10 @@ import { getKpis } from '../pull-request.service';
  *                 open:
  *                   type: integer
  *                   description: Number of open PRs
- *                 noReviews:
+ *                 no_reviews:
  *                   type: integer
  *                   description: Number of open PRs with no reviews
- *                 approvedPendingMerge:
+ *                 approved_pending_merge:
  *                   type: integer
  *                   description: Number of approved PRs pending merge
  *       500:
