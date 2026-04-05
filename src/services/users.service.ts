@@ -21,32 +21,34 @@ export async function updateUserById(id: number, userData: UpdateUserDto) {
   return data;
 }
 
-export async function fetchUserKpis(params?: MetricsFilters) {
+export async function fetchMyPrs(params?: PaginationFilters) {
+  const { data } = await axiosClient.get(
+    API_ROUTES.USERS.ME.PULL_REQUESTS.BASE,
+    { params }
+  );
+  return data;
+}
+
+export async function fetchMyPrKpis(params?: MetricsFilters) {
   const { data } = await axiosClient.get(
     API_ROUTES.USERS.ME.PULL_REQUESTS.KPIS,
-    {
-      params,
-    }
+    { params }
   );
   return data;
 }
 
-export async function fetchUserStats(params?: MetricsFilters) {
+export async function fetchMyPrStats(params?: MetricsFilters) {
   const { data } = await axiosClient.get(
     API_ROUTES.USERS.ME.PULL_REQUESTS.STATS,
-    {
-      params,
-    }
+    { params }
   );
   return data;
 }
 
-export async function fetchUserDistribution(params?: MetricsFilters) {
+export async function fetchMyPrDistribution(params?: MetricsFilters) {
   const { data } = await axiosClient.get(
     API_ROUTES.USERS.ME.PULL_REQUESTS.DISTRIBUTION,
-    {
-      params,
-    }
+    { params }
   );
   return data;
 }

@@ -1,10 +1,19 @@
-const ROUTES = {
-  HOME: '/',
-  USERS: '/users',
-  DASHBOARD: '/dashboard',
+export const ADMIN_ROUTES = {
+  ADMIN: '/admin',
+  USERS: '/admin/users',
+  DASHBOARD: '/admin/overview',
 };
 
-const API_ROUTES = {
+export const COLLABORATOR_ROUTES = {
+  COLLABORATOR: '/',
+};
+
+export const ROUTES = {
+  ...ADMIN_ROUTES,
+  ...COLLABORATOR_ROUTES,
+} as const;
+
+export const API_ROUTES = {
   PULL_REQUESTS: {
     BASE: '/pull-requests',
     DISTRIBUTION: '/pull-requests/distribution',
@@ -25,10 +34,9 @@ const API_ROUTES = {
   },
 } as const;
 
-const SIDEBAR_TITLE_ROUTES = {
-  [ROUTES.HOME]: 'Pull Requests',
+export const SIDEBAR_TITLE_ROUTES = {
+  [ROUTES.ADMIN]: 'Pull Requests',
   [ROUTES.USERS]: 'Users',
   [ROUTES.DASHBOARD]: 'Dashboard',
+  [ROUTES.COLLABORATOR]: 'Pull Requests',
 };
-
-export { ROUTES, API_ROUTES, SIDEBAR_TITLE_ROUTES };
