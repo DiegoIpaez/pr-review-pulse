@@ -17,10 +17,10 @@ function normalizeError(error: unknown): Error {
     return {
       name: 'AxiosError',
       message: isNetworkError
-        ? 'Ha ocurrido un error de red. Por favor, verifica tu conexión a internet.'
+        ? 'A network error occurred. Please check your internet connection.'
         : error.response?.data?.message ||
           error.message ||
-          'Ha ocurrido un error con la solicitud al servidor. Por favor, intenta nuevamente.',
+          'An error occurred with the server request. Please try again.',
       stack: error.response?.data?.stack || error.stack,
     };
   }
@@ -49,7 +49,7 @@ export default function clientErrorHandler(
   {
     showToast = true,
     messagePrefix = 'Error:',
-    defaultMessage = 'Ha ocurrido un error desconocido.',
+    defaultMessage = 'An unknown error occurred.',
     toastOptions = { duration: 4000 },
   }: ErrorHandlerOptions = {}
 ): void {

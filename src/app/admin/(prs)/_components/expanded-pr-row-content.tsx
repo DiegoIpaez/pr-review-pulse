@@ -62,7 +62,7 @@ function ReviewCard({
           <div className="text-xs text-muted-foreground">
             {review?.submitted_at
               ? formatDate(review?.submitted_at)
-              : 'Sin fecha de revisión'}
+              : 'No review date'}
           </div>
         </div>
         <StatusReviewCard state={review?.state} />
@@ -81,7 +81,7 @@ function ReviewCard({
         {review.body?.trim() ? (
           review.body
         ) : (
-          <span className="italic text-xs">Sin comentarios</span>
+          <span className="italic text-xs">No comments</span>
         )}
       </div>
     </div>
@@ -95,7 +95,7 @@ export default function ExpandedPrRowContent({
 }) {
   return !reviews?.length ? (
     <div className="p-2 text-center text-sm text-muted-foreground">
-      No hay reviews para esta pull request.
+      No reviews for this pull request.
     </div>
   ) : (
     <div className="p-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
