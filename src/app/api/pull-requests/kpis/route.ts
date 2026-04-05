@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getKpis } from './kpi.service';
+import { requiresAdmin } from '@/middlewares/session.middleware';
 
 /**
  * @swagger
@@ -32,6 +33,8 @@ import { getKpis } from './kpi.service';
  */
 export async function GET(request: NextRequest) {
   try {
+    requiresAdmin(request.headers);
+
     const data = await getKpis();
     return NextResponse.json(data);
   } catch (error) {

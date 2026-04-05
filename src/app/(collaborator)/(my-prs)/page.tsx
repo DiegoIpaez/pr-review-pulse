@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { PAGINATION } from '@/constants';
 import { PullRequestSchema } from '@/contracts/types/schema.type';
 import { PullRequestState, PullRequestType } from '@/generated/prisma/enums';
-import { fetchAllPullRequests } from '@/services/pull-requests.service';
 import { Input } from '@/components/ui/input';
 import {
   Select,

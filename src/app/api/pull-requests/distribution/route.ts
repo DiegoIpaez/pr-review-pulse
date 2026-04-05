@@ -3,6 +3,7 @@ import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getDistribution } from './distribution.service';
 import { distributionFilterSchema } from './distribution.schema';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
+import { requiresAdmin } from '@/middlewares/session.middleware';
 
 /**
  * @swagger
@@ -63,6 +64,8 @@ import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
  */
 export async function GET(request: NextRequest) {
   try {
+    requiresAdmin(request.headers);
+
     const { searchParams } = new URL(request.url);
     const queryParams = Object.fromEntries(searchParams.entries());
 

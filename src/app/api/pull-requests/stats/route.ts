@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getStats } from './stat.service';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
+import { requiresAdmin } from '@/middlewares/session.middleware';
 
 /**
  * @swagger
@@ -48,6 +49,8 @@ import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
  */
 export async function GET(request: NextRequest) {
   try {
+    requiresAdmin(request.headers);
+
     const { searchParams } = request.nextUrl;
     const start_date = searchParams.get('start_date') || undefined;
     const end_date = searchParams.get('end_date') || undefined;
