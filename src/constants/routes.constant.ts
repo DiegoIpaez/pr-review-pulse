@@ -7,7 +7,7 @@ export const PUBLIC_ROUTES = {
 export const ADMIN_ROUTES = {
   ADMIN: '/admin',
   USERS: '/admin/users',
-  DASHBOARD: '/admin/overview',
+  DASHBOARD: '/admin/dashboard',
 };
 
 export const COLLABORATOR_ROUTES = {

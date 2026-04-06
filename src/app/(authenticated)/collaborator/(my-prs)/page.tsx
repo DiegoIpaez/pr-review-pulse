@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/select';
 import DataTable from '@/components/ui/custom/data-table';
 import { prColumns } from './_components/pr-columns';
-import ExpandedPrRowContent from '@/app/admin/(prs)/_components/expanded-pr-row-content';
+import ExpandedPrRowContent from '@/app/(authenticated)/admin/(prs)/_components/expanded-pr-row-content';
 import { fetchMyPrs } from '@/services/users.service';
 
 export default function Home() {
