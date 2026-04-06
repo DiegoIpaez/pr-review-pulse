@@ -2,6 +2,7 @@
 import { cn } from '@/lib/cn';
 import { useTheme } from 'next-themes';
 import { useEffect, useRef } from 'react';
+/* eslint-disable id-length */
 
 type Particle = {
   x: number;
@@ -43,7 +44,11 @@ export default function CanvasParticles({
 
     const createParticles = () => {
       particles.length = 0;
-      for (let particleIndex = 0; particleIndex < NUM_PARTICLES; particleIndex++) {
+      for (
+        let particleIndex = 0;
+        particleIndex < NUM_PARTICLES;
+        particleIndex++
+      ) {
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
@@ -64,31 +69,35 @@ export default function CanvasParticles({
     const animate = () => {
       ctx.clearRect(0, 0, width, height);
 
-      for (let particleIndex = 0; particleIndex < particles.length; particleIndex++) {
-        const p = particles[particleIndex];
+      for (
+        let particleIndex = 0;
+        particleIndex < particles.length;
+        particleIndex++
+      ) {
+        const particle = particles[particleIndex];
 
-        p.x += p.vx;
-        p.y += p.vy;
+        particle.x += particle.vx;
+        particle.y += particle.vy;
 
-        if (p.x < 0) {
-          p.x = 0;
-          p.vx *= -1;
-        } else if (p.x > width) {
-          p.x = width;
-          p.vx *= -1;
+        if (particle.x < 0) {
+          particle.x = 0;
+          particle.vx *= -1;
+        } else if (particle.x > width) {
+          particle.x = width;
+          particle.vx *= -1;
         }
 
-        if (p.y < 0) {
-          p.y = 0;
-          p.vy *= -1;
-        } else if (p.y > height) {
-          p.y = height;
-          p.vy *= -1;
+        if (particle.y < 0) {
+          particle.y = 0;
+          particle.vy *= -1;
+        } else if (particle.y > height) {
+          particle.y = height;
+          particle.vy *= -1;
         }
 
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, TWO_PI);
-        ctx.fillStyle = `rgba(${particleColor}, ${p.opacity})`;
+        ctx.arc(particle.x, particle.y, particle.radius, 0, TWO_PI);
+        ctx.fillStyle = `rgba(${particleColor}, ${particle.opacity})`;
         ctx.fill();
       }
 

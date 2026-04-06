@@ -16,7 +16,9 @@ const LINKS = [
 export default function FloatingFooter() {
   return (
     <footer className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-sm">
-      <span className="text-white/60">© {new Date().getFullYear()} DiegoIpaez</span>
+      <span className="text-white/60">
+        © {new Date().getFullYear()} DiegoIpaez
+      </span>
       <span className="text-white/20">·</span>
       {LINKS.map(({ label, href, icon }) => (
         <a

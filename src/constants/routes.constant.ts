@@ -1,3 +1,9 @@
+export const PUBLIC_ROUTES = {
+  HOME: '/',
+  LOGIN: '/login',
+  ACCESS_STATUS: '/access-status',
+};
+
 export const ADMIN_ROUTES = {
   ADMIN: '/admin',
   USERS: '/admin/users',
@@ -5,7 +11,7 @@ export const ADMIN_ROUTES = {
 };
 
 export const COLLABORATOR_ROUTES = {
-  COLLABORATOR: '/',
+  COLLABORATOR: '/collaborator',
 };
 
 export const ROUTES = {
