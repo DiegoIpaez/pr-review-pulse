@@ -54,7 +54,9 @@ export async function getUserById(id: number) {
 }
 
 export async function upsertGitHubUser(
-  profile: Pick<GitHubUser, 'login' | 'avatar_url' | 'html_url' | 'id'>
+  profile: Pick<GitHubUser, 'login' | 'avatar_url' | 'html_url' | 'id'> & {
+    email?: string | null;
+  }
 ) {
   const user = await prismaClient.user.upsert({
     where: { github_id: profile?.id },
@@ -62,6 +64,7 @@ export async function upsertGitHubUser(
       username: profile?.login,
       avatar_url: profile?.avatar_url,
       url: profile?.html_url,
+      email: profile?.email,
     },
     create: {
       github_id: profile?.id,
@@ -69,6 +72,7 @@ export async function upsertGitHubUser(
       avatar_url: profile?.avatar_url,
       url: profile?.html_url,
       access_status: 'pending',
+      email: profile?.email,
     },
   });
 

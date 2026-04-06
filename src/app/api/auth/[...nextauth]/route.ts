@@ -30,6 +30,7 @@ const { handlers } = NextAuth({
         login: profile.login as string,
         avatar_url: profile.avatar_url as string,
         html_url: profile.html_url as string,
+        email: profile?.email as string | null,
       });
 
       authUser.uid = user.id;
