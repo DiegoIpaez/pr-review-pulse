@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import CanvasParticles from './_components/canvas-particles';
 import FloatingFooter from './_components/floating-footer';
 
 export const metadata: Metadata = {
@@ -13,7 +12,6 @@ export default function LoginLayout({
 }) {
   return (
     <>
-      <CanvasParticles />
       {children}
       <FloatingFooter />
     </>

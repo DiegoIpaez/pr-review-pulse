@@ -90,7 +90,11 @@ export default function AccessStatusPage() {
           </div>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <Button onClick={handleLogout} variant="outline" className="w-full">
+          <Button
+            onClick={handleLogout}
+            variant="outline"
+            className="w-full cursor-pointer"
+          >
             Go to login
           </Button>
         </CardFooter>

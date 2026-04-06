@@ -31,7 +31,7 @@ export default function PrDistributionCard({
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600" />
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-muted border-t-primary" />
           </div>
         </CardContent>
       </Card>
@@ -64,11 +64,11 @@ export default function PrDistributionCard({
                       {item.count} ({item.percentage.toFixed(1)}%)
                     </span>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
                     <div
                       className={cn(
                         'h-full transition-all duration-300',
-                        typeColors[item.type] || 'bg-gray-500'
+                        typeColors[item.type] || 'bg-gray-500 dark:bg-gray-400'
                       )}
                       style={{ width: `${item.percentage}%` }}
                     />
