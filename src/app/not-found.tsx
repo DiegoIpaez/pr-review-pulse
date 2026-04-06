@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import Button from '@/components/ui/custom/button';
+import CanvasParticles from '@/components/common/canvas-particles';
 
 export default function NotFoundPage() {
   const { data: session, status } = useSession();
@@ -15,22 +16,25 @@ export default function NotFoundPage() {
   const backText = session?.user ? 'Back to home' : 'Back to Login';
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-muted">
-      <div className="flex flex-col items-center justify-center text-center min-h-[50vh]">
-        <h1 className="text-6xl font-bold text-primary">404</h1>
-        <p className="mt-4 text-lg text-gray-400">
-          Oops! The page you are looking <br /> for could not be found.
-        </p>
-        <Link href={backUrl}>
-          <Button
-            disabled={status === 'loading'}
-            isLoading={status === 'loading'}
-            className="mt-6  p-6 shadow-md font-semibold text-lg cursor-pointer text-gray-800"
-          >
-            {status === 'loading' ? 'Loading...' : backText}
-          </Button>
-        </Link>
+    <>
+      <CanvasParticles />
+      <div className="min-h-screen flex items-center justify-center ">
+        <div className="flex flex-col items-center justify-center text-center min-h-[50vh] space-y-2">
+          <h1 className="text-3xl font-bold">Page Not Found</h1>
+          <p className="text-muted-foreground">
+            Oops! The page you are looking for could not be found.
+          </p>
+          <Link href={backUrl}>
+            <Button
+              disabled={status === 'loading'}
+              isLoading={status === 'loading'}
+              className="mt-4 shadow-md font-semibold text-sm cursor-pointer text-gray-800"
+            >
+              {status === 'loading' ? 'Loading...' : backText}
+            </Button>
+          </Link>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

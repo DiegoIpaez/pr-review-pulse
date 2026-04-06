@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import CanvasParticles from './_components/canvas-particles';
+import CanvasParticles from '@/components/common/canvas-particles';
 import FloatingFooter from './_components/floating-footer';
 
 export const metadata: Metadata = {

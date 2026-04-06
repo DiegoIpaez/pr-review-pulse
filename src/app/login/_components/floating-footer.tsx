@@ -15,11 +15,11 @@ const LINKS = [
 
 export default function FloatingFooter() {
   return (
-    <footer className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-sm">
-      <span className="text-white/60">
+    <footer className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-4 py-2 rounded-full bg-background/5 backdrop-blur-sm border border-foreground/10 text-sm">
+      <span className="text-muted-foreground">
         © {new Date().getFullYear()} DiegoIpaez
       </span>
-      <span className="text-white/20">·</span>
+      <span className="text-muted-foreground/40">·</span>
       {LINKS.map(({ label, href, icon }) => (
         <a
           key={label}
@@ -27,7 +27,7 @@ export default function FloatingFooter() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={label}
-          className="text-white/40 hover:text-white/90 transition-colors"
+          className="text-muted-foreground/60 hover:text-foreground transition-colors"
         >
           {icon}
         </a>
