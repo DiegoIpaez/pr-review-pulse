@@ -8,6 +8,7 @@ export const ADMIN_ROUTES = {
   ADMIN: '/admin',
   USERS: '/admin/users',
   DASHBOARD: '/admin/dashboard',
+  REPOSITORIES: '/admin/repositories',
 };
 
 export const COLLABORATOR_ROUTES = {
@@ -38,11 +39,15 @@ export const API_ROUTES = {
       },
     },
   },
+  REPOSITORIES: {
+    BASE: '/repositories',
+  },
 } as const;
 
 export const SIDEBAR_TITLE_ROUTES = {
   [ROUTES.ADMIN]: 'Pull Requests',
   [ROUTES.USERS]: 'Users',
   [ROUTES.DASHBOARD]: 'Dashboard',
+  [ROUTES.REPOSITORIES]: 'Repositories',
   [ROUTES.COLLABORATOR]: 'Pull Requests',
 };
