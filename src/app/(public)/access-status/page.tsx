@@ -13,7 +13,6 @@ import {
 import { AlertCircle, Clock, XCircle } from 'lucide-react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import CanvasParticles from '@/components/common/canvas-particles';
 
 export default function AccessStatusPage() {
   const { data: session, status } = useSession();
@@ -74,35 +73,32 @@ export default function AccessStatusPage() {
   const Icon = config.icon;
 
   return (
-    <>
-      <CanvasParticles />
-      <div className="flex min-h-screen items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <div
-              className={`mx-auto mb-4 flex size-16 items-center justify-center rounded-full ${config.bgColor}`}
-            >
-              <Icon className={`size-8 ${config.iconColor}`} />
-            </div>
-            <CardTitle className="text-2xl">{config.title}</CardTitle>
-            <CardDescription>{config.description}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="rounded-lg border bg-muted/50 p-4 text-sm text-muted-foreground">
-              <AlertCircle className="mb-2 inline size-4" /> {config.message}
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-center">
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              className="w-full cursor-pointer"
-            >
-              Go to login
-            </Button>
-          </CardFooter>
-        </Card>
-      </div>
-    </>
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <div
+            className={`mx-auto mb-4 flex size-16 items-center justify-center rounded-full ${config.bgColor}`}
+          >
+            <Icon className={`size-8 ${config.iconColor}`} />
+          </div>
+          <CardTitle className="text-2xl">{config.title}</CardTitle>
+          <CardDescription>{config.description}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-lg border bg-muted/50 p-4 text-sm text-muted-foreground">
+            <AlertCircle className="mb-2 inline size-4" /> {config.message}
+          </div>
+        </CardContent>
+        <CardFooter className="flex justify-center">
+          <Button
+            onClick={handleLogout}
+            variant="outline"
+            className="w-full cursor-pointer"
+          >
+            Go to login
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }
