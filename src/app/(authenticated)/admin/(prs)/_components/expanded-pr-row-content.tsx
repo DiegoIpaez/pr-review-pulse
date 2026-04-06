@@ -18,15 +18,17 @@ function StatusReviewCard({ state }: { state: PrReviewSchema['state'] }) {
   const getStatusIcon = () => {
     switch (state) {
       case 'approved':
-        return <CheckCircle2 className="h-4 w-4 text-emerald-600" />;
+        return (
+          <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+        );
       case 'changes_requested':
-        return <FileDiff className="h-4 w-4 text-red-600" />;
+        return <FileDiff className="h-4 w-4 text-red-600 dark:text-red-400" />;
       case 'commented':
-        return <Eye className="h-4 w-4 text-blue-600" />;
+        return <Eye className="h-4 w-4 text-blue-600 dark:text-blue-400" />;
       case 'dismissed':
-        return <CircleMinus className="h-4 w-4 text-gray-500" />;
+        return <CircleMinus className="h-4 w-4 text-muted-foreground" />;
       default:
-        return <Eye className="h-4 w-4 text-gray-500" />;
+        return <Eye className="h-4 w-4 text-muted-foreground" />;
     }
   };
 

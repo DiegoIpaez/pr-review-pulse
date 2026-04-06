@@ -28,7 +28,7 @@ export default function NotFoundPage() {
             <Button
               disabled={status === 'loading'}
               isLoading={status === 'loading'}
-              className="mt-4 shadow-md font-semibold text-sm cursor-pointer text-gray-800"
+              className="mt-4 shadow-md font-semibold text-sm cursor-pointer"
             >
               {status === 'loading' ? 'Loading...' : backText}
             </Button>

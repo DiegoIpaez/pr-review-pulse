@@ -12,7 +12,7 @@ export default function ExternalLink({ href, children }: ExternalLinkProps) {
         href={href ?? '#'}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-1 font-medium hover:underline hover:text-blue-500 transition-colors"
+        className="flex items-center gap-1 font-medium hover:underline hover:text-primary transition-colors"
       >
         {children}
         {href && <ExternalLinkIcon className="w-3.5 h-3.5 opacity-60" />}
