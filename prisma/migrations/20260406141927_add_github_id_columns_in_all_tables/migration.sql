@@ -8,16 +8,16 @@
 
 */
 -- AlterTable
-ALTER TABLE "pull_request_reviews" ADD COLUMN     "github_id" INTEGER;
+ALTER TABLE "pull_request_reviews" ADD COLUMN     "github_id" BIGINT;
 
 -- AlterTable
-ALTER TABLE "pull_requests" ADD COLUMN     "github_id" INTEGER;
+ALTER TABLE "pull_requests" ADD COLUMN     "github_id" BIGINT;
 
 -- AlterTable
-ALTER TABLE "repositories" ADD COLUMN     "github_id" INTEGER;
+ALTER TABLE "repositories" ADD COLUMN     "github_id" BIGINT;
 
 -- AlterTable
-ALTER TABLE "users" ADD COLUMN     "github_id" INTEGER;
+ALTER TABLE "users" ADD COLUMN     "github_id" BIGINT;
 
 -- CreateIndex
 CREATE UNIQUE INDEX "pull_request_reviews_github_id_key" ON "pull_request_reviews"("github_id");
