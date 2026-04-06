@@ -9,7 +9,7 @@ import {
   PrStateColumn,
   PullRequestTypeColumn,
   RepositoryColumn,
-} from '@/app/admin/(prs)/_components/columns';
+} from '@/app/(authenticated)/admin/(prs)/_components/columns';
 
 export const prColumns: ColumnDef<PullRequestSchema>[] = [
   {

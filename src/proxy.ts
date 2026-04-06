@@ -26,6 +26,7 @@ export async function proxy(req: NextRequest) {
   const isLoggedIn = !!session;
 
   const isPublicRoute =
+    pathname === '/' ||
     pathname === '/login' ||
     pathname === '/access-status' ||
     pathname.startsWith('/api/auth');
@@ -49,7 +50,8 @@ export async function proxy(req: NextRequest) {
     requestHeaders.set('access_status', session?.access_status || '');
   }
 
-  if (!isApi && !hasAccessToRoute(session.role as UserRole, pathname)) {
+  const hasAccess = hasAccessToRoute(session.role as UserRole, pathname);
+  if (!isApi && !hasAccess) {
     const notFound = new URL('/404', req.url);
     return NextResponse.redirect(notFound);
   }
@@ -58,5 +60,12 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/login', '/access-status', '/users/:path*', '/api/:path*'],
+  matcher: [
+    '/',
+    '/login',
+    '/access-status',
+    '/admin/:path*',
+    '/collaborator/:path*',
+    '/api/:path*',
+  ],
 };

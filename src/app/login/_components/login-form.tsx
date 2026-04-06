@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Github } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Button from '@/components/ui/custom/button';
 import clientErrorHandler from '@/utils/handlers/client-error.handler';
+import { GithubIcon } from './icons';
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +33,7 @@ export function LoginForm() {
         disabled={isLoading}
         isLoading={isLoading}
       >
-        <Github className="mr-2 size-5" />
+        <GithubIcon />
         Continue with GitHub
       </Button>
     </div>
