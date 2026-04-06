@@ -22,40 +22,80 @@ function resolvePRState(
 }
 
 export async function upsertRepository({
+  githubId,
   name,
   url,
+  description,
+  fork,
+  privateRepo,
+  ownerId,
+  createdAt,
+  updatedAt,
+  pushedAt,
   prismaTx = prismaClient,
 }: {
+  githubId: number;
   name: string;
   url: string;
+  description: string | null;
+  fork: boolean;
+  privateRepo: boolean;
+  ownerId?: number;
+  createdAt: string;
+  updatedAt: string;
+  pushedAt: string | null;
   prismaTx?: PrismaClient | Prisma.TransactionClient;
 }) {
   return prismaTx.repository.upsert({
-    where: { name },
-    create: { name, url },
-    update: { url },
+    where: { github_id: githubId },
+    create: {
+      github_id: githubId,
+      name,
+      url,
+      description,
+      fork,
+      private: privateRepo,
+      owner_id: ownerId,
+      created_at: new Date(createdAt),
+      updated_at: new Date(updatedAt),
+      pushed_at: pushedAt ? new Date(pushedAt) : null,
+    },
+    update: {
+      name,
+      url,
+      description,
+      fork,
+      private: privateRepo,
+      owner_id: ownerId,
+      updated_at: new Date(updatedAt),
+      pushed_at: pushedAt ? new Date(pushedAt) : null,
+    },
   });
 }
 
 export async function upsertUser({
+  githubId,
   login,
   avatarUrl,
   htmlUrl,
   prismaTx = prismaClient,
 }: {
+  githubId: number;
   login: string;
   avatarUrl: string;
   htmlUrl: string;
   prismaTx?: PrismaClient | Prisma.TransactionClient;
 }) {
   return prismaTx.user.upsert({
-    where: { username: login },
+    where: { github_id: githubId },
     create: {
+      github_id: githubId,
       username: login,
       avatar_url: avatarUrl,
       url: htmlUrl,
     },
     update: {
+      username: login,
       avatar_url: avatarUrl,
       url: htmlUrl,
     },
@@ -87,12 +127,10 @@ async function upsertPullRequest({
 
   return prismaTx.pullRequest.upsert({
     where: {
-      number_repository_id: {
-        number: pr?.number,
-        repository_id: repositoryId,
-      },
+      github_id: pr?.id,
     },
     create: {
+      github_id: pr?.id,
       number: pr?.number,
       body: pr?.body,
       url: pr?.html_url,
@@ -110,6 +148,7 @@ async function upsertPullRequest({
       creator_id: creatorId,
     },
     update: {
+      number: pr?.number,
       body: pr?.body,
       url: pr?.html_url,
       state,
@@ -117,6 +156,8 @@ async function upsertPullRequest({
       additions: pr?.additions,
       deletions: pr?.deletions,
       changed_files: pr?.changed_files,
+      repository_id: repositoryId,
+      creator_id: creatorId,
       ...(mergedAt && { merged_at: mergedAt }),
       ...(closedAt && { closed_at: closedAt }),
       ...(action === GitHubPullRequestAction.Reopened && {
@@ -133,13 +174,30 @@ export async function processPullRequest(payload: PullRequestWebhookPayload) {
 
   return prismaClient.$transaction(
     async (prismaTx) => {
+      const owner = await upsertUser({
+        githubId: repository?.owner?.id,
+        login: repository?.owner?.login ?? '',
+        avatarUrl: repository?.owner?.avatar_url ?? '',
+        htmlUrl: repository?.owner?.html_url ?? '',
+        prismaTx,
+      });
+
       const [repo, creator] = await Promise.all([
         upsertRepository({
+          githubId: repository?.id,
           name: repository?.name ?? '',
           url: repository?.html_url ?? '',
+          description: repository?.description ?? null,
+          fork: repository?.fork ?? false,
+          privateRepo: repository?.private ?? false,
+          ownerId: owner?.id,
+          createdAt: repository?.created_at ?? '',
+          updatedAt: repository?.updated_at ?? '',
+          pushedAt: repository?.pushed_at ?? null,
           prismaTx,
         }),
         upsertUser({
+          githubId: pr?.user?.id,
           login: pr?.user?.login ?? '',
           avatarUrl: pr?.user?.avatar_url ?? '',
           htmlUrl: pr?.user?.html_url ?? '',
