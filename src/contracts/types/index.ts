@@ -30,3 +30,9 @@ export type PaginationFilters = {
   search?: string;
   showAll?: boolean;
 };
+
+export type MetricsFilters = {
+  uid?: number;
+  start_date?: string;
+  end_date?: string;
+};

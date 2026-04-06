@@ -1,18 +1,18 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { getPullRequest } from './pull-request.service';
-import { prUrlParser } from './pull-request.parser';
-import { prFilterSchema } from './pull-request.schema';
-import { requiresAdmin } from '@/middlewares/session.middleware';
+import { getPullRequest } from '@/app/api/pull-requests/pull-request.service';
+import { prUrlParser } from '@/app/api/pull-requests/pull-request.parser';
+import { prFilterSchema } from '@/app/api/pull-requests/pull-request.schema';
+import { getSessionFromHeaders } from '@/middlewares/session.middleware';
 
 /**
  * @swagger
- * /api/pull-requests:
+ * /api/users/me/pull-requests:
  *   get:
  *     tags:
- *       - Pull Requests
- *     summary: Get paginated list of pull requests
- *     description: Retrieves a paginated list of pull requests with optional search functionality
+ *       - User
+ *     summary: Get paginated list of user's pull requests
+ *     description: Retrieves a paginated list of the authenticated user's pull requests with optional search functionality
  *     parameters:
  *       - in: query
  *         name: page
@@ -85,11 +85,11 @@ import { requiresAdmin } from '@/middlewares/session.middleware';
  */
 export async function GET(request: NextRequest) {
   try {
-    requiresAdmin(request.headers);
-
+    const { uid } = getSessionFromHeaders(request.headers);
     const queryParams = prUrlParser(request.nextUrl.searchParams);
     const filters = prFilterSchema.parse(queryParams);
-    const data = await getPullRequest(filters);
+
+    const data = await getPullRequest({ ...filters, uid });
     return NextResponse.json(data);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });

@@ -1,6 +1,8 @@
 import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 import { CONFIG } from './constants';
+import { hasAccessToRoute } from './middlewares/roles.middleware';
+import { UserRole } from './generated/prisma/enums';
 
 const corsOptions = {
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
@@ -18,6 +20,8 @@ export async function proxy(req: NextRequest) {
   }
 
   const { pathname } = req.nextUrl;
+
+  const isApi = pathname.startsWith('/api/');
   const session = await getToken({ req, secret: CONFIG.NEXT_AUTH.SECRET });
   const isLoggedIn = !!session;
 
@@ -29,9 +33,9 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next({ request: { headers: requestHeaders } });
 
   if (!isLoggedIn) {
-    if (pathname.startsWith('/api/')) {
+    if (isApi)
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-    }
+
     const loginUrl = new URL('/login', req.url);
     return NextResponse.redirect(loginUrl);
   }
@@ -43,6 +47,11 @@ export async function proxy(req: NextRequest) {
     requestHeaders.set('uid', session?.uid.toString());
     requestHeaders.set('role', session?.role || '');
     requestHeaders.set('access_status', session?.access_status || '');
+  }
+
+  if (!isApi && !hasAccessToRoute(session.role as UserRole, pathname)) {
+    const notFound = new URL('/404', req.url);
+    return NextResponse.redirect(notFound);
   }
 
   return NextResponse.next({ request: { headers: requestHeaders } });

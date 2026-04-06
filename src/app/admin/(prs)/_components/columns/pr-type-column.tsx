@@ -19,7 +19,7 @@ type Props = {
   type: PullRequestType;
 };
 
-export default function PullRequestTypeColumn({ type }: Props) {
+export function PullRequestTypeColumn({ type }: Props) {
   const color = typeColors[type];
 
   return (

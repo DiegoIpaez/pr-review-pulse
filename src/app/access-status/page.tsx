@@ -38,7 +38,7 @@ export default function AccessStatusPage() {
   if (status === 'loading' || !session) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-pulse text-muted-foreground">Cargando...</div>
+        <div className="animate-pulse text-muted-foreground">Loading...</div>
       </div>
     );
   }
@@ -48,19 +48,19 @@ export default function AccessStatusPage() {
   const statusConfig = {
     pending: {
       icon: Clock,
-      title: 'Acceso Pendiente',
-      description: 'Tu cuenta está siendo revisada',
+      title: 'Access Pending',
+      description: 'Your account is being reviewed',
       message:
-        'Tu solicitud de acceso está pendiente de aprobación. Un administrador revisará tu cuenta pronto. Te notificaremos cuando tu acceso sea aprobado.',
+        'Your access request is pending approval. An administrator will review your account soon. We will notify you when your access is approved.',
       iconColor: 'text-yellow-500',
       bgColor: 'bg-yellow-50 dark:bg-yellow-950',
     },
     blocked: {
       icon: XCircle,
-      title: 'Acceso Bloqueado',
-      description: 'Tu cuenta ha sido bloqueada',
+      title: 'Access Blocked',
+      description: 'Your account has been blocked',
       message:
-        'Tu acceso a la plataforma ha sido bloqueado. Por favor, contacta con el administrador para obtener más información sobre el motivo y cómo proceder.',
+        'Your access to the platform has been blocked. Please contact the administrator for more information about the reason and how to proceed.',
       iconColor: 'text-red-500',
       bgColor: 'bg-red-50 dark:bg-red-950',
     },

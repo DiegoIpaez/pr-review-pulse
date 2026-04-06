@@ -1,5 +1,5 @@
 'use client';
-import { ChartSpline, GitPullRequest, Users2 } from 'lucide-react';
+import { GitPullRequest } from 'lucide-react';
 import { SidebarMenuItemProps } from '@/contracts/types';
 import Sidebar from '@/components/ui/custom/sidebar/sidebar';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
@@ -7,21 +7,9 @@ import SidebarHeader from '@/components/ui/custom/sidebar/sidebar-header';
 
 const items: SidebarMenuItemProps[] = [
   {
-    title: 'Dashboard',
-    url: '/admin',
-    icon: ChartSpline,
-    disabled: true,
-  },
-  {
     title: 'PRs',
     url: '/',
     icon: GitPullRequest,
-    disabled: false,
-  },
-  {
-    title: 'Users',
-    url: '/users',
-    icon: Users2,
     disabled: false,
   },
 ];

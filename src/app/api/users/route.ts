@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from 'next/server';
 import { paginationUrlParser } from '@/contracts/parsers/pagination-url.parser';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getAllUsers } from './user.service';
+import { requiresAdmin } from '@/middlewares/session.middleware';
 
 /**
  * @swagger
@@ -61,6 +62,8 @@ import { getAllUsers } from './user.service';
  */
 export async function GET(request: NextRequest) {
   try {
+    requiresAdmin(request.headers);
+
     const queryParams = paginationUrlParser(request.nextUrl.searchParams);
     const data = await getAllUsers(queryParams);
     return NextResponse.json(data);

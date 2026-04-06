@@ -5,10 +5,12 @@ import { formatDate } from '@/utils/formatters/time.formatter';
 import { PullRequestSchema } from '@/contracts/types/schema.type';
 import UserColumn from '@/components/common/columns/user-column';
 import ExternalLink from '@/components/common/links/external-link';
-import BranchColumn from './columns/branch-column';
-import PrStateColumn from './columns/pr-state-column';
-import RepositoryColumn from './columns/repository-column';
-import PullRequestTypeColumn from './columns/pr-type-column';
+import {
+  BranchColumn,
+  PrStateColumn,
+  PullRequestTypeColumn,
+  RepositoryColumn,
+} from './columns';
 
 export const prColumns: ColumnDef<PullRequestSchema>[] = [
   {

@@ -4,23 +4,26 @@ import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 import { PullRequestTypeFilter } from './pull-request.schema';
 
 export async function getPullRequest(filters: PullRequestTypeFilter) {
-  const { page, limit, search: contains, showAll, type, state } = filters;
+  const { page, limit, search: contains, showAll, type, state, uid } = filters;
 
   const queryMode = { contains, mode: Prisma.QueryMode.insensitive };
   const where: Prisma.PullRequestWhereInput = {
     ...(type ? { type } : {}),
     ...(state ? { state } : {}),
+    ...(uid ? { creator_id: uid } : {}),
     OR: [
       {
         repository: {
           name: queryMode,
         },
       },
-      {
-        creator: {
-          username: queryMode,
-        },
-      },
+      uid
+        ? {}
+        : {
+            creator: {
+              username: queryMode,
+            },
+          },
       {
         branch: queryMode,
       },

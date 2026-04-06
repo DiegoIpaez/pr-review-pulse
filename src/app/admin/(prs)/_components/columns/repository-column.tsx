@@ -1,11 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { stringToColor } from '@/utils/string-to-color.util';
 
-export default function RepositoryColumn({
-  repository,
-}: {
-  repository: string;
-}) {
+export function RepositoryColumn({ repository }: { repository: string }) {
   const color = stringToColor(repository);
 
   return (
