@@ -2,17 +2,27 @@ import { z } from 'zod';
 import { GitHubPullRequestAction } from '../types';
 
 const webhookUserSchema = z.object({
+  id: z.number().int().positive(),
   login: z.string(),
   html_url: z.string().url(),
   avatar_url: z.string().url(),
 });
 
 const webhookRepoSchema = z.object({
+  id: z.number().int().positive(),
   name: z.string(),
   html_url: z.string().url(),
+  description: z.string().nullable(),
+  fork: z.boolean(),
+  private: z.boolean(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  pushed_at: z.string().nullable(),
+  owner: webhookUserSchema,
 });
 
 const webhookPRSchema = z.object({
+  id: z.number().int().positive(),
   number: z.number().int().positive(),
   html_url: z.string().url(),
   title: z.string(),

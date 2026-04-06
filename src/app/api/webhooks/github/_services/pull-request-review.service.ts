@@ -14,19 +14,37 @@ export async function processPullRequestReview(
 
   return prismaClient.$transaction(
     async (prismaTx) => {
+      const owner = await upsertUser({
+        githubId: repository?.owner?.id,
+        login: repository?.owner?.login ?? '',
+        avatarUrl: repository?.owner?.avatar_url ?? '',
+        htmlUrl: repository?.owner?.html_url ?? '',
+        prismaTx,
+      });
+
       const [repositoryRecord, creator, reviewer] = await Promise.all([
         upsertRepository({
+          githubId: repository?.id,
           name: repository?.name ?? '',
           url: repository?.html_url ?? '',
+          description: repository?.description ?? null,
+          fork: repository?.fork ?? false,
+          privateRepo: repository?.private ?? false,
+          ownerId: owner?.id,
+          createdAt: repository?.created_at ?? '',
+          updatedAt: repository?.updated_at ?? '',
+          pushedAt: repository?.pushed_at ?? null,
           prismaTx,
         }),
         upsertUser({
+          githubId: pr?.user?.id,
           login: pr?.user?.login ?? '',
           avatarUrl: pr?.user?.avatar_url ?? '',
           htmlUrl: pr?.user?.html_url ?? '',
           prismaTx,
         }),
         upsertUser({
+          githubId: review?.user?.id,
           login: review?.user?.login ?? '',
           avatarUrl: review?.user?.avatar_url ?? '',
           htmlUrl: review?.user?.html_url ?? '',
@@ -36,13 +54,11 @@ export async function processPullRequestReview(
 
       const pullRequest = await prismaTx.pullRequest.upsert({
         where: {
-          number_repository_id: {
-            number: pr?.number,
-            repository_id: repositoryRecord?.id,
-          },
+          github_id: pr?.id,
         },
         update: {},
         create: {
+          github_id: pr?.id,
           type: getPullRequestType(branch),
           number: pr?.number,
           repository_id: repositoryRecord.id,
@@ -55,8 +71,21 @@ export async function processPullRequestReview(
         select: { id: true },
       });
 
-      return prismaTx.pullRequestReview.create({
-        data: {
+      return prismaTx.pullRequestReview.upsert({
+        where: {
+          github_id: review?.id,
+        },
+        create: {
+          github_id: review?.id,
+          pull_request_id: pullRequest?.id,
+          reviewer_id: reviewer?.id,
+          body: (review?.body ?? '')?.trim() || null,
+          url: review?.html_url,
+          approved_at: isApproved ? new Date(review?.submitted_at) : null,
+          submitted_at: new Date(review?.submitted_at),
+          state: review?.state,
+        },
+        update: {
           pull_request_id: pullRequest?.id,
           reviewer_id: reviewer?.id,
           body: (review?.body ?? '')?.trim() || null,

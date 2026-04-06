@@ -29,6 +29,7 @@ export async function proxy(req: NextRequest) {
     pathname === '/' ||
     pathname === '/login' ||
     pathname === '/access-status' ||
+    pathname === '/api/webhooks/github' ||
     pathname.startsWith('/api/auth');
   if (isPublicRoute)
     return NextResponse.next({ request: { headers: requestHeaders } });

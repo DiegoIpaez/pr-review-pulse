@@ -33,13 +33,21 @@ enum GitHubReviewState {
 }
 
 model Repository {
-  id         Int      @id @default(autoincrement())
-  url        String?  @db.VarChar(255)
-  name       String   @unique @db.VarChar(255)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  url         String?   @db.VarChar(255)
+  name        String    @unique @db.VarChar(255)
+  description String?   @db.VarChar(255)
+  owner_id    Int?
+  fork        Boolean   @default(false)
+  private     Boolean   @default(false)
+  github_id   BigInt?   @unique
+  created_at  DateTime?
+  updated_at  DateTime?
+  pushed_at   DateTime?
 
   pull_requests PullRequest[]
+
+  owner User? @relation(fields: [owner_id], references: [id])
 
   @@map("repositories")
 }
@@ -62,11 +70,13 @@ model User {
   avatar_url    String?          @db.VarChar(255)
   access_status UserAccessStatus @default(pending)
   role          UserRole         @default(user)
+  github_id     BigInt?          @unique
   created_at    DateTime         @default(now())
   updated_at    DateTime         @updatedAt
 
   pull_requests PullRequest[]
   reviews       PullRequestReview[]
+  repositories  Repository[]
 
   @@map("users")
 }
@@ -85,6 +95,7 @@ model PullRequest {
   additions     Int              @default(0)
   deletions     Int              @default(0)
   changed_files Int              @default(0)
+  github_id     BigInt?          @unique
   created_at    DateTime
   updated_at    DateTime         @updatedAt
   merged_at     DateTime?
@@ -109,6 +120,7 @@ model PullRequestReview {
   reviewer_id     Int?
   body            String?
   url             String?           @db.VarChar(255)
+  github_id       BigInt?          @unique
   approved_at     DateTime?
   submitted_at    DateTime?
   state           GitHubReviewState
