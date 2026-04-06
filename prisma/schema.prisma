@@ -40,6 +40,7 @@ model Repository {
   owner_id    Int?
   fork        Boolean   @default(false)
   private     Boolean   @default(false)
+  github_id   Int?      @unique
   created_at  DateTime?
   updated_at  DateTime?
   pushed_at   DateTime?
@@ -69,6 +70,7 @@ model User {
   avatar_url    String?          @db.VarChar(255)
   access_status UserAccessStatus @default(pending)
   role          UserRole         @default(user)
+  github_id     Int?             @unique
   created_at    DateTime         @default(now())
   updated_at    DateTime         @updatedAt
 
@@ -93,6 +95,7 @@ model PullRequest {
   additions     Int              @default(0)
   deletions     Int              @default(0)
   changed_files Int              @default(0)
+  github_id     Int?             @unique
   created_at    DateTime
   updated_at    DateTime         @updatedAt
   merged_at     DateTime?
@@ -117,6 +120,7 @@ model PullRequestReview {
   reviewer_id     Int?
   body            String?
   url             String?           @db.VarChar(255)
+  github_id       Int?             @unique
   approved_at     DateTime?
   submitted_at    DateTime?
   state           GitHubReviewState
