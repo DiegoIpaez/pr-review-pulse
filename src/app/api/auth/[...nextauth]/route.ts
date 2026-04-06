@@ -16,12 +16,20 @@ const { handlers } = NextAuth({
   },
   callbacks: {
     async signIn({ profile, user: authUser }) {
-      if (!profile) return false;
+      if (
+        !profile?.login ||
+        !profile?.avatar_url ||
+        !profile?.html_url ||
+        !profile?.id
+      ) {
+        return false;
+      }
 
       const user = await upsertGitHubUser({
+        id: Number(profile.id),
         login: profile.login as string,
-        avatar_url: profile.avatar_url as string | undefined,
-        html_url: profile.html_url as string | undefined,
+        avatar_url: profile.avatar_url as string,
+        html_url: profile.html_url as string,
       });
 
       authUser.uid = user.id;

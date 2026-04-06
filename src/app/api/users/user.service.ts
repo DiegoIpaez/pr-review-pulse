@@ -2,6 +2,7 @@ import prismaClient from '@/lib/clients/prisma-client';
 import type { PaginationFilters } from '@/contracts/types';
 import { Prisma, User } from '@/generated/prisma/client';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
+import { GitHubUser } from '../webhooks/github/_contracts/types';
 
 const COUNT_SELECT = {
   select: {
@@ -52,18 +53,18 @@ export async function getUserById(id: number) {
   return user;
 }
 
-export async function upsertGitHubUser(profile: {
-  login: string;
-  avatar_url?: string;
-  html_url?: string;
-}) {
+export async function upsertGitHubUser(
+  profile: Pick<GitHubUser, 'login' | 'avatar_url' | 'html_url' | 'id'>
+) {
   const user = await prismaClient.user.upsert({
-    where: { username: profile?.login },
+    where: { github_id: profile?.id },
     update: {
+      username: profile?.login,
       avatar_url: profile?.avatar_url,
       url: profile?.html_url,
     },
     create: {
+      github_id: profile?.id,
       username: profile?.login,
       avatar_url: profile?.avatar_url,
       url: profile?.html_url,
