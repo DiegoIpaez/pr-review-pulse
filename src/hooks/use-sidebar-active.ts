@@ -8,13 +8,20 @@ export function useSidebarActive(item: SidebarMenuItemProps) {
 
   const isActive = (url?: string) => {
     if (!url) return false;
-    return pathname === url || pathname.startsWith(url + '/');
-  };
+    const normalizedUrl =
+      url.endsWith('/') && url !== '/' ? url.slice(0, -1) : url;
+    const normalizedPathname =
+      pathname.endsWith('/') && pathname !== '/'
+        ? pathname.slice(0, -1)
+        : pathname;
 
-  const isItemActive = isActive(item.url);
+    return normalizedPathname === normalizedUrl;
+  };
 
   const isChildActive =
     item.children?.some((child) => isActive(child.url)) ?? false;
+
+  const isItemActive = isChildActive ? false : isActive(item.url);
 
   return {
     pathname,

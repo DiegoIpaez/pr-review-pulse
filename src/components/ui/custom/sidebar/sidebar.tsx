@@ -8,7 +8,7 @@ import {
   SidebarGroupLabel,
   SidebarMenu,
 } from '@/components/ui/sidebar';
-import SidebarItem from './sidebar-Item';
+import SidebarItem from './sidebar-item';
 import SidebarFooter from './sidebar-footer/sidebar-footer';
 
 type SidebarProps = {
