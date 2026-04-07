@@ -1,9 +1,9 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getPullRequest } from '@/app/api/pull-requests/pull-request.service';
-import { prUrlParser } from '@/app/api/pull-requests/pull-request.parser';
-import { prFilterSchema } from '@/app/api/pull-requests/pull-request.schema';
+import { prQueryParamsSchema } from '@/contracts/schemas/pull-request.schema';
 import { getSessionFromHeaders } from '@/middlewares/session.middleware';
+import { parseQueryParams } from '@/utils/query-params.util';
 
 /**
  * @swagger
@@ -86,10 +86,12 @@ import { getSessionFromHeaders } from '@/middlewares/session.middleware';
 export async function GET(request: NextRequest) {
   try {
     const { uid } = getSessionFromHeaders(request.headers);
-    const queryParams = prUrlParser(request.nextUrl.searchParams);
-    const filters = prFilterSchema.parse(queryParams);
+    const queryParams = parseQueryParams(
+      request.nextUrl.searchParams,
+      prQueryParamsSchema
+    );
 
-    const data = await getPullRequest({ ...filters, uid });
+    const data = await getPullRequest({ ...queryParams, uid });
     return NextResponse.json(data);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });

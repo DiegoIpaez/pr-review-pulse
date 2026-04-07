@@ -4,10 +4,10 @@ import { useState } from 'react';
 import Button from '@/components/ui/custom/button';
 import CanvasParticles from '@/components/common/canvas-particles';
 
-interface ErrorBoundaryProps {
+type ErrorBoundaryProps = {
   error: Error & { digest?: string };
   reset: () => void;
-}
+};
 
 export default function ErrorPage({ error, reset }: ErrorBoundaryProps) {
   const [showDetails, setShowDetails] = useState(false);

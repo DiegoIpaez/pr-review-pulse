@@ -24,13 +24,6 @@ export type ActionBtnProps = {
   className?: string;
 };
 
-export type PaginationFilters = {
-  page: number;
-  limit: number;
-  search?: string;
-  showAll?: boolean;
-};
-
 export type MetricsFilters = {
   uid?: number;
   start_date?: string;

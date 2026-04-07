@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { DistributionItem } from '@/contracts/types/metrics';
+import type { DistributionItem } from '@/contracts/types/metrics.type';
 import { cn } from '@/lib/cn';
 
 type PrDistributionCardProps = {

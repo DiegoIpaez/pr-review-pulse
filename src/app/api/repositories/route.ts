@@ -1,8 +1,9 @@
 import { NextResponse, NextRequest } from 'next/server';
+import { paginationQueryParamsSchema } from '@/contracts/schemas/pagination.schema';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getRepositories } from './repository.service';
 import { requiresAdmin } from '@/middlewares/session.middleware';
-import { paginationUrlParser } from '@/contracts/parsers/pagination-url.parser';
+import { parseQueryParams } from '@/utils/query-params.util';
 
 /**
  * @swagger
@@ -62,7 +63,10 @@ export async function GET(request: NextRequest) {
   try {
     requiresAdmin(request.headers);
 
-    const queryParams = paginationUrlParser(request.nextUrl.searchParams);
+    const queryParams = parseQueryParams(
+      request.nextUrl.searchParams,
+      paginationQueryParamsSchema
+    );
     const data = await getRepositories(queryParams);
     return NextResponse.json(data);
   } catch (error) {

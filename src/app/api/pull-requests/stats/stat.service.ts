@@ -1,21 +1,10 @@
 import prismaClient from '@/lib/clients/prisma-client';
 import { Prisma } from '@/generated/prisma/client';
-
-type StatsFilters = {
-  uid?: number;
-  start_date?: string;
-  end_date?: string;
-};
-
-type TimeSeriesData = {
-  date: string;
-  created: number;
-  closed: number;
-  merged: number;
-};
+import { TimeSeriesData } from '@/contracts/types/metrics.type';
+import { PullRequestMetricQueryParams } from '@/contracts/schemas/pull-request.schema';
 
 export async function getStats(
-  filters: StatsFilters
+  filters: PullRequestMetricQueryParams
 ): Promise<TimeSeriesData[]> {
   const end_date = filters?.end_date ? new Date(filters.end_date) : new Date();
   const start_date = filters?.start_date

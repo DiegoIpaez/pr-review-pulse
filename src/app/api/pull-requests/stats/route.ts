@@ -3,6 +3,8 @@ import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getStats } from './stat.service';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 import { requiresAdmin } from '@/middlewares/session.middleware';
+import { prMetricQueryParamsSchema } from '@/contracts/schemas/pull-request.schema';
+import { parseQueryParams } from '@/utils/query-params.util';
 
 /**
  * @swagger
@@ -51,11 +53,11 @@ export async function GET(request: NextRequest) {
   try {
     requiresAdmin(request.headers);
 
-    const { searchParams } = request.nextUrl;
-    const start_date = searchParams.get('start_date') || undefined;
-    const end_date = searchParams.get('end_date') || undefined;
-
-    const data = await getStats({ start_date, end_date });
+    const queryParams = parseQueryParams(
+      request.nextUrl.searchParams,
+      prMetricQueryParamsSchema
+    );
+    const data = await getStats(queryParams);
     const response = paginationFormatter({ data });
     return NextResponse.json(response);
   } catch (error) {

@@ -1,12 +1,7 @@
 import prismaClient from '@/lib/clients/prisma-client';
 import { PullRequestType } from '@/generated/prisma/client';
-import type { DistributionFilter } from './distribution.schema';
-
-type DistributionItem = {
-  type: PullRequestType;
-  count: number;
-  percentage: number;
-};
+import type { PullRequestMetricQueryParams } from '@/contracts/schemas/pull-request.schema';
+import { DistributionItem } from '@/contracts/types/metrics.type';
 
 type PrismaGroupByResult = {
   type: PullRequestType;
@@ -15,20 +10,8 @@ type PrismaGroupByResult = {
   };
 };
 
-/**
- * Get the distribution of pull requests by type
- * Uses a single optimized GROUP BY query, then maps to include all enum values
- *
- * Performance considerations:
- * - Single query using Prisma groupBy (translates to SQL GROUP BY)
- * - Index on `type` column exists in schema (@@index([type]))
- * - Index on `created_at` exists for date filtering (@@index([created_at(sort: Desc)]))
- * - Index on `creator_id` exists for user filtering (@@index([creator_id]))
- * - Returns all enum values even if count is 0
- * - Calculates percentage on the fly (no additional query)
- */
 export async function getDistribution(
-  filters: DistributionFilter = {}
+  filters: PullRequestMetricQueryParams = {}
 ): Promise<DistributionItem[]> {
   const { uid, start_date, end_date } = filters;
 

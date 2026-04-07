@@ -2,6 +2,8 @@ import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getKpis } from '@/app/api/pull-requests/kpis/kpi.service';
 import { getSessionFromHeaders } from '@/middlewares/session.middleware';
+import { prMetricQueryParamsSchema } from '@/contracts/schemas/pull-request.schema';
+import { parseQueryParams } from '@/utils/query-params.util';
 
 /**
  * @swagger
@@ -34,7 +36,12 @@ import { getSessionFromHeaders } from '@/middlewares/session.middleware';
 export async function GET(request: NextRequest) {
   try {
     const { uid } = getSessionFromHeaders(request.headers);
-    const data = await getKpis({ uid });
+
+    const queryParams = parseQueryParams(
+      request.nextUrl.searchParams,
+      prMetricQueryParamsSchema
+    );
+    const data = await getKpis({ ...queryParams, uid });
     return NextResponse.json(data);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });

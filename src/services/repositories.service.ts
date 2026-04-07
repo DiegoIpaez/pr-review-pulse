@@ -1,8 +1,8 @@
 import { API_ROUTES } from '@/constants';
 import axiosClient from '@/lib/clients/axios-client';
-import { PaginationFilters } from '@/contracts/types';
+import { PaginationQueryParams } from '@/contracts/schemas/pagination.schema';
 
-export async function fetchAllRepositories(params: PaginationFilters) {
+export async function fetchAllRepositories(params: PaginationQueryParams) {
   const { data } = await axiosClient.get(API_ROUTES.REPOSITORIES.BASE, {
     params,
   });

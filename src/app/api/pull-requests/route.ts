@@ -1,9 +1,9 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getPullRequest } from './pull-request.service';
-import { prUrlParser } from './pull-request.parser';
-import { prFilterSchema } from './pull-request.schema';
+import { prQueryParamsSchema } from '../../../contracts/schemas/pull-request.schema';
 import { requiresAdmin } from '@/middlewares/session.middleware';
+import { parseQueryParams } from '@/utils/query-params.util';
 
 /**
  * @swagger
@@ -87,9 +87,11 @@ export async function GET(request: NextRequest) {
   try {
     requiresAdmin(request.headers);
 
-    const queryParams = prUrlParser(request.nextUrl.searchParams);
-    const filters = prFilterSchema.parse(queryParams);
-    const data = await getPullRequest(filters);
+    const queryParams = parseQueryParams(
+      request.nextUrl.searchParams,
+      prQueryParamsSchema
+    );
+    const data = await getPullRequest(queryParams);
     return NextResponse.json(data);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });

@@ -1,8 +1,8 @@
 import prismaClient from '@/lib/clients/prisma-client';
-import type { PaginationFilters } from '@/contracts/types';
 import { Prisma, User } from '@/generated/prisma/client';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
-import { GitHubUser } from '../webhooks/github/_contracts/types';
+import type { GitHubUser } from '../webhooks/github/_contracts/types';
+import type { PaginationQueryParams } from '@/contracts/schemas/pagination.schema';
 
 const COUNT_SELECT = {
   select: {
@@ -11,7 +11,7 @@ const COUNT_SELECT = {
   },
 };
 
-export async function getAllUsers(filters: PaginationFilters) {
+export async function getAllUsers(filters: PaginationQueryParams) {
   const { page, limit, search: contains, showAll } = filters;
 
   const queryMode = { contains, mode: Prisma.QueryMode.insensitive };
