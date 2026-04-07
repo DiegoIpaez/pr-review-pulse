@@ -19,6 +19,9 @@ export async function getRepositories(filters: PaginationFilters) {
     where,
     include: {
       _count: { select: { pull_requests: true } },
+      owner: {
+        select: { id: true, username: true, url: true, avatar_url: true },
+      },
     },
     orderBy: { created_at: Prisma.SortOrder.desc },
   };

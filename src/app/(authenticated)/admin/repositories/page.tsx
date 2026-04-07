@@ -12,6 +12,12 @@ type RepositoryWithCount = Repository & {
   _count: {
     pull_requests: number;
   };
+  owner: {
+    id: number;
+    username: string;
+    url: string | null;
+    avatar_url: string | null;
+  } | null;
 };
 
 export default function RepositoriesPage() {
