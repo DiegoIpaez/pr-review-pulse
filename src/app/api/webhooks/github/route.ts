@@ -5,10 +5,17 @@ import { pullRequestWebhookSchema } from './_contracts/schemas/pull-request-webh
 import { pullRequestReviewWebhookSchema } from './_contracts/schemas/pull-request-review-webhook.schema';
 import { processPullRequest } from './_services/pull-request.service';
 import { processPullRequestReview } from './_services/pull-request-review.service';
+import { verifyGitHubSignature } from './_utils/verify-signature.util';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const rawBody = await request.text();
+    const signature = request.headers.get('x-hub-signature-256');
+
+    if (!verifyGitHubSignature(rawBody, signature))
+      throw new ApiError({ status: 401, message: 'Invalid signature' });
+
+    const body = JSON.parse(rawBody);
     const githubEvent = request.headers.get('x-github-event') as GitHubEvent;
 
     switch (githubEvent) {
