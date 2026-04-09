@@ -16,6 +16,17 @@ Import the global singleton (never instantiate new PrismaClient):
 import prismaClient from '@/lib/clients/prisma-client';
 ```
 
+### Query Performance: Let the Database Do the Work
+
+**CRITICAL**: Never use JavaScript array methods (`.map()`, `.filter()`, `.reduce()`) or multiple queries when the database can handle it in a single query.
+
+- ✅ Use Prisma ORM methods for standard queries
+- ✅ Use `$queryRaw` for complex aggregations, CTEs, window functions
+- ❌ Never fetch all data then process with JavaScript
+- ❌ Never make N+1 queries (use `include` or raw JOIN)
+
+See `prisma.instructions.md` for detailed examples and patterns.
+
 ### Query Patterns
 Use case-insensitive search with `Prisma.QueryMode.insensitive`:
 ```typescript
