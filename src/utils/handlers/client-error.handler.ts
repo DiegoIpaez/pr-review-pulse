@@ -3,13 +3,13 @@ import { AxiosError } from 'axios';
 import { ExternalToast, toast } from 'sonner';
 import { CONFIG, NodeEnv } from '@/constants';
 
-interface ErrorHandlerOptions {
+type ErrorHandlerOptions = {
   logToConsole?: boolean;
   showToast?: boolean;
   messagePrefix?: string;
   defaultMessage?: string;
   toastOptions?: Partial<ExternalToast>;
-}
+};
 
 function normalizeError(error: unknown): Error {
   if (error instanceof AxiosError) {

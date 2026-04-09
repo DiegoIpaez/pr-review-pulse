@@ -16,20 +16,14 @@ import {
 import DataTable from '@/components/ui/custom/data-table';
 import { prColumns } from './_components/pr-columns';
 import ExpandedPrRowContent from './_components/expanded-pr-row-content';
+import { PullRequestQueryParams } from '@/contracts/schemas/pull-request.schema';
 
 export default function Home() {
-  const [filters, setFilters] = useState<{
-    page: number;
-    limit: number;
-    search: string;
-    type?: PullRequestType;
-    state?: PullRequestState;
-  }>({
+  const [filters, setFilters] = useState<PullRequestQueryParams>({
     page: PAGINATION.DEFAULT_PAGE_NUMBER,
     limit: PAGINATION.DEFAULT_PAGE_SIZE,
     search: '',
-    type: undefined,
-    state: undefined,
+    showAll: false,
   });
 
   const { data, isLoading } = useQuery({

@@ -25,6 +25,7 @@ export default function RepositoriesPage() {
     page: PAGINATION.DEFAULT_PAGE_NUMBER,
     limit: PAGINATION.DEFAULT_PAGE_SIZE,
     search: '',
+    showAll: false,
   });
 
   const { data, isLoading } = useQuery({

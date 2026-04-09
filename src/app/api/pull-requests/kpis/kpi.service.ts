@@ -1,7 +1,7 @@
 import prismaClient from '@/lib/clients/prisma-client';
 import { Prisma } from '@/generated/prisma/client';
 import { PullRequestState } from '@/generated/prisma/enums';
-import { PullRequestMetricFilter } from '../pull-request.schema';
+import { PullRequestMetricQueryParams } from '../../../../contracts/schemas/pull-request.schema';
 
 type KpisResponse = {
   open: number;
@@ -13,7 +13,7 @@ export async function getKpis({
   uid,
   end_date,
   start_date,
-}: PullRequestMetricFilter = {}): Promise<KpisResponse> {
+}: PullRequestMetricQueryParams = {}): Promise<KpisResponse> {
   const result = await prismaClient.$queryRaw<KpisResponse[]>`
   SELECT
     COUNT(*) FILTER (WHERE pr.state = ${PullRequestState.open})::int AS open,

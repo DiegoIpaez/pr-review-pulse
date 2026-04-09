@@ -2,6 +2,8 @@ import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getKpis } from './kpi.service';
 import { requiresAdmin } from '@/middlewares/session.middleware';
+import { prMetricQueryParamsSchema } from '@/contracts/schemas/pull-request.schema';
+import { parseQueryParams } from '@/utils/query-params.util';
 
 /**
  * @swagger
@@ -34,8 +36,11 @@ import { requiresAdmin } from '@/middlewares/session.middleware';
 export async function GET(request: NextRequest) {
   try {
     requiresAdmin(request.headers);
-
-    const data = await getKpis();
+    const queryParams = parseQueryParams(
+      request.nextUrl.searchParams,
+      prMetricQueryParamsSchema
+    );
+    const data = await getKpis(queryParams);
     return NextResponse.json(data);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });

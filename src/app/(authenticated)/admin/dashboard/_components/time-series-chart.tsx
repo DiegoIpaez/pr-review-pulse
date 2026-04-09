@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import type { TimeSeriesData } from '@/contracts/types/metrics';
+import type { TimeSeriesData } from '@/contracts/types/metrics.type';
 
 type TimeSeriesChartProps = {
   stats: TimeSeriesData[];

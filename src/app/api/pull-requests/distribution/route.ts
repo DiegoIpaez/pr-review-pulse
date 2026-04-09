@@ -1,9 +1,10 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getDistribution } from './distribution.service';
-import { distributionFilterSchema } from './distribution.schema';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 import { requiresAdmin } from '@/middlewares/session.middleware';
+import { prMetricQueryParamsSchema } from '@/contracts/schemas/pull-request.schema';
+import { parseQueryParams } from '@/utils/query-params.util';
 
 /**
  * @swagger
@@ -66,11 +67,11 @@ export async function GET(request: NextRequest) {
   try {
     requiresAdmin(request.headers);
 
-    const { searchParams } = new URL(request.url);
-    const queryParams = Object.fromEntries(searchParams.entries());
-
-    const filters = distributionFilterSchema.parse(queryParams);
-    const data = await getDistribution(filters);
+    const queryParams = parseQueryParams(
+      request.nextUrl.searchParams,
+      prMetricQueryParamsSchema
+    );
+    const data = await getDistribution(queryParams);
 
     const response = paginationFormatter({ data });
     return NextResponse.json(response);

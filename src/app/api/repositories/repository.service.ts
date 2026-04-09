@@ -1,9 +1,9 @@
 import prismaClient from '@/lib/clients/prisma-client';
 import { Prisma } from '@/generated/prisma/client';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
-import { PaginationFilters } from '@/contracts/types';
+import type { PaginationQueryParams } from '@/contracts/schemas/pagination.schema';
 
-export async function getRepositories(filters: PaginationFilters) {
+export async function getRepositories(filters: PaginationQueryParams) {
   const { page, limit, search: contains, showAll } = filters;
 
   const queryMode = { contains, mode: Prisma.QueryMode.insensitive };

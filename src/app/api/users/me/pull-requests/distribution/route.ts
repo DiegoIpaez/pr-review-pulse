@@ -1,8 +1,10 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getDistribution } from '@/app/api/pull-requests/distribution/distribution.service';
-import { distributionFilterSchema } from '@/app/api/pull-requests/distribution/distribution.schema';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
+import { prMetricQueryParamsSchema } from '@/contracts/schemas/pull-request.schema';
+import { parseQueryParams } from '@/utils/query-params.util';
+import { getSessionFromHeaders } from '@/middlewares/session.middleware';
 
 /**
  * @swagger
@@ -63,12 +65,13 @@ import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
  */
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const queryParams = Object.fromEntries(searchParams.entries());
+    const { uid } = getSessionFromHeaders(request.headers);
+    const queryParams = parseQueryParams(
+      request.nextUrl.searchParams,
+      prMetricQueryParamsSchema
+    );
 
-    const filters = distributionFilterSchema.parse(queryParams);
-    const data = await getDistribution(filters);
-
+    const data = await getDistribution({ ...queryParams, uid });
     const response = paginationFormatter({ data });
     return NextResponse.json(response);
   } catch (error) {
