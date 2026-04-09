@@ -3,6 +3,7 @@ import { Eye } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
 import { formatDate } from '@/utils/formatters/time.formatter';
 import { PullRequestSchema } from '@/contracts/types/schema.type';
+import UserColumn from '@/components/common/columns/user-column';
 import ExternalLink from '@/components/common/links/external-link';
 import {
   BranchColumn,
@@ -56,6 +57,20 @@ export const prColumns: ColumnDef<PullRequestSchema>[] = [
     cell: (info) => {
       const state = info.getValue() as string;
       return <PrStateColumn state={state} />;
+    },
+  },
+  {
+    accessorKey: 'merged_by.username',
+    header: 'Merged By',
+    cell: (info) => {
+      const mergedBy = info.row.original.merged_by;
+      if (!mergedBy) return <span className="text-muted-foreground">-</span>;
+
+      const username = mergedBy.username;
+      const url = mergedBy.url ?? '';
+      const avatarUrl = mergedBy.avatar_url ?? '';
+
+      return <UserColumn username={username} url={url} avatarUrl={avatarUrl} />;
     },
   },
   {

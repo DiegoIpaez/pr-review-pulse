@@ -72,6 +72,20 @@ export const prColumns: ColumnDef<PullRequestSchema>[] = [
     },
   },
   {
+    accessorKey: 'merged_by.username',
+    header: 'Merged By',
+    cell: (info) => {
+      const mergedBy = info.row.original.merged_by;
+      if (!mergedBy) return <span className="text-muted-foreground">-</span>;
+
+      const username = mergedBy.username;
+      const url = mergedBy.url ?? '';
+      const avatarUrl = mergedBy.avatar_url ?? '';
+
+      return <UserColumn username={username} url={url} avatarUrl={avatarUrl} />;
+    },
+  },
+  {
     accessorKey: '_count.reviews',
     header: 'Reviews',
     cell: (info) => {

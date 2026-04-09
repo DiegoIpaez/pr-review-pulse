@@ -106,11 +106,13 @@ async function upsertPullRequest({
   payload,
   repositoryId,
   creatorId,
+  mergedById,
   prismaTx = prismaClient,
 }: {
   payload: PullRequestWebhookPayload;
   repositoryId: number;
   creatorId: number;
+  mergedById?: number;
   prismaTx?: PrismaClient | Prisma.TransactionClient;
 }) {
   const { action, pull_request: pr } = payload;
@@ -146,6 +148,7 @@ async function upsertPullRequest({
       closed_at: closedAt ?? null,
       repository_id: repositoryId,
       creator_id: creatorId,
+      merged_by_id: mergedById ?? null,
     },
     update: {
       number: pr?.number,
@@ -160,10 +163,12 @@ async function upsertPullRequest({
       creator_id: creatorId,
       ...(mergedAt && { merged_at: mergedAt }),
       ...(closedAt && { closed_at: closedAt }),
+      ...(mergedById && { merged_by_id: mergedById }),
       ...(action === GitHubPullRequestAction.Reopened && {
         state: PullRequestState.open,
         closed_at: null,
         merged_at: null,
+        merged_by_id: null,
       }),
     },
   });
@@ -182,33 +187,43 @@ export async function processPullRequest(payload: PullRequestWebhookPayload) {
         prismaTx,
       });
 
-      const [repo, creator] = await Promise.all([
-        upsertRepository({
-          githubId: repository?.id,
-          name: repository?.name ?? '',
-          url: repository?.html_url ?? '',
-          description: repository?.description ?? null,
-          fork: repository?.fork ?? false,
-          privateRepo: repository?.private ?? false,
-          ownerId: owner?.id,
-          createdAt: repository?.created_at ?? '',
-          updatedAt: repository?.updated_at ?? '',
-          pushedAt: repository?.pushed_at ?? null,
+      const repo = await upsertRepository({
+        githubId: repository?.id,
+        name: repository?.name ?? '',
+        url: repository?.html_url ?? '',
+        description: repository?.description ?? null,
+        fork: repository?.fork ?? false,
+        privateRepo: repository?.private ?? false,
+        ownerId: owner?.id,
+        createdAt: repository?.created_at ?? '',
+        updatedAt: repository?.updated_at ?? '',
+        pushedAt: repository?.pushed_at ?? null,
+        prismaTx,
+      });
+
+      const creator = await upsertUser({
+        githubId: pr?.user?.id,
+        login: pr?.user?.login ?? '',
+        avatarUrl: pr?.user?.avatar_url ?? '',
+        htmlUrl: pr?.user?.html_url ?? '',
+        prismaTx,
+      });
+
+      const mergedBy =
+        pr?.merged_by &&
+        (await upsertUser({
+          githubId: pr.merged_by.id,
+          login: pr.merged_by.login,
+          avatarUrl: pr.merged_by.avatar_url,
+          htmlUrl: pr.merged_by.html_url,
           prismaTx,
-        }),
-        upsertUser({
-          githubId: pr?.user?.id,
-          login: pr?.user?.login ?? '',
-          avatarUrl: pr?.user?.avatar_url ?? '',
-          htmlUrl: pr?.user?.html_url ?? '',
-          prismaTx,
-        }),
-      ]);
+        }));
 
       const pullRequest = await upsertPullRequest({
         payload,
         repositoryId: repo.id,
         creatorId: creator.id,
+        mergedById: mergedBy?.id,
         prismaTx,
       });
 

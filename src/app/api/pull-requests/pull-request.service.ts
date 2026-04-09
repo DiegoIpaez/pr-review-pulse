@@ -46,6 +46,9 @@ export async function getPullRequest(filters: PullRequestQueryParams) {
       creator: {
         select: { id: true, username: true, url: true, avatar_url: true },
       },
+      merged_by: {
+        select: { id: true, username: true, url: true, avatar_url: true },
+      },
       reviews: {
         include: {
           reviewer: {

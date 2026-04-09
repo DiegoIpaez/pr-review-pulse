@@ -75,9 +75,10 @@ model User {
   created_at    DateTime         @default(now())
   updated_at    DateTime         @updatedAt
 
-  pull_requests PullRequest[]
-  reviews       PullRequestReview[]
-  repositories  Repository[]
+  pull_requests        PullRequest[]       @relation("pull_request_creator")
+  merged_pull_requests PullRequest[]       @relation("pull_request_merger")
+  reviews              PullRequestReview[]
+  repositories         Repository[]
 
   @@map("users")
 }
@@ -90,6 +91,7 @@ model PullRequest {
   type          PullRequestType  @default(no_ticket)
   branch        String           @db.VarChar(255)
   creator_id    Int
+  merged_by_id  Int?
   url           String?          @db.VarChar(255)
   state         PullRequestState @default(open)
   commits       Int              @default(0)
@@ -102,7 +104,8 @@ model PullRequest {
   merged_at     DateTime?
   closed_at     DateTime?
 
-  creator    User       @relation(fields: [creator_id], references: [id])
+  creator    User       @relation("pull_request_creator", fields: [creator_id], references: [id])
+  merged_by  User?      @relation("pull_request_merger", fields: [merged_by_id], references: [id])
   repository Repository @relation(fields: [repository_id], references: [id])
 
   reviews PullRequestReview[]
@@ -111,6 +114,7 @@ model PullRequest {
   @@index([type])
   @@index([repository_id])
   @@index([creator_id])
+  @@index([merged_by_id])
   @@index([created_at(sort: Desc)])
   @@map("pull_requests")
 }
