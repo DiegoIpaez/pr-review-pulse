@@ -14,6 +14,7 @@ export type PullRequestSchema = PullRequest & {
     reviews: number;
   };
   creator?: User;
+  merged_by?: User;
   repository?: Repository;
   reviews: PrReviewSchema[];
 };
