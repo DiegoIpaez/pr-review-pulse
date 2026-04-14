@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { RouteParams } from '@/contracts/types';
+import { requiresAdmin } from '@/middlewares/session.middleware';
+import { updateUserSchema } from '@/contracts/schemas/user.schema';
+import { pathParamsSchema } from '@/contracts/schemas/path-params.schema';
 import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
 import { getUserById, updateUser } from '../user.service';
-import { updateUserSchema } from '@/contracts/schemas/user.schema';
-import { requiresAdmin } from '@/middlewares/session.middleware';
 
 /**
  * @swagger
@@ -34,8 +35,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     requiresAdmin(request.headers);
 
-    const { id } = await params;
-    const user = await getUserById(parseInt(id));
+    const { id } = pathParamsSchema.parse(await params);
+    const user = await getUserById(id);
     return NextResponse.json(user);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });
@@ -86,11 +87,11 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
     requiresAdmin(request.headers);
 
-    const { id } = await params;
+    const { id } = pathParamsSchema.parse(await params);
     const body = await request.json();
     const validated = updateUserSchema.parse(body);
 
-    const user = await updateUser(parseInt(id), validated);
+    const user = await updateUser(id, validated);
     return NextResponse.json(user);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });
