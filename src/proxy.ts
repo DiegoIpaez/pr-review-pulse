@@ -5,8 +5,10 @@ import { hasAccessToRoute } from './middlewares/roles.middleware';
 import { UserRole } from './generated/prisma/enums';
 
 const corsOptions = {
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Origin': CONFIG.BASE_URL,
+  'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Credentials': 'true',
 };
 
 export async function proxy(req: NextRequest) {
