@@ -11,19 +11,65 @@ const entitySchemaFormat = (rest: { [key: string]: object }) => ({
       type: 'string',
       format: 'date-time',
     },
-    updatedAt: {
+    updated_at: {
       type: 'string',
       format: 'date-time',
     },
   },
 });
 
-const UserBaseSwaggerSchema = entitySchemaFormat({
-  firstName: { type: 'string' },
-  lastName: { type: 'string' },
-  email: { type: 'string' },
-  disabled: { type: 'boolean' },
-  deleted: { type: 'boolean' },
+const UserSwaggerSchema = entitySchemaFormat({
+  username: { type: 'string' },
+  email: { type: 'string', nullable: true },
+  url: { type: 'string', nullable: true },
+  avatar_url: { type: 'string', nullable: true },
+  access_status: {
+    type: 'string',
+    enum: ['pending', 'active', 'blocked'],
+  },
+  role: { type: 'string', enum: ['admin', 'user'] },
+  github_id: { type: 'integer' },
+});
+
+const PullRequestSwaggerSchema = entitySchemaFormat({
+  number: { type: 'integer' },
+  body: { type: 'string', nullable: true },
+  type: {
+    type: 'string',
+    enum: [
+      'feature',
+      'fix',
+      'hotfix',
+      'refactor',
+      'docs',
+      'test',
+      'release',
+      'chore',
+      'no_ticket',
+    ],
+  },
+  state: { type: 'string', enum: ['open', 'closed', 'merged'] },
+  branch: { type: 'string' },
+  url: { type: 'string', nullable: true },
+  commits: { type: 'integer' },
+  additions: { type: 'integer' },
+  deletions: { type: 'integer' },
+  changed_files: { type: 'integer' },
+  merged_at: { type: 'string', format: 'date-time', nullable: true },
+  closed_at: { type: 'string', format: 'date-time', nullable: true },
+  repository_id: { type: 'integer' },
+  creator_id: { type: 'integer' },
+  merged_by_id: { type: 'integer', nullable: true },
+});
+
+const RepositorySwaggerSchema = entitySchemaFormat({
+  name: { type: 'string' },
+  description: { type: 'string', nullable: true },
+  url: { type: 'string', nullable: true },
+  fork: { type: 'boolean' },
+  private: { type: 'boolean' },
+  github_id: { type: 'integer' },
+  owner_id: { type: 'integer' },
 });
 
 const spec = createSwaggerSpec({
@@ -31,9 +77,9 @@ const spec = createSwaggerSpec({
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Template API Documentation',
+      title: 'PR Review Pulse API',
       version: '1.0.0',
-      description: 'Official API documentation for the Template system',
+      description: 'API for tracking GitHub Pull Request analytics',
     },
     components: {
       responses: {
@@ -49,7 +95,9 @@ const spec = createSwaggerSpec({
         },
       },
       schemas: {
-        User: UserBaseSwaggerSchema,
+        User: UserSwaggerSchema,
+        PullRequest: PullRequestSwaggerSchema,
+        Repository: RepositorySwaggerSchema,
         ApiError: {
           type: 'object',
           properties: {
@@ -59,7 +107,7 @@ const spec = createSwaggerSpec({
             method: { type: 'string' },
             stack: {
               type: 'string',
-              description: 'error stack in test environment',
+              description: 'error stack in development environment',
             },
           },
         },
