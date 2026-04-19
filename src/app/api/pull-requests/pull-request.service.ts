@@ -65,8 +65,10 @@ export async function getPullRequest(filters: PullRequestQueryParams) {
     query.take = limit;
   }
 
-  const data = await prismaClient.pullRequest.findMany(query);
-  const totalRecords = await prismaClient.pullRequest.count({ where });
+  const [data, totalRecords] = await prismaClient.$transaction([
+    prismaClient.pullRequest.findMany(query),
+    prismaClient.pullRequest.count({ where }),
+  ]);
 
   return paginationFormatter({ data, page, limit, totalRecords, showAll });
 }

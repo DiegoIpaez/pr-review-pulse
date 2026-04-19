@@ -74,7 +74,8 @@ export default function CanvasParticles({
         particleIndex < particles.length;
         particleIndex++
       ) {
-        const particle = particles[particleIndex];
+        const particle = particles?.[particleIndex];
+        if (!particle) continue;
 
         particle.x += particle.vx;
         particle.y += particle.vy;

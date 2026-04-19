@@ -30,8 +30,10 @@ export async function getAllUsers(filters: PaginationQueryParams) {
     query.take = limit;
   }
 
-  const data = await prismaClient.user.findMany(query);
-  const totalRecords = await prismaClient.user.count({ where });
+  const [data, totalRecords] = await prismaClient.$transaction([
+    prismaClient.user.findMany(query),
+    prismaClient.user.count({ where }),
+  ]);
 
   return paginationFormatter({ data, page, limit, totalRecords, showAll });
 }

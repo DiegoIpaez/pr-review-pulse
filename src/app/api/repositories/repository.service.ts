@@ -31,8 +31,10 @@ export async function getRepositories(filters: PaginationQueryParams) {
     query.take = limit;
   }
 
-  const data = await prismaClient.repository.findMany(query);
-  const totalRecords = await prismaClient.repository.count({ where });
+  const [data, totalRecords] = await prismaClient.$transaction([
+    prismaClient.repository.findMany(query),
+    prismaClient.repository.count({ where }),
+  ]);
 
   return paginationFormatter({ data, page, limit, totalRecords, showAll });
 }
