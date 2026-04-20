@@ -21,7 +21,7 @@ PR Review Pulse uses a robust and consistent error handling system that differen
 - **Log with Winston** - Use `logger.error()`, never `console.log`
 
 ### ❌ DON'T
-- **Never use `console.log` or `console.error`** - Use `logger` (see ESLint rule)
+- **Never use `console.log` or `console.error`** - Use `logger` (see Biome rule)
 - **Never ignore errors silently** - Always catch and handle
 - **Never expose stack traces in production** - Only in development
 - **Never throw generic errors without context** - `throw new Error('error')` ❌
@@ -276,7 +276,7 @@ logger.info('User logged in', { userId: user.id });
 logger.warn('Rate limit approaching', { requests: 90, limit: 100 });
 
 // ❌ NEVER use console
-console.log('Debug message'); // FORBIDDEN (ESLint error)
+console.log('Debug message'); // FORBIDDEN (Biome error)
 console.error(error); // FORBIDDEN
 ```
 
@@ -447,7 +447,7 @@ Before committing, verify:
 
 - [ ] All API routes use `apiErrorHandler` in catch block
 - [ ] Operational errors throw `ApiError` with correct HTTP status code
-- [ ] No `console.log` or `console.error` (ESLint should fail)
+- [ ] No `console.log` or `console.error` (Biome should fail)
 - [ ] Client components use `clientErrorHandler` for async errors
 - [ ] Prisma errors are allowed to propagate (not caught manually)
 - [ ] Zod errors are allowed to propagate (not caught manually)

@@ -29,14 +29,14 @@
     "rules": {
       "recommended": true,
       "complexity": {
-        "useMaxParams": "error"
+        "useMaxParams": "error",
+        "noUselessCatch": "error"
       },
       "correctness": {
-        "noUnusedVariables": {
-          "options": {
-            "ignoreRestSiblings": false
-          }
-        }
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error",
+        "noConstantCondition": "error",
+        "noUnreachable": "error"
       },
       "style": {
         "noDefaultExport": "off",
@@ -44,7 +44,17 @@
       },
       "suspicious": {
         "noUnknownAtRules": "off",
-        "noConsole": "error"
+        "noConsole": "error",
+        "noArrayIndexKey": "error",
+        "noDebugger": "error",
+        "noDoubleEquals": "error",
+        "noDuplicateCase": "error",
+        "noDuplicateObjectKeys": "error",
+        "noVar": "error"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "error",
+        "noGlobalEval": "error"
       }
     },
     "domains": {

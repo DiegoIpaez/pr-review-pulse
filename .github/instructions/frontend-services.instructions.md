@@ -2,7 +2,7 @@
 applyTo: "src/services/**/*.ts"
 ---
 
-# Frontend Services - HTTP Client Standards
+# Frontend Services Standards
 
 ## Overview
 

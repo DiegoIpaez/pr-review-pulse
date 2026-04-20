@@ -18,8 +18,9 @@
 - **Database:** PostgreSQL 17
 - **State:** React Query (TanStack Query)
 - **Styling:** Tailwind CSS 4, shadcn/ui
-- **Auth:** NextAuth.js v5
+- **Auth:** NextAuth.js v4
 - **Runtime:** Bun 1.x
+- **Linting/Formatting:** Biome
 
 ## Prerequisites
 
@@ -81,11 +82,11 @@
 bun run dev               # Start development server
 bun run build             # Build for production
 bun run start             # Start production server
-bun run lint              # Run ESLint
-bun run lint:fix          # Fix linting errors
-bun run analyze           # Analyze bundle size
+bun run lint              # Run Biome linter
+bun run format            # Format code with Biome
 bun run prisma:migrate    # Create/apply migrations
-bun run prisma:studio     # Open Prisma Studio
+bun run prisma:studio     # Open Prisma Studio GUI
+bun run prisma:reset      # Reset database
 ```
 
 ## Project Structure
@@ -110,6 +111,23 @@ src/
 prisma/
 └── schema.prisma            # Database schema
 ```
+
+## Code Quality & Linting
+
+This project uses **Biome** for linting and formatting. Three configurations are available:
+
+| Config | Description | Use Case |
+|--------|-------------|----------|
+| `biome.json` | **Pragmatic** (Current) - `recommended` + critical rules | ⭐ Default - minimal config, auto-updates |
+| `biome.essential.json` | **Essential** - 70 explicit anti-bug rules only | Explicit control, no auto-updates |
+| `biome.full.json` | **Full** - 66 rules + style enforcement | Large teams, strict conventions |
+
+### Key Rules (Current Config)
+- `noConsole: error` → Use `logger` from `@/lib/logger`
+- `useMaxParams: error` → Max 3 parameters (use object destructuring)
+- `noArrayIndexKey: error` → No React `key={index}`
+- `noDangerouslySetInnerHtml: error` → XSS prevention
+- Plus ~80-100 rules from `"recommended": true`
 
 ## License
 

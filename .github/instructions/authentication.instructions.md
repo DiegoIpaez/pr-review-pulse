@@ -2,7 +2,7 @@
 applyTo: "src/proxy.ts,src/middlewares/**/*"
 ---
 
-# Middleware & Authentication Standards
+# Authentication & Middleware Standards
 
 ## Overview
 
