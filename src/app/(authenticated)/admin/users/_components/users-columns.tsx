@@ -1,8 +1,8 @@
 'use client';
-import { ColumnDef } from '@tanstack/react-table';
+import { DropdownMenuArrow } from '@radix-ui/react-dropdown-menu';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Eye, GitPullRequest, MoreHorizontal, Pencil } from 'lucide-react';
-import type { User } from '@/generated/prisma/client';
-import { formatDate } from '@/utils/formatters/time.formatter';
+import UserColumn from '@/components/common/columns/user-column';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,8 +12,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import UserColumn from '@/components/common/columns/user-column';
-import { DropdownMenuArrow } from '@radix-ui/react-dropdown-menu';
+import type { User } from '@/generated/prisma/client';
+import { formatDate } from '@/utils/formatters/time.formatter';
 
 export const getUserColumns = (
   onEdit: (user: User) => void

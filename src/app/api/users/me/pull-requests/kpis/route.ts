@@ -1,8 +1,11 @@
-import { NextResponse, NextRequest } from 'next/server';
-import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
+import { type NextRequest, NextResponse } from 'next/server';
 import { getKpis } from '@/app/api/pull-requests/kpis/kpi.service';
-import { getSessionFromHeaders } from '@/middlewares/session.middleware';
 import { prMetricQueryParamsSchema } from '@/contracts/schemas/pull-request.schema';
+import { getSessionFromHeaders } from '@/middlewares/session.middleware';
+import {
+  type ApiError,
+  apiErrorHandler,
+} from '@/utils/handlers/api-error.handler';
 import { parseQueryParams } from '@/utils/query-params.util';
 
 /**

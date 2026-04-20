@@ -1,10 +1,10 @@
 'use client';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Eye } from 'lucide-react';
-import { ColumnDef } from '@tanstack/react-table';
-import { formatDate } from '@/utils/formatters/time.formatter';
-import { PullRequestSchema } from '@/contracts/types/schema.type';
 import UserColumn from '@/components/common/columns/user-column';
 import ExternalLink from '@/components/common/links/external-link';
+import type { PullRequestSchema } from '@/contracts/types/schema.type';
+import { formatDate } from '@/utils/formatters/time.formatter';
 import {
   BranchColumn,
   PrStateColumn,

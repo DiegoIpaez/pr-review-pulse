@@ -1,9 +1,9 @@
 'use client';
-import { CheckCircle2, Eye, CircleMinus, FileDiff } from 'lucide-react';
-import { cn } from '@/lib/cn';
-import type { PrReviewSchema } from '@/contracts/types/schema.type';
-import { formatDate } from '@/utils/formatters/time.formatter';
+import { CheckCircle2, CircleMinus, Eye, FileDiff } from 'lucide-react';
 import ExternalLink from '@/components/common/links/external-link';
+import type { PrReviewSchema } from '@/contracts/types/schema.type';
+import { cn } from '@/lib/cn';
+import { formatDate } from '@/utils/formatters/time.formatter';
 
 function StatusReviewCard({ state }: { state: PrReviewSchema['state'] }) {
   const statusStyle =

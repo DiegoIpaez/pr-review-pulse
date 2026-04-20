@@ -1,9 +1,12 @@
-import { NextResponse, NextRequest } from 'next/server';
-import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { getKpis } from './kpi.service';
-import { requiresAdmin } from '@/middlewares/session.middleware';
+import { type NextRequest, NextResponse } from 'next/server';
 import { prMetricQueryParamsSchema } from '@/contracts/schemas/pull-request.schema';
+import { requiresAdmin } from '@/middlewares/session.middleware';
+import {
+  type ApiError,
+  apiErrorHandler,
+} from '@/utils/handlers/api-error.handler';
 import { parseQueryParams } from '@/utils/query-params.util';
+import { getKpis } from './kpi.service';
 
 /**
  * @swagger

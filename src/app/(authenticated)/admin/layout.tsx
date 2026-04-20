@@ -1,9 +1,9 @@
 'use client';
 import { ChartSpline, FolderGit2, GitPullRequest, Users2 } from 'lucide-react';
-import { SidebarMenuItemProps } from '@/contracts/types';
 import Sidebar from '@/components/ui/custom/sidebar/sidebar';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import SidebarHeader from '@/components/ui/custom/sidebar/sidebar-header';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import type { SidebarMenuItemProps } from '@/contracts/types';
 
 const items: SidebarMenuItemProps[] = [
   {

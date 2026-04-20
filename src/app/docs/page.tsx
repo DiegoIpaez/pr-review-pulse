@@ -1,6 +1,6 @@
 import 'swagger-ui-react/swagger-ui.css';
-import SwaggerUI from 'swagger-ui-react';
 import { createSwaggerSpec } from 'next-swagger-doc';
+import SwaggerUI from 'swagger-ui-react';
 
 const entitySchemaFormat = (rest: { [key: string]: object }) => ({
   type: 'object',

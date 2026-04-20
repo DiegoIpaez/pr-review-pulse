@@ -1,7 +1,7 @@
-import prismaClient from '@/lib/clients/prisma-client';
-import { PullRequestType } from '@/generated/prisma/client';
 import type { PullRequestMetricQueryParams } from '@/contracts/schemas/pull-request.schema';
-import { DistributionItem } from '@/contracts/types/metrics.type';
+import type { DistributionItem } from '@/contracts/types/metrics.type';
+import { PullRequestType } from '@/generated/prisma/client';
+import prismaClient from '@/lib/clients/prisma-client';
 
 type PrismaGroupByResult = {
   type: PullRequestType;

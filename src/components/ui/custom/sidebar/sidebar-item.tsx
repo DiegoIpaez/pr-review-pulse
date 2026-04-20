@@ -1,21 +1,21 @@
 'use client';
 
-import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
-import type { SidebarMenuItemProps } from '@/contracts/types';
-import { useSidebarActive } from '@/hooks/use-sidebar-active';
-import { cn } from '@/lib/cn';
+import Link from 'next/link';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from '@/components/ui/collapsible';
+import type { SidebarMenuItemProps } from '@/contracts/types';
+import { useSidebarActive } from '@/hooks/use-sidebar-active';
+import { cn } from '@/lib/cn';
 
 function SimpleMenuItem({ item }: { item: SidebarMenuItemProps }) {
   const { isActive } = useSidebarActive(item);

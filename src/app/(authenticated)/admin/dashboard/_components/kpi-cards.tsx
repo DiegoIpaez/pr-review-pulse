@@ -1,8 +1,8 @@
 'use client';
 
+import { AlertCircle, CheckCircle, TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { TrendingUp, AlertCircle, CheckCircle } from 'lucide-react';
 import type { KpisData } from '@/contracts/types/metrics.type';
 
 type KpiCardsProps = {

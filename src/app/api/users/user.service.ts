@@ -1,8 +1,8 @@
+import type { PaginationQueryParams } from '@/contracts/schemas/pagination.schema';
+import { Prisma, type User } from '@/generated/prisma/client';
 import prismaClient from '@/lib/clients/prisma-client';
-import { Prisma, User } from '@/generated/prisma/client';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 import type { GitHubUser } from '../webhooks/github/_contracts/types';
-import type { PaginationQueryParams } from '@/contracts/schemas/pagination.schema';
 
 const COUNT_SELECT = {
   select: {

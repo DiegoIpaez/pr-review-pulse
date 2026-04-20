@@ -1,8 +1,8 @@
 import { API_ROUTES } from '@/constants';
-import axiosClient from '@/lib/clients/axios-client';
-import type { UpdateUserDto } from '@/contracts/schemas/user.schema';
 import type { PaginationQueryParams } from '@/contracts/schemas/pagination.schema';
 import type { PullRequestMetricQueryParams } from '@/contracts/schemas/pull-request.schema';
+import type { UpdateUserDto } from '@/contracts/schemas/user.schema';
+import axiosClient from '@/lib/clients/axios-client';
 
 export async function fetchAllUsers(params: PaginationQueryParams) {
   const { data } = await axiosClient.get(API_ROUTES.USERS.BASE, { params });

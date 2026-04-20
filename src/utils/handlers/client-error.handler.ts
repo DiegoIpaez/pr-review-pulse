@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosError } from 'axios';
-import { ExternalToast, toast } from 'sonner';
+import { type ExternalToast, toast } from 'sonner';
 import { CONFIG, NodeEnv } from '@/constants';
 
 type ErrorHandlerOptions = {
@@ -28,8 +27,8 @@ function normalizeError(error: unknown): Error {
   if (typeof error === 'string') return new Error(error);
 
   if (error && typeof error === 'object') {
-    if ('message' in error && typeof (error as any).message === 'string') {
-      return new Error((error as any).message);
+    if ('message' in error && typeof (error as Error).message === 'string') {
+      return new Error((error as Error).message);
     }
     return new Error(JSON.stringify(error));
   }
@@ -55,7 +54,7 @@ export default function clientErrorHandler(
 ): void {
   const normalizedError = normalizeError(error);
 
-  // eslint-disable-next-line no-console
+  // biome-ignore lint/suspicious/noConsole: debug in a development environment
   if (CONFIG.NODE_ENV === NodeEnv.Development) console.error(normalizedError);
   if (showToast) {
     const displayMessage = normalizedError.message || defaultMessage;

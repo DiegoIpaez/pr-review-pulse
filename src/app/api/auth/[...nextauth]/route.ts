@@ -1,5 +1,5 @@
-import GitHub from 'next-auth/providers/github';
 import NextAuth from 'next-auth';
+import GitHub from 'next-auth/providers/github';
 import { CONFIG } from '@/constants/config.constant';
 import { upsertGitHubUser } from '../../users/user.service';
 

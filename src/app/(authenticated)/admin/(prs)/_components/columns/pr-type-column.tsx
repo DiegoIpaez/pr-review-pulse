@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { PullRequestSchema } from '@/contracts/types/schema.type';
+import type { PullRequestSchema } from '@/contracts/types/schema.type';
 
 export type PullRequestType = PullRequestSchema['type'];
 

@@ -1,8 +1,8 @@
+import type { VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
-import { VariantProps } from 'class-variance-authority';
 import {
   Button as ButtonPrimitive,
-  buttonVariants,
+  type buttonVariants,
 } from '@/components/ui/button';
 import Spinner from './spinner';
 

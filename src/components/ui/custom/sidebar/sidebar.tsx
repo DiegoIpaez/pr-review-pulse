@@ -1,15 +1,15 @@
 'use client';
-import type { SidebarMenuItemProps } from '@/contracts/types';
 import {
-  Sidebar as SidebarPrimitive,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
+  Sidebar as SidebarPrimitive,
 } from '@/components/ui/sidebar';
-import SidebarItem from './sidebar-item';
+import type { SidebarMenuItemProps } from '@/contracts/types';
 import SidebarFooter from './sidebar-footer/sidebar-footer';
+import SidebarItem from './sidebar-item';
 
 type SidebarProps = {
   title?: string;

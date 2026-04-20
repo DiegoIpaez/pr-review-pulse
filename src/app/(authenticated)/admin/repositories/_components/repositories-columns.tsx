@@ -1,9 +1,9 @@
 'use client';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { ExternalLink, GitPullRequest } from 'lucide-react';
+import UserColumn from '@/components/common/columns/user-column';
 import type { Repository } from '@/generated/prisma/client';
 import { formatDate } from '@/utils/formatters/time.formatter';
-import UserColumn from '@/components/common/columns/user-column';
 
 type RepositoryWithCount = Repository & {
   _count: {

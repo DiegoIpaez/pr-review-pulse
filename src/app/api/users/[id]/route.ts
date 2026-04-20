@@ -1,9 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
+import { pathParamsSchema } from '@/contracts/schemas/path-params.schema';
+import { updateUserSchema } from '@/contracts/schemas/user.schema';
 import type { RouteParams } from '@/contracts/types';
 import { requiresAdmin } from '@/middlewares/session.middleware';
-import { updateUserSchema } from '@/contracts/schemas/user.schema';
-import { pathParamsSchema } from '@/contracts/schemas/path-params.schema';
-import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
+import {
+  type ApiError,
+  apiErrorHandler,
+} from '@/utils/handlers/api-error.handler';
 import { getUserById, updateUser } from '../user.service';
 
 /**

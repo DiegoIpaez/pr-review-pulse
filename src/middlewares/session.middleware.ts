@@ -6,7 +6,7 @@ export function getSessionFromHeaders(headers: Headers) {
   const role = headers.get('role');
   const accessStatus = headers.get('access_status');
 
-  const isValidUid = uid && !isNaN(Number(uid));
+  const isValidUid = uid && !Number.isNaN(Number(uid));
   const isValidAccessStatus =
     accessStatus && accessStatus === UserAccessStatus.active;
 

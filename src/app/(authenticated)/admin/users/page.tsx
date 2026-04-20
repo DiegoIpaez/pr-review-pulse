@@ -1,13 +1,13 @@
 'use client';
-import { useState, type ChangeEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import type { User } from '@/generated/prisma/client';
-import { PAGINATION } from '@/constants';
-import { fetchAllUsers } from '@/services/users.service';
-import { Input } from '@/components/ui/input';
+import { type ChangeEvent, useState } from 'react';
 import DataTable from '@/components/ui/custom/data-table';
-import { getUserColumns } from './_components/users-columns';
+import { Input } from '@/components/ui/input';
+import { PAGINATION } from '@/constants';
+import type { User } from '@/generated/prisma/client';
+import { fetchAllUsers } from '@/services/users.service';
 import EditUserDialog from './_components/edit-user-dialog';
+import { getUserColumns } from './_components/users-columns';
 
 export default function Home() {
   const [filters, setFilters] = useState({

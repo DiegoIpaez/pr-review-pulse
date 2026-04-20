@@ -1,7 +1,7 @@
 'use client';
 
-import { SIDEBAR_TITLE_ROUTES } from '@/constants';
 import { usePathname } from 'next/navigation';
+import { SIDEBAR_TITLE_ROUTES } from '@/constants';
 import { SidebarTrigger } from '../../sidebar';
 
 export default function SidebarHeader() {

@@ -1,17 +1,9 @@
 'use client';
 
-import { toast } from 'sonner';
-import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateUserById } from '@/services/users.service';
-import type { User, $Enums } from '@/generated/prisma/client';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -20,8 +12,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import type { $Enums, User } from '@/generated/prisma/client';
+import { updateUserById } from '@/services/users.service';
 
 type EditUserDialogProps = {
   user: User;

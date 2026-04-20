@@ -12,7 +12,7 @@ const NEXT_AUTH = {
 
 export const CONFIG = {
   BASE_URL,
-  API_URL: BASE_URL + '/api',
+  API_URL: `${BASE_URL}/api`,
   DATABASE_URL: process.env.DATABASE_URL || '',
   NODE_ENV: (process.env.NODE_ENV as NodeEnv) || NodeEnv.Development,
   NEXT_AUTH,

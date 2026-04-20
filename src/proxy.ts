@@ -1,8 +1,8 @@
+import { type NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { NextRequest, NextResponse } from 'next/server';
 import { CONFIG } from './constants';
+import type { UserRole } from './generated/prisma/enums';
 import { hasAccessToRoute } from './middlewares/roles.middleware';
-import { UserRole } from './generated/prisma/enums';
 
 const corsOptions = {
   'Access-Control-Allow-Origin': CONFIG.BASE_URL,

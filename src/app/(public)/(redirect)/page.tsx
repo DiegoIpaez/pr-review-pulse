@@ -1,6 +1,6 @@
 'use client';
-import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import Spinner from '@/components/ui/custom/spinner';
 
 export default function RedirectPage() {

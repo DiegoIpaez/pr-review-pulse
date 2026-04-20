@@ -1,6 +1,9 @@
 'use client';
 
+import { AlertCircle, Clock, XCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,9 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { AlertCircle, Clock, XCircle } from 'lucide-react';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function AccessStatusPage() {
   const { data: session, status } = useSession();

@@ -1,7 +1,7 @@
-import prismaClient from '@/lib/clients/prisma-client';
 import { Prisma } from '@/generated/prisma/client';
 import { PullRequestState } from '@/generated/prisma/enums';
-import { PullRequestMetricQueryParams } from '../../../../contracts/schemas/pull-request.schema';
+import prismaClient from '@/lib/clients/prisma-client';
+import type { PullRequestMetricQueryParams } from '../../../../contracts/schemas/pull-request.schema';
 
 type KpisResponse = {
   open: number;
