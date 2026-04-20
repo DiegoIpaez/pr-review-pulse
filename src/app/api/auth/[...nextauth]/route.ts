@@ -3,7 +3,7 @@ import NextAuth from 'next-auth';
 import { CONFIG } from '@/constants/config.constant';
 import { upsertGitHubUser } from '../../users/user.service';
 
-const { handlers } = NextAuth({
+const handler = NextAuth({
   providers: [
     GitHub({
       clientId: CONFIG.GITHUB_CLIENT_ID,
@@ -45,10 +45,7 @@ const { handlers } = NextAuth({
       const user = { ...session?.user, ...token };
       return { ...session, user };
     },
-    authorized: async ({ auth: session }) => {
-      return !!session;
-    },
   },
 });
 
-export const { GET, POST } = handlers;
+export { handler as GET, handler as POST };
