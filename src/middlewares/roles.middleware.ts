@@ -1,5 +1,5 @@
 import { ADMIN_ROUTES, COLLABORATOR_ROUTES } from '@/constants';
-import { UserRole } from '@/generated/prisma/enums';
+import type { UserRole } from '@/generated/prisma/enums';
 
 const ROLE_ROUTES: Record<UserRole, Record<string, string>> = {
   admin: ADMIN_ROUTES,

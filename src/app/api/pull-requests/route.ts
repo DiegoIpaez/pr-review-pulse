@@ -1,9 +1,12 @@
-import { NextResponse, NextRequest } from 'next/server';
-import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { getPullRequest } from './pull-request.service';
-import { prQueryParamsSchema } from '../../../contracts/schemas/pull-request.schema';
+import { type NextRequest, NextResponse } from 'next/server';
 import { requiresAdmin } from '@/middlewares/session.middleware';
+import {
+  type ApiError,
+  apiErrorHandler,
+} from '@/utils/handlers/api-error.handler';
 import { parseQueryParams } from '@/utils/query-params.util';
+import { prQueryParamsSchema } from '../../../contracts/schemas/pull-request.schema';
+import { getPullRequest } from './pull-request.service';
 
 /**
  * @swagger

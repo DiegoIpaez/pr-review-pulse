@@ -2,13 +2,13 @@
 
 import { useQuery } from '@tanstack/react-query';
 import {
-  fetchGlobalStats,
-  fetchGlobalKpis,
   fetchDistribution,
+  fetchGlobalKpis,
+  fetchGlobalStats,
 } from '@/services/pull-requests.service';
 import { KpiCards } from './_components/kpi-cards';
-import { TimeSeriesChart } from './_components/time-series-chart';
 import PrDistributionCard from './_components/pr-distribution-card';
+import { TimeSeriesChart } from './_components/time-series-chart';
 
 export default function UserDashboardPage() {
   const { data: kpis, isLoading: kpisLoading } = useQuery({

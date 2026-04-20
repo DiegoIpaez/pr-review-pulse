@@ -1,5 +1,7 @@
 'use client';
 
+import { ChevronUp, LogOut } from 'lucide-react';
+import { signOut, useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -11,8 +13,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenuButton } from '@/components/ui/sidebar';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ChevronUp, LogOut } from 'lucide-react';
-import { signOut, useSession } from 'next-auth/react';
 
 export default function SidebarUserDropdown() {
   const { data: session, status } = useSession();

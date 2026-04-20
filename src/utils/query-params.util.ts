@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 
 /**
  * Parse query parameters from URLSearchParams using a Zod schema

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import { useState } from 'react';
 import Button from '@/components/ui/custom/button';
 import clientErrorHandler from '@/utils/handlers/client-error.handler';
 import { GithubIcon } from './icons';

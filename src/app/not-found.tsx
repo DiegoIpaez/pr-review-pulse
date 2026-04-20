@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import Button from '@/components/ui/custom/button';
 import CanvasParticles from '@/components/common/canvas-particles';
+import Button from '@/components/ui/custom/button';
 
 export default function NotFoundPage() {
   const { data: session, status } = useSession();

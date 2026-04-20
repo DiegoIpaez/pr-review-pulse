@@ -1,9 +1,9 @@
 import { API_ROUTES } from '@/constants';
-import axiosClient from '@/lib/clients/axios-client';
-import {
-  PullRequestQueryParams,
+import type {
   PullRequestMetricQueryParams,
+  PullRequestQueryParams,
 } from '@/contracts/schemas/pull-request.schema';
+import axiosClient from '@/lib/clients/axios-client';
 
 export async function fetchAllPullRequests(params: PullRequestQueryParams) {
   const { data } = await axiosClient.get(API_ROUTES.PULL_REQUESTS.BASE, {

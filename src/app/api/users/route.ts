@@ -1,9 +1,12 @@
-import { NextResponse, NextRequest } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { paginationQueryParamsSchema } from '@/contracts/schemas/pagination.schema';
-import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { getAllUsers } from './user.service';
 import { requiresAdmin } from '@/middlewares/session.middleware';
+import {
+  type ApiError,
+  apiErrorHandler,
+} from '@/utils/handlers/api-error.handler';
 import { parseQueryParams } from '@/utils/query-params.util';
+import { getAllUsers } from './user.service';
 
 /**
  * @swagger

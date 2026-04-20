@@ -1,8 +1,8 @@
-import { NextResponse, NextRequest } from 'next/server';
-import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { GitHubEvent } from './_contracts/types';
-import { pullRequestWebhookSchema } from './_contracts/schemas/pull-request-webhook.schema';
+import { type NextRequest, NextResponse } from 'next/server';
+import { ApiError, apiErrorHandler } from '@/utils/handlers/api-error.handler';
 import { pullRequestReviewWebhookSchema } from './_contracts/schemas/pull-request-review-webhook.schema';
+import { pullRequestWebhookSchema } from './_contracts/schemas/pull-request-webhook.schema';
+import { GitHubEvent } from './_contracts/types';
 import { processPullRequest } from './_services/pull-request.service';
 import { processPullRequestReview } from './_services/pull-request-review.service';
 import { verifyGitHubSignature } from './_utils/verify-signature.util';

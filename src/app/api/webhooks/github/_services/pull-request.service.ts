@@ -1,12 +1,12 @@
 import {
-  Prisma,
-  PrismaClient,
+  type Prisma,
+  type PrismaClient,
   PullRequestState,
 } from '@/generated/prisma/client';
 import prismaClient from '@/lib/clients/prisma-client';
-import { getPullRequestType } from '../_utils/get-pull-request-type.util';
-import { GitHubPullRequestAction } from '../_contracts/types';
 import type { PullRequestWebhookPayload } from '../_contracts/schemas/pull-request-webhook.schema';
+import { GitHubPullRequestAction } from '../_contracts/types';
+import { getPullRequestType } from '../_utils/get-pull-request-type.util';
 
 function resolvePRState(
   action: GitHubPullRequestAction,

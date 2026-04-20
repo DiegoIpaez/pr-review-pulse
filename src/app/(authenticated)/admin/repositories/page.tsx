@@ -1,11 +1,11 @@
 'use client';
-import { useState, type ChangeEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import type { Repository } from '@/generated/prisma/client';
-import { PAGINATION } from '@/constants';
-import { fetchAllRepositories } from '@/services/repositories.service';
-import { Input } from '@/components/ui/input';
+import { type ChangeEvent, useState } from 'react';
 import DataTable from '@/components/ui/custom/data-table';
+import { Input } from '@/components/ui/input';
+import { PAGINATION } from '@/constants';
+import type { Repository } from '@/generated/prisma/client';
+import { fetchAllRepositories } from '@/services/repositories.service';
 import { getRepositoryColumns } from './_components/repositories-columns';
 
 type RepositoryWithCount = Repository & {

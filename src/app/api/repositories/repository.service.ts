@@ -1,7 +1,7 @@
-import prismaClient from '@/lib/clients/prisma-client';
-import { Prisma } from '@/generated/prisma/client';
-import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 import type { PaginationQueryParams } from '@/contracts/schemas/pagination.schema';
+import { Prisma } from '@/generated/prisma/client';
+import prismaClient from '@/lib/clients/prisma-client';
+import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 
 export async function getRepositories(filters: PaginationQueryParams) {
   const { page, limit, search: contains, showAll } = filters;

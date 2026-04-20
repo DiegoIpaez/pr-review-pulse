@@ -1,8 +1,7 @@
 'use client';
-import { cn } from '@/lib/cn';
 import { useTheme } from 'next-themes';
 import { useEffect, useRef } from 'react';
-/* eslint-disable id-length */
+import { cn } from '@/lib/cn';
 
 type Particle = {
   x: number;

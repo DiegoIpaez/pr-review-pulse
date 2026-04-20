@@ -1,10 +1,7 @@
 'use client';
-import { useState, type ChangeEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { PAGINATION } from '@/constants';
-import { PullRequestSchema } from '@/contracts/types/schema.type';
-import { PullRequestState, PullRequestType } from '@/generated/prisma/enums';
-import { fetchAllPullRequests } from '@/services/pull-requests.service';
+import { type ChangeEvent, useState } from 'react';
+import DataTable from '@/components/ui/custom/data-table';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -13,10 +10,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import DataTable from '@/components/ui/custom/data-table';
-import { prColumns } from './_components/pr-columns';
+import { PAGINATION } from '@/constants';
+import type { PullRequestQueryParams } from '@/contracts/schemas/pull-request.schema';
+import type { PullRequestSchema } from '@/contracts/types/schema.type';
+import { PullRequestState, PullRequestType } from '@/generated/prisma/enums';
+import { fetchAllPullRequests } from '@/services/pull-requests.service';
 import ExpandedPrRowContent from './_components/expanded-pr-row-content';
-import { PullRequestQueryParams } from '@/contracts/schemas/pull-request.schema';
+import { prColumns } from './_components/pr-columns';
 
 export default function Home() {
   const [filters, setFilters] = useState<PullRequestQueryParams>({

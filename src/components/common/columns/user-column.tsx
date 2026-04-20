@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import ExternalLink from '@/components/common/links/external-link';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 type UserColumnProps = {
   username: string;

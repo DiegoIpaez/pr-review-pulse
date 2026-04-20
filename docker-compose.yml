@@ -3,6 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:17-alpine
+    container_name: pr-review-pulse-postgres
     volumes:
       - ${PWD}/.docker/postgres:/var/lib/postgresql/data
     ports:
@@ -16,10 +17,25 @@ services:
 
   ngrok:
     image: ngrok/ngrok:latest
-    container_name: ngrok
+    container_name: pr-review-pulse-ngrok
     restart: unless-stopped
     command: http host.docker.internal:3000
     environment:
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
     ports:
       - "4040:4040"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pr-review-pulse-web
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    env_file:
+    - .env
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/pr_review_pulse
+      NEXT_PUBLIC_BASE_URL: http://host.docker.internal:3000

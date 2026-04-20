@@ -1,12 +1,12 @@
 ---
-applyTo: "**/*.service.ts"
+applyTo: "src/app/api/**/*.service.ts"
 ---
 
-# Service Layer Standards
+# Backend Services Standards
 
 ## File Location
 - API route services live alongside the route: `src/app/api/{resource}/{resource}.service.ts`
-- Frontend services live in: `src/services/`
+- Note: Frontend services are documented in `frontend-services.instructions.md`
 
 ## Database Queries with Prisma
 

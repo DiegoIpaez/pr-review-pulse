@@ -1,7 +1,7 @@
-import prismaClient from '@/lib/clients/prisma-client';
 import { Prisma } from '@/generated/prisma/client';
+import prismaClient from '@/lib/clients/prisma-client';
 import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
-import { PullRequestQueryParams } from '../../../contracts/schemas/pull-request.schema';
+import type { PullRequestQueryParams } from '../../../contracts/schemas/pull-request.schema';
 
 export async function getPullRequest(filters: PullRequestQueryParams) {
   const { page, limit, search: contains, showAll, type, state, uid } = filters;
@@ -29,7 +29,7 @@ export async function getPullRequest(filters: PullRequestQueryParams) {
       },
       {
         number:
-          typeof contains === 'string' && !isNaN(Number(contains))
+          typeof contains === 'string' && !Number.isNaN(Number(contains))
             ? Number(contains)
             : undefined,
       },

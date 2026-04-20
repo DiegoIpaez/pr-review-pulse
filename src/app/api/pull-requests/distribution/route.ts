@@ -1,10 +1,13 @@
-import { NextResponse, NextRequest } from 'next/server';
-import { apiErrorHandler, ApiError } from '@/utils/handlers/api-error.handler';
-import { getDistribution } from './distribution.service';
-import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
-import { requiresAdmin } from '@/middlewares/session.middleware';
+import { type NextRequest, NextResponse } from 'next/server';
 import { prMetricQueryParamsSchema } from '@/contracts/schemas/pull-request.schema';
+import { requiresAdmin } from '@/middlewares/session.middleware';
+import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
+import {
+  type ApiError,
+  apiErrorHandler,
+} from '@/utils/handlers/api-error.handler';
 import { parseQueryParams } from '@/utils/query-params.util';
+import { getDistribution } from './distribution.service';
 
 /**
  * @swagger

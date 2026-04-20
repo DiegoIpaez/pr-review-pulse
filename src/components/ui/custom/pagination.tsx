@@ -17,7 +17,7 @@ type PaginationProps = {
 };
 
 export default function Pagination({ data, onPageChange }: PaginationProps) {
-  if (!data || !data.totalPages) return null;
+  if (!data?.totalPages) return null;
   return (
     <div className="flex items-center justify-between">
       <p className="text-sm text-muted-foreground">

@@ -1,8 +1,8 @@
-import {
+import type {
   PullRequest,
-  User,
-  Repository,
   PullRequestReview,
+  Repository,
+  User,
 } from '@/generated/prisma/client';
 
 export type PrReviewSchema = PullRequestReview & {

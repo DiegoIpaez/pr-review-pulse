@@ -1,15 +1,13 @@
 'use client';
 
-import { Inbox, Plus } from 'lucide-react';
-import { useState, Fragment, type ReactNode } from 'react';
 import {
   type ColumnDef,
-  useReactTable,
-  getCoreRowModel,
   flexRender,
+  getCoreRowModel,
+  useReactTable,
 } from '@tanstack/react-table';
-import { PAGINATION } from '@/constants';
-import { type PaginatedResponse } from '@/contracts/types';
+import { Inbox, Plus } from 'lucide-react';
+import { Fragment, type ReactNode, useMemo, useState } from 'react';
 import Pagination from '@/components/ui/custom/pagination';
 import {
   Table,
@@ -19,6 +17,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { PAGINATION } from '@/constants';
+import type { PaginatedResponse } from '@/contracts/types';
 
 type TableProps<T> = {
   isLoading: boolean;
@@ -33,10 +33,15 @@ type TableProps<T> = {
 const SkeletonRow = ({ columnsCount }: { columnsCount: number }) => {
   const widths = ['w-[20%]', 'w-[40%]', 'w-[60%]', 'w-[80%]'];
 
+  const cellKeys = useMemo(
+    () => Array.from({ length: columnsCount }, () => crypto.randomUUID()),
+    [columnsCount]
+  );
+
   return (
     <TableRow>
-      {Array.from({ length: columnsCount }).map((_, index) => (
-        <TableCell key={index}>
+      {cellKeys.map((key, index) => (
+        <TableCell key={key}>
           <div
             className={`h-4 bg-muted rounded animate-pulse ${
               widths[index % widths.length]
@@ -62,6 +67,14 @@ export default function DataTable<T>({
   );
 
   const hasExpandable = Boolean(renderExpandedRow);
+
+  const skeletonRowKeys = useMemo(
+    () =>
+      Array.from({ length: PAGINATION.DEFAULT_PAGE_SIZE }, () =>
+        crypto.randomUUID()
+      ),
+    []
+  );
 
   const table = useReactTable({
     data: data?.data ?? [],
@@ -101,14 +114,12 @@ export default function DataTable<T>({
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              Array.from({ length: PAGINATION.DEFAULT_PAGE_SIZE }).map(
-                (_, index) => (
-                  <SkeletonRow
-                    key={`skeleton-row-${index}`}
-                    columnsCount={columns.length + (hasExpandable ? 1 : 0)}
-                  />
-                )
-              )
+              skeletonRowKeys.map((key) => (
+                <SkeletonRow
+                  key={key}
+                  columnsCount={columns.length + (hasExpandable ? 1 : 0)}
+                />
+              ))
             ) : table?.getRowModel()?.rows?.length === 0 ? (
               <TableRow>
                 <TableCell

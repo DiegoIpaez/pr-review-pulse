@@ -1,15 +1,15 @@
 'use client';
 
 import clsx from 'clsx';
+import Button from '@/components/ui/custom/button';
 import {
-  Dialog as DialogPrimitive,
   DialogContent,
   DialogDescription,
   DialogHeader,
+  Dialog as DialogPrimitive,
   DialogTitle,
 } from '@/components/ui/dialog';
-import Button from '@/components/ui/custom/button';
-import { ActionBtnProps } from '@/contracts/types';
+import type { ActionBtnProps } from '@/contracts/types';
 
 type CheckOutModalProps = {
   open: boolean;

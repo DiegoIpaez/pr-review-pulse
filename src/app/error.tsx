@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Button from '@/components/ui/custom/button';
 import CanvasParticles from '@/components/common/canvas-particles';
+import Button from '@/components/ui/custom/button';
 
 type ErrorBoundaryProps = {
   error: Error & { digest?: string };

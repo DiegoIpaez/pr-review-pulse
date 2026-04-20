@@ -1,7 +1,7 @@
-import prismaClient from '@/lib/clients/prisma-client';
+import type { PullRequestMetricQueryParams } from '@/contracts/schemas/pull-request.schema';
+import type { TimeSeriesData } from '@/contracts/types/metrics.type';
 import { Prisma } from '@/generated/prisma/client';
-import { TimeSeriesData } from '@/contracts/types/metrics.type';
-import { PullRequestMetricQueryParams } from '@/contracts/schemas/pull-request.schema';
+import prismaClient from '@/lib/clients/prisma-client';
 
 export async function getStats(
   filters: PullRequestMetricQueryParams

@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { PullRequestType, PullRequestState } from '@/generated/prisma/client';
 import {
-  normalizeStringSchema as preprocess,
   paginationQueryParamsSchema,
+  normalizeStringSchema as preprocess,
 } from '@/contracts/schemas/pagination.schema';
+import { PullRequestState, PullRequestType } from '@/generated/prisma/client';
 
 const PR_TYPES = Object.values(PullRequestType);
 const PR_STATES = Object.values(PullRequestState);

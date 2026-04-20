@@ -1,9 +1,9 @@
-import { ZodError } from 'zod';
 import httpStatus from 'http-status';
-import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClientKnownRequestError } from '@/generated/prisma/internal/prismaNamespace';
+import { type NextRequest, NextResponse } from 'next/server';
+import { ZodError } from 'zod';
 import { CONFIG, NodeEnv } from '@/constants';
 import { PRISMA_ERRORS } from '@/constants/prisma.constant';
+import { PrismaClientKnownRequestError } from '@/generated/prisma/internal/prismaNamespace';
 import logger from '@/lib/logger';
 
 interface ApiErrorOptions {
