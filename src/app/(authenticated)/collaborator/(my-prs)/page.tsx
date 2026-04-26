@@ -1,7 +1,7 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { type ChangeEvent, useState } from 'react';
-import ExpandedPrRowContent from '@/app/(authenticated)/admin/(prs)/_components/expanded-pr-row-content';
+import PrDetailDrawer from '@/components/common/pr-detail-drawer/pr-detail-drawer';
 import DataTable from '@/components/ui/custom/data-table';
 import { Input } from '@/components/ui/input';
 import {
@@ -25,6 +25,8 @@ export default function Home() {
     search: '',
     showAll: false,
   });
+
+  const [selectedPr, setSelectedPr] = useState<PullRequestSchema | null>(null);
 
   const { data, isLoading } = useQuery({
     queryKey: [
@@ -116,10 +118,9 @@ export default function Home() {
         emptyMessage="Not found any pull requests."
         columns={prColumns}
         isRowExpandable={(pr) => pr?.reviews?.length > 0}
-        renderExpandedRow={(pr) => (
-          <ExpandedPrRowContent reviews={pr?.reviews || []} />
-        )}
+        onRowClick={setSelectedPr}
       />
+      <PrDetailDrawer pr={selectedPr} onClose={() => setSelectedPr(null)} />
     </div>
   );
 }

@@ -28,6 +28,7 @@ type TableProps<T> = {
   emptyMessage?: string;
   renderExpandedRow?: (record: T) => ReactNode;
   isRowExpandable?: (record: T) => boolean;
+  onRowClick?: (record: T) => void;
 };
 
 const SkeletonRow = ({ columnsCount }: { columnsCount: number }) => {
@@ -61,6 +62,7 @@ export default function DataTable<T>({
   emptyMessage = 'No hay datos disponibles',
   renderExpandedRow,
   isRowExpandable,
+  onRowClick,
 }: TableProps<T>) {
   const [expandedRowIds, setExpandedRowIds] = useState<Set<string>>(
     () => new Set()
@@ -93,8 +95,8 @@ export default function DataTable<T>({
 
   return (
     <div className="space-y-4">
-      <div className="rounded-md border overflow-x-auto">
-        <Table className="bg-primary/20">
+      <div className="rounded-lg bg-card  border overflow-x-auto">
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -141,14 +143,27 @@ export default function DataTable<T>({
 
                 return (
                   <Fragment key={row.id}>
-                    <TableRow>
+                    <TableRow
+                      className={onRowClick ? 'cursor-pointer' : ''}
+                      onClick={(event) => {
+                        if (
+                          onRowClick &&
+                          !(event.target as HTMLElement).closest('button, a')
+                        ) {
+                          onRowClick(row.original);
+                        }
+                      }}
+                    >
                       {hasExpandable && (
                         <TableCell className="w-10">
                           {canExpandRow && (
                             <button
                               type="button"
                               className="flex h-8 w-8 items-center justify-center rounded-md border bg-background hover:bg-muted transition-all duration-200"
-                              onClick={() => handleToggleRow(row.id)}
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                handleToggleRow(row.id);
+                              }}
                             >
                               <Plus
                                 className={`

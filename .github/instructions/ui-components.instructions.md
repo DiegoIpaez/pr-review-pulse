@@ -26,6 +26,48 @@ import { cn } from '@/lib/cn';
 ## File Naming
 - **Components**: `kebab-case.tsx` (e.g., `data-table.tsx`)
 
+## Component Modularization
+**CRITICAL**: Prioritize modularization to keep components maintainable.
+
+### When to Modularize
+If a component becomes large or complex (>150 lines, multiple responsibilities, or complex logic), create a folder structure with sub-components:
+
+```
+src/components/common/
+  └── user-dashboard/
+      ├── index.tsx                     # Main component (exports default)
+      ├── user-dashboard-header.tsx
+      ├── user-dashboard-stats.tsx
+      └── user-dashboard-activity.tsx
+```
+
+### Rules
+- **Folder name** matches the main component (kebab-case)
+- **Main component** in `index.tsx` exports the composed component
+- **Sub-components** are internal implementation details (not exported outside folder)
+- **Extract early** - don't wait for components to become unmaintainable
+- **Single responsibility** - each sub-component should have one clear purpose
+
+### Example Structure
+```typescript
+// src/components/common/user-dashboard/index.tsx
+import { UserDashboardHeader } from './user-dashboard-header';
+import { UserDashboardStats } from './user-dashboard-stats';
+import { UserDashboardActivity } from './user-dashboard-activity';
+
+export function UserDashboard({ user }: UserDashboardProps) {
+  return (
+    <div>
+      <UserDashboardHeader user={user} />
+      <UserDashboardStats stats={user.stats} />
+      <UserDashboardActivity activities={user.activities} />
+    </div>
+  );
+}
+```
+
+**Apply the same pattern to route-specific components** (`_components/`) when they grow large.
+
 ## Route-specific Components
 Components specific to a route go in `_components/` subdirectory:
 ```
