@@ -24,6 +24,7 @@ export function getSessionFromHeaders(headers: Headers) {
 }
 
 export function requiresAdmin(headers: Headers) {
-  const { role } = getSessionFromHeaders(headers);
-  if (role !== UserRole.admin) throw new ApiError({ status: 403 });
+  const user = getSessionFromHeaders(headers);
+  if (user?.role !== UserRole.admin) throw new ApiError({ status: 403 });
+  return user;
 }

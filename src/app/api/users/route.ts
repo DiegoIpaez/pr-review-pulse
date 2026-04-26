@@ -66,13 +66,13 @@ import { getAllUsers } from './user.service';
  */
 export async function GET(request: NextRequest) {
   try {
-    requiresAdmin(request.headers);
+    const user = requiresAdmin(request.headers);
 
     const queryParams = parseQueryParams(
       request.nextUrl.searchParams,
       paginationQueryParamsSchema
     );
-    const data = await getAllUsers(queryParams);
+    const data = await getAllUsers({ ...queryParams, uid: user.uid });
     return NextResponse.json(data);
   } catch (error) {
     return apiErrorHandler({ error: error as ApiError, request });
