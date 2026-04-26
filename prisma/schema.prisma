@@ -86,7 +86,8 @@ model User {
 model PullRequest {
   id            Int              @id @default(autoincrement())
   number        Int
-  body          String?          @db.VarChar(255)
+  title         String?          @db.VarChar(255)
+  body          String?          @db.Text 
   repository_id Int
   type          PullRequestType  @default(no_ticket)
   branch        String           @db.VarChar(255)
@@ -123,7 +124,7 @@ model PullRequestReview {
   id              Int               @id @default(autoincrement())
   pull_request_id Int
   reviewer_id     Int?
-  body            String?
+  body            String?           @db.Text
   url             String?           @db.VarChar(255)
   github_id       BigInt            @unique
   approved_at     DateTime?
