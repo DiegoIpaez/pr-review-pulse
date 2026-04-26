@@ -7,8 +7,8 @@ import type { PullRequestSchema } from '@/contracts/types/schema.type';
 import { formatDate } from '@/utils/formatters/time.formatter';
 import {
   BranchColumn,
-  PrStateColumn,
-  PullRequestTypeColumn,
+  PrStateBadge,
+  PrTypeBadge,
   RepositoryColumn,
 } from './columns';
 
@@ -48,7 +48,7 @@ export const prColumns: ColumnDef<PullRequestSchema>[] = [
     header: 'Type',
     cell: (info) => {
       const type = info.getValue() as PullRequestSchema['type'];
-      return <PullRequestTypeColumn type={type} />;
+      return <PrTypeBadge type={type} />;
     },
   },
   {
@@ -56,7 +56,7 @@ export const prColumns: ColumnDef<PullRequestSchema>[] = [
     header: 'State',
     cell: (info) => {
       const state = info.getValue() as string;
-      return <PrStateColumn state={state} />;
+      return <PrStateBadge state={state} />;
     },
   },
   {

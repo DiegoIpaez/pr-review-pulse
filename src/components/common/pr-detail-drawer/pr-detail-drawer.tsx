@@ -10,7 +10,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import type { PullRequestSchema } from '@/contracts/types/schema.type';
-import { PrStateColumn } from '../columns/pr-state-column';
+import { PrStateBadge } from '../badges/pr-state-badge';
 import { PrMetadata } from './pr-metadata';
 import { PrReviewCard } from './pr-review-card';
 
@@ -39,7 +39,7 @@ export default function PrDetailDrawer({ pr, onClose }: PrDetailDrawerProps) {
                   {pr?.title ?? 'Pull Request'}{' '}
                   <span className="text-gray-400">#{pr.number}</span>
                 </span>
-                <PrStateColumn state={pr.state} />
+                <PrStateBadge state={pr.state} />
               </SheetTitle>
             </SheetHeader>
             {pr?.body && (
