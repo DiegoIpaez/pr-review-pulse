@@ -3,8 +3,8 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { Eye } from 'lucide-react';
 import {
   BranchColumn,
-  PrStateColumn,
-  PullRequestTypeColumn,
+  PrStateBadge,
+  PrTypeBadge,
   RepositoryColumn,
 } from '@/app/(authenticated)/admin/(prs)/_components/columns';
 import UserColumn from '@/components/common/columns/user-column';
@@ -48,7 +48,7 @@ export const prColumns: ColumnDef<PullRequestSchema>[] = [
     header: 'Type',
     cell: (info) => {
       const type = info.getValue() as PullRequestSchema['type'];
-      return <PullRequestTypeColumn type={type} />;
+      return <PrTypeBadge type={type} />;
     },
   },
   {
@@ -56,7 +56,7 @@ export const prColumns: ColumnDef<PullRequestSchema>[] = [
     header: 'State',
     cell: (info) => {
       const state = info.getValue() as string;
-      return <PrStateColumn state={state} />;
+      return <PrStateBadge state={state} />;
     },
   },
   {

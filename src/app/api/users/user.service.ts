@@ -11,12 +11,15 @@ const COUNT_SELECT = {
   },
 };
 
-export async function getAllUsers(filters: PaginationQueryParams) {
-  const { page, limit, search: contains, showAll } = filters;
+export async function getAllUsers(
+  filters: PaginationQueryParams & { uid: number }
+) {
+  const { page, limit, search: contains, showAll, uid } = filters;
 
   const queryMode = { contains, mode: Prisma.QueryMode.insensitive };
   const where: Prisma.UserWhereInput = {
     OR: [{ username: queryMode }],
+    id: { not: uid },
   };
 
   const query: Prisma.UserFindManyArgs = {

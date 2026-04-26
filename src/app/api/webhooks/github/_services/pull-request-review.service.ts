@@ -59,6 +59,7 @@ export async function processPullRequestReview(
         update: {},
         create: {
           github_id: pr?.id,
+          title: pr?.title,
           type: getPullRequestType(branch),
           number: pr?.number,
           repository_id: repositoryRecord.id,
@@ -67,6 +68,7 @@ export async function processPullRequestReview(
           creator_id: creator?.id,
           created_at: new Date(pr?.created_at),
           url: pr?.html_url,
+          body: pr?.body,
         },
         select: { id: true },
       });

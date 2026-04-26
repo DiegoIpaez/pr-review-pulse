@@ -21,7 +21,7 @@ const STATE_CONFIG: Record<
   },
 };
 
-export function PrStateColumn({ state }: { state: string }) {
+export function PrStateBadge({ state }: { state: string }) {
   const config = STATE_CONFIG[state] ?? {
     label: state,
     icon: GitPullRequest,

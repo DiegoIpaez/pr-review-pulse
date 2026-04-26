@@ -19,7 +19,7 @@ type Props = {
   type: PullRequestType;
 };
 
-export function PullRequestTypeColumn({ type }: Props) {
+export function PrTypeBadge({ type }: Props) {
   const color = typeColors[type];
 
   return (
