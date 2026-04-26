@@ -2,9 +2,9 @@
 
 import { Calendar, GitBranch, GitPullRequest, Tag } from 'lucide-react';
 import ExternalLink from '@/components/common/links/external-link';
-import { Badge } from '@/components/ui/badge';
 import type { PullRequestSchema } from '@/contracts/types/schema.type';
 import { formatDate } from '@/utils/formatters/time.formatter';
+import { PullRequestTypeColumn } from '../columns/pr-type-column';
 
 export function PrMetadata({ pr }: { pr: PullRequestSchema }) {
   return (
@@ -20,9 +20,7 @@ export function PrMetadata({ pr }: { pr: PullRequestSchema }) {
         </div>
         <div className="flex items-center gap-2">
           <Tag className="h-4 w-4 text-muted-foreground" />
-          <Badge variant="secondary" className="text-xs">
-            {pr?.type}
-          </Badge>
+          <PullRequestTypeColumn type={pr?.type} />
         </div>
         <div className="flex items-center gap-2">
           <GitBranch className="h-4 w-4 text-muted-foreground" />

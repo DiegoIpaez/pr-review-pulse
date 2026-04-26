@@ -2,7 +2,6 @@
 
 import { Eye } from 'lucide-react';
 import { MarkdownViewer } from '@/components/common/markdown-viewer';
-import { Badge } from '@/components/ui/badge';
 import {
   Sheet,
   SheetContent,
@@ -11,7 +10,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import type { PullRequestSchema } from '@/contracts/types/schema.type';
-import { cn } from '@/lib/cn';
+import { PrStateColumn } from '../columns/pr-state-column';
 import { PrMetadata } from './pr-metadata';
 import { PrReviewCard } from './pr-review-card';
 
@@ -40,25 +39,7 @@ export default function PrDetailDrawer({ pr, onClose }: PrDetailDrawerProps) {
                   {pr?.title ?? 'Pull Request'}{' '}
                   <span className="text-gray-400">#{pr.number}</span>
                 </span>
-                <Badge
-                  variant={
-                    pr.state === 'open'
-                      ? 'default'
-                      : pr.state === 'merged'
-                        ? 'default'
-                        : 'secondary'
-                  }
-                  className={cn(
-                    pr.state === 'open' &&
-                      'bg-green-500/10 text-green-600 dark:text-green-400',
-                    pr.state === 'merged' &&
-                      'bg-purple-500/10 text-purple-600 dark:text-purple-400',
-                    pr.state === 'closed' &&
-                      'bg-gray-500/10 text-gray-600 dark:text-gray-400'
-                  )}
-                >
-                  {pr.state.charAt(0).toUpperCase() + pr.state.slice(1)}
-                </Badge>
+                <PrStateColumn state={pr.state} />
               </SheetTitle>
             </SheetHeader>
             {pr?.body && (
