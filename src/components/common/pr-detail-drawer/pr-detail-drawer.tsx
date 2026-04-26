@@ -62,8 +62,10 @@ export default function PrDetailDrawer({ pr, onClose }: PrDetailDrawerProps) {
               </SheetTitle>
             </SheetHeader>
             {pr?.body && (
-              <SheetDescription className="px-4">
-                <MarkdownViewer content={pr.body} />
+              <SheetDescription asChild className="px-4">
+                <div>
+                  <MarkdownViewer content={pr.body} />
+                </div>
               </SheetDescription>
             )}
             <div className="px-4 pb-4 space-y-6">
