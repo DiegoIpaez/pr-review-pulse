@@ -134,6 +134,7 @@ async function upsertPullRequest({
     create: {
       github_id: pr?.id,
       number: pr?.number,
+      title: pr?.title,
       body: pr?.body,
       url: pr?.html_url,
       branch: pr?.head?.ref,
@@ -152,6 +153,7 @@ async function upsertPullRequest({
     },
     update: {
       number: pr?.number,
+      title: pr?.title,
       body: pr?.body,
       url: pr?.html_url,
       state,
