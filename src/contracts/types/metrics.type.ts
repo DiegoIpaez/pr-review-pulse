@@ -2,6 +2,7 @@ export type KpisData = {
   open: number;
   no_reviews: number;
   approved_pending_merge: number;
+  merged: number;
 };
 
 export type TimeSeriesData = {
