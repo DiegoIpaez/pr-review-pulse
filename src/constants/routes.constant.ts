@@ -12,7 +12,8 @@ export const ADMIN_ROUTES = {
 };
 
 export const COLLABORATOR_ROUTES = {
-  COLLABORATOR: '/collaborator',
+  MY_PRS: '/collaborator',
+  MY_DASHBOARD: '/collaborator/dashboard',
 };
 
 export const ROUTES = {
@@ -49,5 +50,6 @@ export const SIDEBAR_TITLE_ROUTES = {
   [ROUTES.USERS]: 'Users',
   [ROUTES.DASHBOARD]: 'Dashboard',
   [ROUTES.REPOSITORIES]: 'Repositories',
-  [ROUTES.COLLABORATOR]: 'Pull Requests',
+  [ROUTES.MY_PRS]: 'Pull Requests',
+  [ROUTES.MY_DASHBOARD]: 'Dashboard',
 };
