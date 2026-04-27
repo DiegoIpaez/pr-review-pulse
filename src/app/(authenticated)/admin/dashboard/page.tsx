@@ -3,15 +3,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { subDays } from 'date-fns';
 import { useMemo, useState } from 'react';
+import { KpiCards } from '@/components/common/dashboard/kpi-cards';
+import PrDistributionCard from '@/components/common/dashboard/pr-distribution-card';
+import { TimeSeriesChart } from '@/components/common/dashboard/time-series-chart';
 import { DateRangePicker } from '@/components/ui/custom/date-range-picker';
 import {
   fetchDistribution,
   fetchGlobalKpis,
   fetchGlobalStats,
 } from '@/services/pull-requests.service';
-import { KpiCards } from './_components/kpi-cards';
-import PrDistributionCard from './_components/pr-distribution-card';
-import { TimeSeriesChart } from './_components/time-series-chart';
 
 export default function UserDashboardPage() {
   const [fromDate, setFromDate] = useState<Date | undefined>(() =>

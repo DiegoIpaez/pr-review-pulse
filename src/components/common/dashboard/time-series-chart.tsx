@@ -71,17 +71,17 @@ export function TimeSeriesChart({ stats, isLoading }: TimeSeriesChartProps) {
             <Legend wrapperStyle={{ fontSize: '12px' }} />
             <Line
               type="monotone"
-              dataKey="closed"
-              stroke="#f50b0b"
-              name="Closed"
+              dataKey="open"
+              stroke="#3b82f6"
+              name="Created"
               strokeWidth={2}
               dot={false}
             />
             <Line
               type="monotone"
-              dataKey="open"
-              stroke="#3b82f6"
-              name="Open"
+              dataKey="closed"
+              stroke="#f50b0b"
+              name="Closed"
               strokeWidth={2}
               dot={false}
             />
