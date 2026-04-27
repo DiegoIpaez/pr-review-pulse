@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PullRequestType {
+  feature
+  fix
+  hotfix
+  refactor
+  docs
+  test
+  release
+  chore
+  no_ticket
+}
+
+enum PullRequestState {
+  open
+  closed
+  merged
+}
+
+enum GitHubReviewState {
+  approved
+  changes_requested
+  commented
+  dismissed
+}
+
+model Repository {
+  id          Int       @id @default(autoincrement())
+  url         String?   @db.VarChar(255)
+  name        String    @unique @db.VarChar(255)
+  description String?   @db.VarChar(255)
+  owner_id    Int?
+  fork        Boolean   @default(false)
+  private     Boolean   @default(false)
+  github_id   BigInt    @unique
+  created_at  DateTime?
+  updated_at  DateTime?
+  pushed_at   DateTime?
+
+  pull_requests PullRequest[]
+
+  owner User? @relation(fields: [owner_id], references: [id])
+
+  @@map("repositories")
+}
+
+enum UserAccessStatus {
+  pending
+  active
+  blocked
+}
+
+enum UserRole {
+  admin
+  user
+}
+
+model User {
+  id            Int              @id @default(autoincrement())
+  username      String           @unique @db.VarChar(100)
+  email         String?          @db.VarChar(255)
+  url           String?          @db.VarChar(255)
+  avatar_url    String?          @db.VarChar(255)
+  access_status UserAccessStatus @default(pending)
+  role          UserRole         @default(user)
+  github_id     BigInt           @unique
+  created_at    DateTime         @default(now())
+  updated_at    DateTime         @updatedAt
+
+  pull_requests        PullRequest[]       @relation("pull_request_creator")
+  merged_pull_requests PullRequest[]       @relation("pull_request_merger")
+  reviews              PullRequestReview[]
+  repositories         Repository[]
+
+  @@map("users")
+}
+
+model PullRequest {
+  id            Int              @id @default(autoincrement())
+  number        Int
+  title         String?          @db.VarChar(255)
+  body          String?          @db.Text 
+  repository_id Int
+  type          PullRequestType  @default(no_ticket)
+  branch        String           @db.VarChar(255)
+  creator_id    Int
+  merged_by_id  Int?
+  url           String?          @db.VarChar(255)
+  state         PullRequestState @default(open)
+  commits       Int              @default(0)
+  additions     Int              @default(0)
+  deletions     Int              @default(0)
+  changed_files Int              @default(0)
+  github_id     BigInt           @unique
+  created_at    DateTime
+  updated_at    DateTime         @updatedAt
+  merged_at     DateTime?
+  closed_at     DateTime?
+
+  creator    User       @relation("pull_request_creator", fields: [creator_id], references: [id])
+  merged_by  User?      @relation("pull_request_merger", fields: [merged_by_id], references: [id])
+  repository Repository @relation(fields: [repository_id], references: [id])
+
+  reviews PullRequestReview[]
+
+  @@unique([number, repository_id])
+  @@index([type])
+  @@index([repository_id])
+  @@index([creator_id])
+  @@index([merged_by_id])
+  @@index([created_at(sort: Desc)])
+  @@map("pull_requests")
+}
+
+model PullRequestReview {
+  id              Int               @id @default(autoincrement())
+  pull_request_id Int
+  reviewer_id     Int?
+  body            String?           @db.Text
+  url             String?           @db.VarChar(255)
+  github_id       BigInt            @unique
+  approved_at     DateTime?
+  submitted_at    DateTime?
+  state           GitHubReviewState
+
+  reviewer     User?       @relation(fields: [reviewer_id], references: [id], onDelete: SetNull)
+  pull_request PullRequest @relation(fields: [pull_request_id], references: [id], onDelete: Cascade)
+
+  @@index([pull_request_id])
+  @@index([reviewer_id])
+  @@map("pull_request_reviews")
+}

@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "pull_requests" ADD COLUMN     "additions" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "changed_files" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "commits" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "deletions" INTEGER NOT NULL DEFAULT 0;
