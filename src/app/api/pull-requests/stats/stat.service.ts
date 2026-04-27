@@ -25,29 +25,32 @@ export async function getStats(
       )::date AS date
     ),
     open_by_day AS (
-      SELECT pr.created_at::date AS date, COUNT(*)::int AS count
+      SELECT (pr.created_at AT TIME ZONE 'America/Argentina/Buenos_Aires')::date AS date, COUNT(*)::int AS count
       FROM pull_requests pr
-      WHERE pr.created_at::date BETWEEN ${start_date}::date AND ${end_date}::date
+      WHERE (pr.created_at AT TIME ZONE 'America/Argentina/Buenos_Aires')::date 
+            BETWEEN ${start_date}::date AND ${end_date}::date
         ${creatorCondition}
-      GROUP BY pr.created_at::date
+      GROUP BY (pr.created_at AT TIME ZONE 'America/Argentina/Buenos_Aires')::date
     ),
     closed_by_day AS (
-      SELECT pr.closed_at::date AS date, COUNT(*)::int AS count
+      SELECT (pr.closed_at AT TIME ZONE 'America/Argentina/Buenos_Aires')::date AS date, COUNT(*)::int AS count
       FROM pull_requests pr
       WHERE pr.closed_at IS NOT NULL
         AND pr.state = ${PullRequestState.closed}
-        AND pr.closed_at::date BETWEEN ${start_date}::date AND ${end_date}::date
+        AND (pr.closed_at AT TIME ZONE 'America/Argentina/Buenos_Aires')::date 
+            BETWEEN ${start_date}::date AND ${end_date}::date
         ${creatorCondition}
-      GROUP BY pr.closed_at::date
+      GROUP BY (pr.closed_at AT TIME ZONE 'America/Argentina/Buenos_Aires')::date
     ),
     merged_by_day AS (
-      SELECT pr.merged_at::date AS date, COUNT(*)::int AS count
+      SELECT (pr.merged_at AT TIME ZONE 'America/Argentina/Buenos_Aires')::date AS date, COUNT(*)::int AS count
       FROM pull_requests pr
       WHERE pr.merged_at IS NOT NULL
         AND pr.state = ${PullRequestState.merged}
-        AND pr.merged_at::date BETWEEN ${start_date}::date AND ${end_date}::date
+        AND (pr.merged_at AT TIME ZONE 'America/Argentina/Buenos_Aires')::date 
+            BETWEEN ${start_date}::date AND ${end_date}::date
         ${creatorCondition}
-      GROUP BY pr.merged_at::date
+      GROUP BY (pr.merged_at AT TIME ZONE 'America/Argentina/Buenos_Aires')::date
     )
     SELECT
       d.date::text AS date,
