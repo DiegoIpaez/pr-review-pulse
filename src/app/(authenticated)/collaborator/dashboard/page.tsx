@@ -8,12 +8,12 @@ import PrDistributionCard from '@/components/common/dashboard/pr-distribution-ca
 import { TimeSeriesChart } from '@/components/common/dashboard/time-series-chart';
 import { DateRangePicker } from '@/components/ui/custom/date-range-picker';
 import {
-  fetchDistribution,
-  fetchGlobalKpis,
-  fetchGlobalStats,
-} from '@/services/pull-requests.service';
+  fetchMyPrDistribution,
+  fetchMyPrKpis,
+  fetchMyPrStats,
+} from '@/services/users.service';
 
-export default function UserDashboardPage() {
+export default function CollaboratorDashboardPage() {
   const [fromDate, setFromDate] = useState<Date | undefined>(() =>
     subDays(new Date(), 30)
   );
@@ -34,19 +34,19 @@ export default function UserDashboardPage() {
   }, [fromDate, toDate]);
 
   const { data: kpis, isLoading: kpisLoading } = useQuery({
-    queryKey: ['prs-kpis', queryParams],
-    queryFn: () => fetchGlobalKpis(queryParams),
+    queryKey: ['my-prs-kpis', queryParams],
+    queryFn: () => fetchMyPrKpis(queryParams),
   });
 
   const { data: stats, isLoading: statsLoading } = useQuery({
-    queryKey: ['prs-stats', queryParams],
-    queryFn: () => fetchGlobalStats(queryParams),
+    queryKey: ['my-prs-stats', queryParams],
+    queryFn: () => fetchMyPrStats(queryParams),
     select: (data) => data?.data,
   });
 
   const { data: distribution, isLoading: isLoadingDistribution } = useQuery({
-    queryKey: ['prDistribution', queryParams],
-    queryFn: () => fetchDistribution(queryParams),
+    queryKey: ['my-prDistribution', queryParams],
+    queryFn: () => fetchMyPrDistribution(queryParams),
     select: (data) => data?.data,
   });
 
