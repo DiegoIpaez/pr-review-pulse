@@ -166,7 +166,7 @@ const corsOptions = {
 ## Session Token Configuration
 
 NextAuth JWT tokens are validated using:
-- **Secret**: `CONFIG.NEXT_AUTH.SECRET` (from `NEXT_AUTH_SECRET` env var)
+- **Secret**: `CONFIG.NEXT_AUTH.SECRET` (from `NEXTAUTH_SECRET` env var)
 - **Token location**: Cookie or `Authorization` header
 - **Token validation**: `getToken()` from `next-auth/jwt`
 
