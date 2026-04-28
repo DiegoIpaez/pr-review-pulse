@@ -78,7 +78,7 @@ const spec = createSwaggerSpec({
     openapi: '3.0.0',
     info: {
       title: 'PR Review Pulse API',
-      version: '1.0.0',
+      version: '1.0.1',
       description: 'API for tracking GitHub Pull Request analytics',
     },
     components: {
