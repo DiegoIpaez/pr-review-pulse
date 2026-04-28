@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import GitHub from 'next-auth/providers/github';
-import { CONFIG } from '@/constants/config.constant';
+import { CONFIG, NodeEnv } from '@/constants/config.constant';
 import { upsertGitHubUser } from '../../users/user.service';
 
 const handler = NextAuth({
@@ -11,11 +11,12 @@ const handler = NextAuth({
     }),
   ],
   secret: CONFIG.NEXT_AUTH.SECRET,
+  debug: CONFIG.NODE_ENV === NodeEnv.Development,
   pages: {
     signIn: '/login',
   },
   callbacks: {
-    async signIn({ profile, user: authUser }) {
+    async signIn({ profile }) {
       if (
         !profile?.login ||
         !profile?.avatar_url ||
@@ -24,21 +25,25 @@ const handler = NextAuth({
       ) {
         return false;
       }
-
-      const user = await upsertGitHubUser({
-        id: Number(profile.id),
-        login: profile.login as string,
-        avatar_url: profile.avatar_url as string,
-        html_url: profile.html_url as string,
-        email: profile?.email as string | null,
-      });
-
-      authUser.uid = user.id;
-      authUser.access_status = user.access_status;
-      authUser.role = user.role;
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt(data) {
+      const { token, user, profile } = data;
+
+      if (profile) {
+        const ghUser = await upsertGitHubUser({
+          id: Number(profile.id),
+          login: profile.login as string,
+          avatar_url: profile.avatar_url as string,
+          html_url: profile.html_url as string,
+          email: profile?.email as string | null,
+        });
+
+        token.uid = ghUser.id;
+        token.access_status = ghUser.access_status;
+        token.role = ghUser.role;
+      }
+
       return { ...token, ...user };
     },
     async session({ session, token }) {
