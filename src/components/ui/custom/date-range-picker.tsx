@@ -25,8 +25,8 @@ export function DateRangePicker({
   to,
   onFromChange,
   onToChange,
-  fromLabel = 'Fecha desde',
-  toLabel = 'Fecha hasta',
+  fromLabel = 'From date',
+  toLabel = 'To date',
 }: DateRangePickerProps) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-3">
@@ -44,7 +44,7 @@ export function DateRangePicker({
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {from ? format(from, 'PP') : <span>Seleccionar</span>}
+              {from ? format(from, 'PP') : <span>Select</span>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -73,7 +73,7 @@ export function DateRangePicker({
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {to ? format(to, 'PP') : <span>Seleccionar</span>}
+              {to ? format(to, 'PP') : <span>Select</span>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
