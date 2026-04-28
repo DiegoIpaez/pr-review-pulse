@@ -25,4 +25,4 @@ Client → React Query → API Route → Service → Prisma → PostgreSQL
 
 ## Environment Variables
 Defined in `src/constants/config.constant.ts` via `CONFIG` object.
-Required: `DATABASE_URL`, `NEXT_PUBLIC_BASE_URL`
+Required: `DATABASE_URL`, `NEXTAUTH_URL`, `NEXTAUTH_SECRET`

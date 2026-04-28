@@ -73,8 +73,8 @@ bun install
 
 # 2. Minimal .env (using defaults)
 echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/pr_review_pulse" > .env
-echo "NEXT_AUTH_SECRET=$(openssl rand -base64 32)" >> .env
-echo "NEXT_PUBLIC_BASE_URL=http://localhost:3000" >> .env
+echo "NEXTAUTH_SECRET=$(openssl rand -base64 32)" >> .env
+echo "NEXTAUTH_URL=http://localhost:3000" >> .env
 
 # 3. Start & seed
 docker-compose up -d postgres
@@ -157,8 +157,8 @@ curl -H "Authorization: Bearer $TOKEN" \
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `DATABASE_URL` | ✅ | - | PostgreSQL connection string |
-| `NEXT_PUBLIC_BASE_URL` | ✅ | - | App base URL (e.g., `http://localhost:3000`) |
-| `NEXT_AUTH_SECRET` | ✅ | - | NextAuth.js encryption secret (min 32 chars) |
+| `NEXTAUTH_URL` | ✅ | `http://localhost:3000` | Your app's public URL (required by NextAuth) |
+| `NEXTAUTH_SECRET` | ✅ | - | NextAuth.js encryption secret (min 32 chars) |
 | `GITHUB_CLIENT_ID` | ✅ | - | GitHub OAuth App Client ID |
 | `GITHUB_CLIENT_SECRET` | ✅ | - | GitHub OAuth App Client Secret |
 | `GITHUB_WEBHOOK_SECRET` | ⚠️ | - | Webhook signature secret (optional but recommended) |
@@ -166,7 +166,7 @@ curl -H "Authorization: Bearer $TOKEN" \
 
 **Generate secrets:**
 ```bash
-# NEXT_AUTH_SECRET
+# NEXTAUTH_SECRET
 openssl rand -base64 32
 
 # GITHUB_WEBHOOK_SECRET

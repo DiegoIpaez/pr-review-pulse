@@ -5,7 +5,6 @@ import type { UserRole } from './generated/prisma/enums';
 import { hasAccessToRoute } from './middlewares/roles.middleware';
 
 const corsOptions = {
-  'Access-Control-Allow-Origin': CONFIG.BASE_URL,
   'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Access-Control-Allow-Credentials': 'true',

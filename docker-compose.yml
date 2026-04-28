@@ -38,4 +38,4 @@ services:
     - .env
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/pr_review_pulse
-      NEXT_PUBLIC_BASE_URL: http://host.docker.internal:3000
+      NEXTAUTH_URL: http://host.docker.internal:3000
