@@ -1,5 +1,6 @@
 FROM oven/bun:1 AS base
 WORKDIR /app
+
 FROM base AS builder
 ENV HUSKY=0
 ENV NODE_ENV=production
@@ -11,6 +12,7 @@ COPY prisma.config.ts ./
 RUN bun install --frozen-lockfile --ignore-scripts
 
 COPY . .
+RUN bunx prisma generate
 RUN bun run build
 
 FROM base AS runner
