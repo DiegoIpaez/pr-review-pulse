@@ -18,7 +18,7 @@ import { PullRequestState, PullRequestType } from '@/generated/prisma/enums';
 import { fetchAllPullRequests } from '@/services/pull-requests.service';
 import { prColumns } from './_components/pr-columns';
 
-export default function Home() {
+export default function PrsPage() {
   const [filters, setFilters] = useState<PullRequestQueryParams>({
     page: PAGINATION.DEFAULT_PAGE_NUMBER,
     limit: PAGINATION.DEFAULT_PAGE_SIZE,

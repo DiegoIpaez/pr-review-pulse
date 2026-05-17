@@ -7,11 +7,12 @@ import Button from '@/components/ui/custom/button';
 export default function NotFoundPage() {
   const { data: session, status } = useSession();
 
-  const backUrl = session?.user
-    ? session?.user.role === 'admin'
-      ? '/admin'
-      : '/'
-    : '/login';
+  const backUrl =
+    session?.user?.role === 'admin'
+      ? '/prs'
+      : session?.user?.role === 'user'
+        ? '/prs/me'
+        : '/login';
 
   const backText = session?.user ? 'Back to home' : 'Back to Login';
 

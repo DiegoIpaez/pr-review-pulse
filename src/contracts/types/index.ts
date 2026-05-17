@@ -4,12 +4,15 @@ export type RouteParams = { params: Promise<{ id: string }> };
 
 export type Dictionary<T> = { [key: string]: T };
 
+import type { UserRole } from '@/generated/prisma/enums';
+
 export type SidebarMenuItemProps = {
   title: string;
   url: string;
   icon: React.ComponentType<{ className?: string }>;
   disabled?: boolean;
   children?: SidebarMenuItemProps[];
+  roles?: UserRole[];
 };
 
 export type NativeButtonType =
