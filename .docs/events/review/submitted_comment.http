@@ -1,11 +1,11 @@
-POST /api/webhooks/github HTTP/1.1
-Host: historied-intercity-melaine.ngrok-free.dev
+POST {{host}}/api/webhooks/github HTTP/1.1
+Host: {{host}}
 User-Agent: GitHub-Hookshot/5af8f1d
 Content-Length: 23930
 Accept: */*
 Content-Type: application/json
 X-Forwarded-For: 140.82.115.102
-X-Forwarded-Host: historied-intercity-melaine.ngrok-free.dev
+X-Forwarded-Host: {{host}}
 X-Forwarded-Proto: https
 X-Github-Delivery: 499a91d2-628a-11f1-880e-dbe6f5cd934f
 X-Github-Event: pull_request_review
