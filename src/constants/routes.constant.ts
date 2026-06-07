@@ -43,6 +43,9 @@ export const API_ROUTES = {
   REPOSITORIES: {
     BASE: '/repositories',
   },
+  LABELS: {
+    BASE: '/labels',
+  },
 } as const;
 
 export const SIDEBAR_TITLE_ROUTES: Record<string, string> = {

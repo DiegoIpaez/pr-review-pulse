@@ -1,6 +1,7 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { type ChangeEvent, useState } from 'react';
+import { LabelMultiSelect } from '@/components/common/filters/label-multi-select';
 import PrDetailDrawer from '@/components/common/pr-detail-drawer/pr-detail-drawer';
 import DataTable from '@/components/ui/custom/data-table';
 import { Input } from '@/components/ui/input';
@@ -36,6 +37,7 @@ export default function MyPrsPage() {
       filters.search,
       filters.type,
       filters.state,
+      filters.labelNames,
     ],
     queryFn: () => fetchMyPrs(filters),
   });
@@ -67,6 +69,18 @@ export default function MyPrsPage() {
       page: PAGINATION.DEFAULT_PAGE_NUMBER,
     }));
   };
+
+  const handleLabelChange = (labels: string[]) => {
+    setFilters((prev) => ({
+      ...prev,
+      labelNames: labels.length > 0 ? labels.join(',') : undefined,
+      page: PAGINATION.DEFAULT_PAGE_NUMBER,
+    }));
+  };
+
+  const selectedLabels = filters.labelNames
+    ? filters.labelNames.split(',').filter(Boolean)
+    : [];
 
   const typeOptions = Object.values(PullRequestType);
   const stateOptions = Object.values(PullRequestState);
@@ -110,6 +124,7 @@ export default function MyPrsPage() {
             ))}
           </SelectContent>
         </Select>
+        <LabelMultiSelect value={selectedLabels} onChange={handleLabelChange} />
       </div>
       <DataTable<PullRequestSchema>
         data={data}

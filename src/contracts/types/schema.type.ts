@@ -1,5 +1,7 @@
 import type {
+  Label,
   PullRequest,
+  PullRequestLabel,
   PullRequestReview,
   Repository,
   User,
@@ -17,4 +19,5 @@ export type PullRequestSchema = PullRequest & {
   merged_by?: User;
   repository?: Repository;
   reviews: PrReviewSchema[];
+  labels?: (PullRequestLabel & { label: Label })[];
 };

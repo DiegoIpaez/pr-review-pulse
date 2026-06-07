@@ -87,7 +87,7 @@ model PullRequest {
   id            Int              @id @default(autoincrement())
   number        Int
   title         String?          @db.VarChar(255)
-  body          String?          @db.Text 
+  body          String?          @db.Text
   repository_id Int
   type          PullRequestType  @default(no_ticket)
   branch        String           @db.VarChar(255)
@@ -110,6 +110,7 @@ model PullRequest {
   repository Repository @relation(fields: [repository_id], references: [id])
 
   reviews PullRequestReview[]
+  labels  PullRequestLabel[]
 
   @@unique([number, repository_id])
   @@index([type])
@@ -137,4 +138,29 @@ model PullRequestReview {
   @@index([pull_request_id])
   @@index([reviewer_id])
   @@map("pull_request_reviews")
+}
+
+model Label {
+  id          Int     @id @default(autoincrement())
+  github_id   BigInt  @unique
+  name        String  @db.VarChar(100)
+  color       String? @db.VarChar(10)
+  description String? @db.Text
+
+  pull_requests PullRequestLabel[]
+
+  @@map("labels")
+}
+
+model PullRequestLabel {
+  pull_request_id Int
+  label_id        Int
+  created_at      DateTime @default(now())
+
+  pull_request PullRequest @relation(fields: [pull_request_id], references: [id], onDelete: Cascade)
+  label        Label       @relation(fields: [label_id], references: [id], onDelete: Cascade)
+
+  @@id([pull_request_id, label_id])
+  @@index([label_id])
+  @@map("pull_request_labels")
 }

@@ -22,6 +22,7 @@ Client → React Query → API Route → Service → Prisma → PostgreSQL
 - Never put business logic inside API routes
 - Never fetch data in components without React Query
 - Never introduce new patterns if an existing one solves the problem
+- Always use `bun run prisma:migrate --name <name>` for schema changes (never `prisma db push` or manual steps)
 
 ## Environment Variables
 Defined in `src/constants/config.constant.ts` via `CONFIG` object.

@@ -2,7 +2,8 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { ApiError, apiErrorHandler } from '@/utils/handlers/api-error.handler';
 import { pullRequestReviewWebhookSchema } from './_contracts/schemas/pull-request-review-webhook.schema';
 import { pullRequestWebhookSchema } from './_contracts/schemas/pull-request-webhook.schema';
-import { GitHubEvent } from './_contracts/types';
+import { GitHubEvent, GitHubPullRequestAction } from './_contracts/types';
+import { processLabelEvent, syncLabels } from './_services/label.service';
 import { processPullRequest } from './_services/pull-request.service';
 import { processPullRequestReview } from './_services/pull-request-review.service';
 import { verifyGitHubSignature } from './_utils/verify-signature.util';
@@ -21,7 +22,24 @@ export async function POST(request: NextRequest) {
     switch (githubEvent) {
       case GitHubEvent.PullRequest: {
         const payload = pullRequestWebhookSchema.parse(body);
+
+        if (
+          payload.action === GitHubPullRequestAction.Labeled ||
+          payload.action === GitHubPullRequestAction.Unlabeled
+        ) {
+          const data = await processLabelEvent(payload);
+          return NextResponse.json(data, { status: 200 });
+        }
+
         const data = await processPullRequest(payload);
+
+        if (
+          payload.action === GitHubPullRequestAction.Opened &&
+          payload.pull_request.labels?.length
+        ) {
+          await syncLabels(data.id, payload.pull_request.labels);
+        }
+
         return NextResponse.json(data, { status: 200 });
       }
       case GitHubEvent.PullRequestReview: {
