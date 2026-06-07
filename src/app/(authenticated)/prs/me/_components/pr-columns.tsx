@@ -1,16 +1,17 @@
 'use client';
 import type { ColumnDef } from '@tanstack/react-table';
 import { Eye } from 'lucide-react';
+import { PrLabelBadge } from '@/components/common/badges/pr-label-badge';
+import UserColumn from '@/components/common/columns/user-column';
+import ExternalLink from '@/components/common/links/external-link';
+import type { PullRequestSchema } from '@/contracts/types/schema.type';
+import { formatDate } from '@/utils/formatters/time.formatter';
 import {
   BranchColumn,
   PrStateBadge,
   PrTypeBadge,
   RepositoryColumn,
-} from '@/app/(authenticated)/admin/(prs)/_components/columns';
-import UserColumn from '@/components/common/columns/user-column';
-import ExternalLink from '@/components/common/links/external-link';
-import type { PullRequestSchema } from '@/contracts/types/schema.type';
-import { formatDate } from '@/utils/formatters/time.formatter';
+} from '../../_components/columns';
 
 export const prColumns: ColumnDef<PullRequestSchema>[] = [
   {
@@ -18,7 +19,7 @@ export const prColumns: ColumnDef<PullRequestSchema>[] = [
     header: 'ID',
     cell: (info) => {
       const prNumber = info.getValue() as string;
-      const url = info.row.original.url as string | null;
+      const url = info.row.original.url ?? '';
 
       return (
         <span className="font-mono text-xs font-semibold text-muted-foreground">
@@ -57,6 +58,25 @@ export const prColumns: ColumnDef<PullRequestSchema>[] = [
     cell: (info) => {
       const state = info.getValue() as string;
       return <PrStateBadge state={state} />;
+    },
+  },
+  {
+    id: 'labels',
+    header: 'Labels',
+    cell: (info) => {
+      const labels = info.row.original.labels;
+      if (!labels?.length) return null;
+      return (
+        <div className="flex gap-1 flex-wrap">
+          {labels.map(({ label }) => (
+            <PrLabelBadge
+              key={label.id}
+              name={label.name}
+              color={label.color}
+            />
+          ))}
+        </div>
+      );
     },
   },
   {

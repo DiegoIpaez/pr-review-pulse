@@ -92,7 +92,7 @@ export enum GitHubPullRequestState {
   Merged = 'merged',
 }
 
-type Label = {
+export type GitHubLabel = {
   id: number;
   node_id: string;
   url: string;
@@ -123,7 +123,7 @@ export type GitHubPullRequest = {
   assignee: GitHubUser | null;
   assignees: GitHubUser[];
   requested_reviewers: GitHubUser[];
-  labels: Label[];
+  labels: GitHubLabel[];
   draft: boolean;
   commits_url: string;
   review_comments_url: string;
@@ -174,10 +174,13 @@ export enum GitHubPullRequestAction {
   Opened = 'opened',
   Closed = 'closed',
   Reopened = 'reopened',
+  Labeled = 'labeled',
+  Unlabeled = 'unlabeled',
 }
 
 export type PullRequestWebhookPayload = {
   action: GitHubPullRequestAction;
   pull_request: GitHubPullRequest;
   repository: GitHubRepository;
+  label?: GitHubLabel;
 };

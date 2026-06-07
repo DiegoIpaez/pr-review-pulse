@@ -17,6 +17,7 @@ export const prMetricQueryParamsSchema = z.object({
 export const prQueryParamsSchema = paginationQueryParamsSchema.extend({
   type: z.preprocess(preprocess, z.enum(PR_TYPES).optional()),
   state: z.preprocess(preprocess, z.enum(PR_STATES).optional()),
+  labelNames: z.string().optional(),
   uid: z.number().int().optional(),
 });
 

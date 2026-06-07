@@ -13,7 +13,7 @@ import {
   fetchGlobalStats,
 } from '@/services/pull-requests.service';
 
-export default function UserDashboardPage() {
+export default function DashboardPage() {
   const [fromDate, setFromDate] = useState<Date | undefined>(() =>
     subDays(new Date(), 30)
   );

@@ -12,7 +12,7 @@ export default function RedirectPage() {
         <Spinner size={50} />
       </div>
     );
-  if (session?.user?.role === 'admin') redirect('/admin');
-  else if (session?.user?.role === 'user') redirect('/collaborator');
+  if (session?.user?.role === 'admin') redirect('/prs');
+  else if (session?.user?.role === 'user') redirect('/prs/me');
   else redirect('/login');
 }

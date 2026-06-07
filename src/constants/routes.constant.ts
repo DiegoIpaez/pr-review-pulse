@@ -5,15 +5,15 @@ export const PUBLIC_ROUTES = {
 };
 
 export const ADMIN_ROUTES = {
-  ADMIN: '/admin',
-  USERS: '/admin/users',
-  DASHBOARD: '/admin/dashboard',
-  REPOSITORIES: '/admin/repositories',
+  PRS: '/prs',
+  DASHBOARD: '/dashboard',
+  REPOSITORIES: '/repositories',
+  USERS: '/users',
 };
 
 export const COLLABORATOR_ROUTES = {
-  MY_PRS: '/collaborator',
-  MY_DASHBOARD: '/collaborator/dashboard',
+  PRS_ME: '/prs/me',
+  DASHBOARD_ME: '/dashboard/me',
 };
 
 export const ROUTES = {
@@ -43,13 +43,16 @@ export const API_ROUTES = {
   REPOSITORIES: {
     BASE: '/repositories',
   },
+  LABELS: {
+    BASE: '/labels',
+  },
 } as const;
 
-export const SIDEBAR_TITLE_ROUTES = {
-  [ROUTES.ADMIN]: 'Pull Requests',
+export const SIDEBAR_TITLE_ROUTES: Record<string, string> = {
+  [ROUTES.PRS]: 'Pull Requests',
+  [ROUTES.PRS_ME]: 'My Pull Requests',
   [ROUTES.USERS]: 'Users',
   [ROUTES.DASHBOARD]: 'Dashboard',
+  [ROUTES.DASHBOARD_ME]: 'My Dashboard',
   [ROUTES.REPOSITORIES]: 'Repositories',
-  [ROUTES.MY_PRS]: 'Pull Requests',
-  [ROUTES.MY_DASHBOARD]: 'Dashboard',
 };

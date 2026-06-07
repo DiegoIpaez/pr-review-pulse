@@ -13,7 +13,7 @@ import {
   fetchMyPrStats,
 } from '@/services/users.service';
 
-export default function CollaboratorDashboardPage() {
+export default function MyDashboardPage() {
   const [fromDate, setFromDate] = useState<Date | undefined>(() =>
     subDays(new Date(), 30)
   );

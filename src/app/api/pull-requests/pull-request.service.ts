@@ -4,13 +4,38 @@ import { paginationFormatter } from '@/utils/formatters/pagination.formatter';
 import type { PullRequestQueryParams } from '../../../contracts/schemas/pull-request.schema';
 
 export async function getPullRequest(filters: PullRequestQueryParams) {
-  const { page, limit, search: contains, showAll, type, state, uid } = filters;
+  const {
+    page,
+    limit,
+    search: contains,
+    showAll,
+    type,
+    state,
+    uid,
+    labelNames,
+  } = filters;
 
   const queryMode = { contains, mode: Prisma.QueryMode.insensitive };
   const where: Prisma.PullRequestWhereInput = {
     ...(type ? { type } : {}),
     ...(state ? { state } : {}),
     ...(uid ? { creator_id: uid } : {}),
+    ...(labelNames
+      ? {
+          labels: {
+            some: {
+              label: {
+                name: {
+                  in: labelNames
+                    .split(',')
+                    .map((s) => s.trim())
+                    .filter(Boolean),
+                },
+              },
+            },
+          },
+        }
+      : {}),
     OR: [
       {
         repository: {
@@ -53,6 +78,13 @@ export async function getPullRequest(filters: PullRequestQueryParams) {
         include: {
           reviewer: {
             select: { id: true, username: true, url: true, avatar_url: true },
+          },
+        },
+      },
+      labels: {
+        include: {
+          label: {
+            select: { id: true, name: true, color: true },
           },
         },
       },

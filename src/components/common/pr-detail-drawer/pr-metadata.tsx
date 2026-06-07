@@ -4,6 +4,7 @@ import { Calendar, GitBranch, GitPullRequest, Tag } from 'lucide-react';
 import ExternalLink from '@/components/common/links/external-link';
 import type { PullRequestSchema } from '@/contracts/types/schema.type';
 import { formatDate } from '@/utils/formatters/time.formatter';
+import { PrLabelBadge } from '../badges/pr-label-badge';
 import { PrTypeBadge } from '../badges/pr-type-badge';
 
 export function PrMetadata({ pr }: { pr: PullRequestSchema }) {
@@ -52,11 +53,25 @@ export function PrMetadata({ pr }: { pr: PullRequestSchema }) {
       <div className="pt-2 border-t">
         <p className="text-xs text-muted-foreground">Merged by</p>
         <div className="text-sm font-medium">
-          <ExternalLink href={pr?.merged_by?.url}>
+          <ExternalLink href={pr?.merged_by?.url ?? ''}>
             {pr?.merged_by?.username || '-'}
           </ExternalLink>
         </div>
       </div>
+      {pr?.labels && pr.labels.length > 0 && (
+        <div className="pt-2 border-t">
+          <p className="text-xs text-muted-foreground">Labels</p>
+          <div className="flex gap-1.5 flex-wrap mt-1">
+            {pr.labels.map(({ label }) => (
+              <PrLabelBadge
+                key={label.id}
+                name={label.name}
+                color={label.color}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

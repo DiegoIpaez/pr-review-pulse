@@ -8,6 +8,16 @@ const webhookUserSchema = z.object({
   avatar_url: z.string().url(),
 });
 
+const webhookLabelSchema = z.object({
+  id: z.number().int().positive(),
+  node_id: z.string(),
+  url: z.string(),
+  name: z.string(),
+  color: z.string(),
+  default: z.boolean(),
+  description: z.string().nullable(),
+});
+
 const webhookRepoSchema = z.object({
   id: z.number().int().positive(),
   name: z.string(),
@@ -41,12 +51,14 @@ const webhookPRSchema = z.object({
   changed_files: z.number().int().nonnegative(),
   created_at: z.string(),
   closed_at: z.string().nullable(),
+  labels: z.array(webhookLabelSchema).optional(),
 });
 
 export const pullRequestWebhookSchema = z.object({
   action: z.nativeEnum(GitHubPullRequestAction),
   pull_request: webhookPRSchema,
   repository: webhookRepoSchema,
+  label: webhookLabelSchema.optional(),
 });
 
 export type PullRequestWebhookPayload = z.infer<

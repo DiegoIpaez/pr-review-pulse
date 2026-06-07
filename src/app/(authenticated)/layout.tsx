@@ -1,26 +1,10 @@
 'use client';
-import { ChartSpline, GitPullRequest } from 'lucide-react';
 import Sidebar from '@/components/ui/custom/sidebar/sidebar';
 import SidebarHeader from '@/components/ui/custom/sidebar/sidebar-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import type { SidebarMenuItemProps } from '@/contracts/types';
+import { menuItems } from '@/constants';
 
-const items: SidebarMenuItemProps[] = [
-  {
-    title: 'Dashboard',
-    url: '/collaborator/dashboard',
-    icon: ChartSpline,
-    disabled: false,
-  },
-  {
-    title: 'PRs',
-    url: '/collaborator',
-    icon: GitPullRequest,
-    disabled: false,
-  },
-];
-
-export default function MenuLayout({
+export default function AuthenticatedLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -34,7 +18,7 @@ export default function MenuLayout({
         } as React.CSSProperties
       }
     >
-      <Sidebar items={items} title="PR Review Pulse" />
+      <Sidebar items={menuItems} title="PR Review Pulse" />
       <SidebarInset>
         <div className="flex flex-1 flex-col min-h-screen bg-background">
           <SidebarHeader />

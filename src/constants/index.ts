@@ -1,4 +1,5 @@
 export * from './config.constant';
+export * from './menu.constant';
 export * from './routes.constant';
 
 export const PAGINATION = {
