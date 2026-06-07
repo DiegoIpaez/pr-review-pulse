@@ -11,14 +11,12 @@ export async function processLabelEvent(payload: PullRequestWebhookPayload) {
 
     return prismaClient.$transaction(async (tx) => {
       const labelRecord = await tx.label.upsert({
-        where: { github_id: labelPayload.id },
+        where: { name: labelPayload.name },
         update: {
-          name: labelPayload.name,
           color: labelPayload.color,
           description: labelPayload.description,
         },
         create: {
-          github_id: labelPayload.id,
           name: labelPayload.name,
           color: labelPayload.color,
           description: labelPayload.description,
@@ -48,7 +46,7 @@ export async function processLabelEvent(payload: PullRequestWebhookPayload) {
     if (!pr) return null;
 
     const labelRecord = await prismaClient.label.findUnique({
-      where: { github_id: labelPayload.id },
+      where: { name: labelPayload.name },
       select: { id: true },
     });
     if (!labelRecord) return null;
@@ -64,15 +62,13 @@ export async function syncLabels(prId: number, labels: GitHubLabel[]) {
   const records = await Promise.all(
     labels.map((l) =>
       prismaClient.label.upsert({
-        where: { github_id: l.id },
+        where: { name: l.name },
         create: {
-          github_id: l.id,
           name: l.name,
           color: l.color,
           description: l.description,
         },
         update: {
-          name: l.name,
           color: l.color,
           description: l.description,
         },
