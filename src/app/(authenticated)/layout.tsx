@@ -19,7 +19,7 @@ export default function AuthenticatedLayout({
       }
     >
       <Sidebar items={menuItems} title="PR Review Pulse" />
-      <SidebarInset>
+      <SidebarInset className="min-w-0">
         <div className="flex flex-1 flex-col min-h-screen bg-background">
           <SidebarHeader />
           <main className="flex-1 p-4">{children}</main>
