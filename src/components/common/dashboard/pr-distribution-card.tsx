@@ -1,22 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { FALLBACK_COLOR, PR_TYPE_COLORS } from '@/constants';
 import type { DistributionItem } from '@/contracts/types/metrics.type';
 import { cn } from '@/lib/cn';
 
 type PrDistributionCardProps = {
   distribution: DistributionItem[];
   isLoading?: boolean;
-};
-
-const typeColors: Record<string, string> = {
-  feature: 'bg-green-500',
-  fix: 'bg-red-700',
-  hotfix: 'bg-orange-500',
-  refactor: 'bg-purple-500',
-  docs: 'bg-blue-500',
-  test: 'bg-yellow-500',
-  release: 'bg-pink-500',
-  chore: 'bg-gray-500',
-  no_ticket: 'bg-slate-500',
 };
 
 export default function PrDistributionCard({
@@ -68,7 +57,7 @@ export default function PrDistributionCard({
                     <div
                       className={cn(
                         'h-full transition-all duration-300',
-                        typeColors[item.type] || 'bg-gray-500 dark:bg-gray-400'
+                        PR_TYPE_COLORS[item.type] || FALLBACK_COLOR
                       )}
                       style={{ width: `${item.percentage}%` }}
                     />

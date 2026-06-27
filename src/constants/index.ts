@@ -1,5 +1,6 @@
 export * from './config.constant';
 export * from './menu.constant';
+export * from './pr-colors.constant';
 export * from './routes.constant';
 
 export const PAGINATION = {
