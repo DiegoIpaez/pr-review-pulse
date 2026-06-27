@@ -26,8 +26,8 @@ export type RankingAuthor = {
 };
 
 export type RankingDimensionItem = {
-  key: string; // valor de PullRequestType o PullRequestState
-  count: number; // total de PRs en esa dimensión
+  key: string;
+  count: number;
   topAuthor: RankingAuthor | null;
   ranking: RankingAuthor[];
 };
