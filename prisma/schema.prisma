@@ -47,7 +47,9 @@ model Repository {
 
   pull_requests PullRequest[]
 
-  owner User? @relation(fields: [owner_id], references: [id])
+  owner                       User?                     @relation(fields: [owner_id], references: [id])
+  daily_report_pr_details     DailyReportPrDetail[]
+  daily_report_review_details DailyReportReviewDetail[]
 
   @@map("repositories")
 }
@@ -79,6 +81,7 @@ model User {
   merged_pull_requests PullRequest[]       @relation("pull_request_merger")
   reviews              PullRequestReview[]
   repositories         Repository[]
+  daily_reports        DailyReport[]
 
   @@map("users")
 }
@@ -109,8 +112,10 @@ model PullRequest {
   merged_by  User?      @relation("pull_request_merger", fields: [merged_by_id], references: [id])
   repository Repository @relation(fields: [repository_id], references: [id])
 
-  reviews PullRequestReview[]
-  labels  PullRequestLabel[]
+  reviews                     PullRequestReview[]
+  labels                      PullRequestLabel[]
+  daily_report_pr_details     DailyReportPrDetail[]
+  daily_report_review_details DailyReportReviewDetail[]
 
   @@unique([number, repository_id])
   @@index([type])
@@ -132,8 +137,9 @@ model PullRequestReview {
   submitted_at    DateTime?
   state           GitHubReviewState
 
-  reviewer     User?       @relation(fields: [reviewer_id], references: [id], onDelete: SetNull)
-  pull_request PullRequest @relation(fields: [pull_request_id], references: [id], onDelete: Cascade)
+  reviewer                    User?                     @relation(fields: [reviewer_id], references: [id], onDelete: SetNull)
+  pull_request                PullRequest               @relation(fields: [pull_request_id], references: [id], onDelete: Cascade)
+  daily_report_review_details DailyReportReviewDetail[]
 
   @@index([pull_request_id])
   @@index([reviewer_id])
@@ -162,4 +168,60 @@ model PullRequestLabel {
   @@id([pull_request_id, label_id])
   @@index([label_id])
   @@map("pull_request_labels")
+}
+
+model DailyReport {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  date       DateTime @db.Date
+  created_at DateTime
+  updated_at DateTime @updatedAt
+
+  user User @relation(fields: [user_id], references: [id])
+
+  daily_report_pr_details     DailyReportPrDetail[]
+  daily_report_review_details DailyReportReviewDetail[]
+
+  @@unique([user_id, date])
+  @@map("daily_reports")
+}
+
+model DailyReportPrDetail {
+  id              Int              @id @default(autoincrement())
+  daily_report_id Int
+  pull_request_id Int
+  repository_id   Int
+  title           String?          @db.VarChar(255)
+  state           PullRequestState
+  labels          Json?            @db.JsonB
+  created         Boolean          @default(false)
+  merged          Boolean          @default(false)
+  created_at      DateTime
+  updated_at      DateTime         @updatedAt
+
+  repository   Repository  @relation(fields: [repository_id], references: [id])
+  daily_report DailyReport @relation(fields: [daily_report_id], references: [id])
+  pull_request PullRequest @relation(fields: [pull_request_id], references: [id])
+
+  @@map("daily_report_pr_details")
+}
+
+model DailyReportReviewDetail {
+  id              Int               @id @default(autoincrement())
+  daily_report_id Int
+  review_id       Int
+  pull_request_id Int
+  repository_id   Int
+  pr_title        String?           @db.VarChar(255)
+  state           GitHubReviewState
+  labels          Json?             @db.JsonB
+  created_at      DateTime
+  updated_at      DateTime          @updatedAt
+
+  pull_request_review PullRequestReview @relation(fields: [review_id], references: [id])
+  repository          Repository        @relation(fields: [repository_id], references: [id])
+  daily_report        DailyReport       @relation(fields: [daily_report_id], references: [id])
+  pull_request        PullRequest       @relation(fields: [pull_request_id], references: [id])
+
+  @@map("daily_report_review_details")
 }

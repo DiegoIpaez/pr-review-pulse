@@ -1,4 +1,10 @@
-import { ChartSpline, FolderGit2, GitPullRequest, Users2 } from 'lucide-react';
+import {
+  ChartSpline,
+  FileText,
+  FolderGit2,
+  GitPullRequest,
+  Users2,
+} from 'lucide-react';
 import type { SidebarMenuItemProps } from '@/contracts/types';
 
 export const menuItems: SidebarMenuItemProps[] = [
@@ -36,6 +42,25 @@ export const menuItems: SidebarMenuItemProps[] = [
         title: 'My PRs',
         url: '/prs/me',
         icon: GitPullRequest,
+        roles: ['admin', 'user'],
+      },
+    ],
+  },
+  {
+    title: 'Reports',
+    icon: FileText,
+    url: '#',
+    children: [
+      {
+        title: 'All Reports',
+        url: '/reports',
+        icon: FileText,
+        roles: ['admin'],
+      },
+      {
+        title: 'My Reports',
+        url: '/reports/me',
+        icon: FileText,
         roles: ['admin', 'user'],
       },
     ],
