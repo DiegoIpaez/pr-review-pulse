@@ -2,7 +2,7 @@ import { Crown } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import type { RankingAuthor } from '@/contracts/types/metrics.type';
 import { cn } from '@/lib/cn';
-import { getInitials } from '@/lib/initials';
+import { getInitials } from '@/utils/formatters/initials.formatter';
 
 type RankingChampionProps = {
   champion: RankingAuthor;
