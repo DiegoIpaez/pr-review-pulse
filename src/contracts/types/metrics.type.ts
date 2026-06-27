@@ -17,3 +17,22 @@ export type DistributionItem = {
   count: number;
   percentage: number;
 };
+
+export type RankingAuthor = {
+  uid: number;
+  username: string;
+  avatar_url: string | null;
+  count: number;
+};
+
+export type RankingDimensionItem = {
+  key: string; // valor de PullRequestType o PullRequestState
+  count: number; // total de PRs en esa dimensión
+  topAuthor: RankingAuthor | null;
+  ranking: RankingAuthor[];
+};
+
+export type PullRequestRanking = {
+  byType: RankingDimensionItem[];
+  byState: RankingDimensionItem[];
+};
