@@ -7,6 +7,7 @@ export const PUBLIC_ROUTES = {
 export const ADMIN_ROUTES = {
   PRS: '/prs',
   DASHBOARD: '/dashboard',
+  RANKINGS: '/dashboard/rankings',
   REPOSITORIES: '/repositories',
   USERS: '/users',
 };
@@ -27,6 +28,7 @@ export const API_ROUTES = {
     DISTRIBUTION: '/pull-requests/distribution',
     KPIS: '/pull-requests/kpis',
     STATS: '/pull-requests/stats',
+    RANKINGS: '/pull-requests/rankings',
   },
   USERS: {
     BASE: '/users',
@@ -53,6 +55,7 @@ export const SIDEBAR_TITLE_ROUTES: Record<string, string> = {
   [ROUTES.PRS_ME]: 'My Pull Requests',
   [ROUTES.USERS]: 'Users',
   [ROUTES.DASHBOARD]: 'Dashboard',
+  [ROUTES.RANKINGS]: 'Rankings',
   [ROUTES.DASHBOARD_ME]: 'My Dashboard',
   [ROUTES.REPOSITORIES]: 'Repositories',
 };

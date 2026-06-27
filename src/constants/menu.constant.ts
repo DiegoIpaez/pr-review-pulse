@@ -1,4 +1,10 @@
-import { ChartSpline, FolderGit2, GitPullRequest, Users2 } from 'lucide-react';
+import {
+  ChartSpline,
+  FolderGit2,
+  GitPullRequest,
+  Trophy,
+  Users2,
+} from 'lucide-react';
 import type { SidebarMenuItemProps } from '@/contracts/types';
 
 export const menuItems: SidebarMenuItemProps[] = [
@@ -11,6 +17,12 @@ export const menuItems: SidebarMenuItemProps[] = [
         title: 'Global metrics',
         url: '/dashboard',
         icon: ChartSpline,
+        roles: ['admin'],
+      },
+      {
+        title: 'Rankings',
+        url: '/dashboard/rankings',
+        icon: Trophy,
         roles: ['admin'],
       },
       {
