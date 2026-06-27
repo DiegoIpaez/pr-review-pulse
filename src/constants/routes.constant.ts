@@ -9,11 +9,13 @@ export const ADMIN_ROUTES = {
   DASHBOARD: '/dashboard',
   REPOSITORIES: '/repositories',
   USERS: '/users',
+  REPORTS: '/reports',
 };
 
 export const COLLABORATOR_ROUTES = {
   PRS_ME: '/prs/me',
   DASHBOARD_ME: '/dashboard/me',
+  REPORTS_ME: '/reports/me',
 };
 
 export const ROUTES = {
@@ -28,6 +30,10 @@ export const API_ROUTES = {
     KPIS: '/pull-requests/kpis',
     STATS: '/pull-requests/stats',
   },
+  DAILY_REPORTS: {
+    BASE: '/daily-reports',
+    BY_ID: (id: number) => `/daily-reports/${id}`,
+  },
   USERS: {
     BASE: '/users',
     BY_ID: (id: number) => `/users/${id}`,
@@ -38,6 +44,7 @@ export const API_ROUTES = {
         STATS: '/users/me/pull-requests/stats',
         DISTRIBUTION: '/users/me/pull-requests/distribution',
       },
+      DAILY_REPORTS: '/users/me/daily-reports',
     },
   },
   REPOSITORIES: {
@@ -55,4 +62,6 @@ export const SIDEBAR_TITLE_ROUTES: Record<string, string> = {
   [ROUTES.DASHBOARD]: 'Dashboard',
   [ROUTES.DASHBOARD_ME]: 'My Dashboard',
   [ROUTES.REPOSITORIES]: 'Repositories',
+  [ROUTES.REPORTS]: 'All Reports',
+  [ROUTES.REPORTS_ME]: 'My Reports',
 };
